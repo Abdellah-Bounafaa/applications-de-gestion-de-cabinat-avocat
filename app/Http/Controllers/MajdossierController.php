@@ -53,7 +53,7 @@ class MajdossierController extends Controller
         $huissier          = Huissier::orderBy('ID_HUISSIER', 'asc')->get();
         $notification      = Notification::orderBy('ID_NOTIFICATION', 'asc')->get();
 
-        return view('majdossier', compact('clients', 'adversaire', 'nature', 'type', 'user', 'typ', 'natur', 'users', 'procedure', 'ville', 'type_tribunal', 'tribunal', 'huissier', 'notification', 'userr'));
+        return view('dossier.majdossier', compact('clients', 'adversaire', 'nature', 'type', 'user', 'typ', 'natur', 'users', 'procedure', 'ville', 'type_tribunal', 'tribunal', 'huissier', 'notification', 'userr'));
     }
 
 

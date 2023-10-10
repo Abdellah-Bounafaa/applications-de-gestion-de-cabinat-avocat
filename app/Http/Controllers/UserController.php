@@ -19,7 +19,7 @@ class UserController extends Controller
         $user = User::join('niveau', 'niveau.ID_NIVEAU', '=', 'utilisateurs.ID_NIVEAU')
             ->get();
         $niveau = Niveau::all();
-        return view('user', compact('user', 'niveau'));
+        return view('user.user', compact('user', 'niveau'));
     }
 
 

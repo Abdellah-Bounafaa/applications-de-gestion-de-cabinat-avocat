@@ -33,7 +33,7 @@ class DossierController extends Controller
         $adversaire = Adversaire::all();
         $type_dossier = TypeDossier::all();
         $user    = User::all();
-        return view('dossier_ajouter', compact('ville', 'region', 'type', 'clients', 'adversaire', 'nature', 'type_dossier', 'user'));
+        return view('dossier.dossier_ajouter', compact('ville', 'region', 'type', 'clients', 'adversaire', 'nature', 'type_dossier', 'user'));
     }
 
 

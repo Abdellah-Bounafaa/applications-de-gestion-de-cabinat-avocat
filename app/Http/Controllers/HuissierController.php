@@ -16,7 +16,7 @@ class HuissierController extends Controller
     public function index()
     {
         $huissier = Huissier::orderBy('ID_HUISSIER', 'ASC')->get();
-        return view('huissier', compact('huissier'));
+        return view('huissier.huissier', compact('huissier'));
     }
 
 

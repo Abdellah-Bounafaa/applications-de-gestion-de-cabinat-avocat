@@ -28,7 +28,7 @@ class ClientsController extends Controller
             ->get();
 
 
-        return view('client', compact('ville', 'client', 'region', 'type'));
+        return view('client.client', compact('ville', 'client', 'region', 'type'));
     }
 
 

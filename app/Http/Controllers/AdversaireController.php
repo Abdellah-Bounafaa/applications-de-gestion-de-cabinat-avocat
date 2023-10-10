@@ -25,7 +25,7 @@ class AdversaireController extends Controller
             ->join('type_tiere', 'adversaires.ID_TYPET', '=', 'type_tiere.ID_TYPET')
             ->latest('DATE_CLT')
             ->get();
-        return view('adversaire', compact('ville', 'adversaire', 'type', 'region'));
+        return view('adversaire.adversaire', compact('ville', 'adversaire', 'type', 'region'));
     }
 
 

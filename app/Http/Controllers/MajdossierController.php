@@ -6,6 +6,7 @@ use App\Models\Adversaire;
 use App\Models\Audiance;
 use App\Models\Clients;
 use App\Models\Cna;
+use App\Models\Currateur;
 use App\Models\Document;
 use App\Models\Dossier;
 use App\Models\Etape;
@@ -225,7 +226,7 @@ class MajdossierController extends Controller
                     if (!File::exists(public_path($path))) {
                         File::makeDirectory(public_path($path), 0777, true);
                     }
-                    $new_image_name = "UIMG" . uniqid() . "." .  $row->extension();
+                    $new_image_name = $request->file('fichier')->getClientOriginalName();
 
                     $row->move(public_path($path), $new_image_name);
 
@@ -379,7 +380,7 @@ class MajdossierController extends Controller
             if (!File::exists(public_path($path))) {
                 File::makeDirectory(public_path($path), 0777, true);
             }
-            $new_image_name = "UIMG" . uniqid() . "." .  $url->extension();
+            $new_image_name = $url->getClientOriginalName();
             $url->move(public_path($path), $new_image_name);
             $requete->URL_SCAN          = $new_image_name;
         }
@@ -463,7 +464,7 @@ class MajdossierController extends Controller
             if (!File::exists(public_path($path))) {
                 File::makeDirectory(public_path($path), 0777, true);
             }
-            $new_image_name = "UIMG" . uniqid() . "." .  $url->extension();
+            $new_image_name = $url->getClientOriginalName();
             $url->move(public_path($path), $new_image_name);
             $requete->URL_AUD           = $new_image_name;
         }
@@ -548,7 +549,7 @@ class MajdossierController extends Controller
             if (!File::exists(public_path($path))) {
                 File::makeDirectory(public_path($path), 0777, true);
             }
-            $new_image_name = "UIMG" . uniqid() . "." .  $url->extension();
+            $new_image_name = $url->getClientOriginalName();
 
             $url->move(public_path($path), $new_image_name);
             $requete->URL_JUGEMENT      = $new_image_name;
@@ -634,7 +635,7 @@ class MajdossierController extends Controller
             if (!File::exists(public_path($path))) {
                 File::makeDirectory(public_path($path), 0777, true);
             }
-            $new_image_name = "UIMG" . uniqid() . "." .  $url->extension();
+            $new_image_name = $url->getClientOriginalName();
 
             $url->move(public_path($path), $new_image_name);
             $requete->PV_SORT           = $new_image_name;
@@ -721,7 +722,7 @@ class MajdossierController extends Controller
             if (!File::exists(public_path($path))) {
                 File::makeDirectory(public_path($path), 0777, true);
             }
-            $new_image_name = "UIMG" . uniqid() . "." .  $url->extension();
+            $new_image_name = $url->getClientOriginalName();
 
             $url->move(public_path($path), $new_image_name);
             $requete->URL_CNA           = $new_image_name;
@@ -808,7 +809,7 @@ class MajdossierController extends Controller
             if (!File::exists(public_path($path))) {
                 File::makeDirectory(public_path($path), 0777, true);
             }
-            $new_image_name = "UIMG" . uniqid() . "." .  $url->extension();
+            $new_image_name = $url->getClientOriginalName();
 
             $url->move(public_path($path), $new_image_name);
             $requete->PV                = $new_image_name;
@@ -895,7 +896,7 @@ class MajdossierController extends Controller
             if (!File::exists(public_path($path))) {
                 File::makeDirectory(public_path($path), 0777, true);
             }
-            $new_image_name = "UIMG" . uniqid() . "." .  $url->extension();
+            $new_image_name = $url->getClientOriginalName();
 
             $url->move(public_path($path), $new_image_name);
             $requete->URL_PLAINT        = $new_image_name;
@@ -924,5 +925,56 @@ class MajdossierController extends Controller
 
 
         echo json_encode($plainte);
+    }
+    public function currateur(Request $request)
+    {
+        $id    = Currateur::orderBy('ID_CURRATEUR', 'desc')->first();
+        if ($id == null) {
+            $ids  = 1;
+        } else {
+            $ids    = $id->ID_CURRATEUR + 1;
+        }
+        $currateur = new Currateur();
+        $currateur->ID_CURRATEUR = $ids;
+        $currateur->ID_TRIBUNAL = $request->ID_TRIBUNAL;
+        $currateur->CIN = $request->CIN;
+        $currateur->ID_DOSSIER = $request->id_dossierCurateur;
+        $currateur->ID_PROCEDURE = $request->id_procedureCurateur;
+        $currateur->REF_TRIBUNALE = $request->REF_TRIBUNALE;
+        $currateur->DATE_ORDONANCE = $request->DATE_ORDONANCE;
+        $currateur->DATE_DEM_NOTIFICATION = $request->DATE_DEM_NOTIFICATION;
+        $currateur->NOM_CURRATEUR = $request->NOM_CURRATEUR;
+        $currateur->DATE_NOT_CURRATEUR = $request->DATE_NOT_CURRATEUR;
+        $currateur->DATE_INSERTION_JOURNALE = $request->DATE_INSERTION_JOURNALE;
+        $currateur->NOM_JOURNALE = $request->NOM_JOURNALE;
+        $currateur->DATE_RETOUR = $request->DATE_RETOUR;
+        $currateur->OBS_CUR = $request->OBS_CUR;
+        $currateur->ETAT_CURATEUR = $request->ETAT_CURATEUR;
+        //ulpoading File
+        if ($request->file('URL_CURRATEUR')) {
+            $path = 'currateurs';
+            $filename = $request->file('URL_CURRATEUR')->getClientOriginalName();
+            if (!File::exists(public_path($path))) {
+                File::makeDirectory(public_path($path), 0777, true);
+            }
+            $request->file('URL_CURRATEUR')->move(public_path($path), $filename);
+            $currateur->URL_CURRATEUR = $filename;
+        }
+        $currateur->save();
+    }
+    public function procedureCurrateur(Request $request)
+    {
+
+        $id_dossier = $request->id_dossier;
+        $id_procedure = $request->id_procedure;
+
+
+
+        $currateur   = Currateur::where('ID_DOSSIER', $id_dossier)
+            ->where('ID_PROCEDURE', $id_procedure)
+            ->get();
+
+
+        echo json_encode($currateur);
     }
 }

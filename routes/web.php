@@ -78,7 +78,7 @@ Route::post('/dossier/search/notification', [MajdossierController::class, 'notif
 Route::post('/dossier/search/cna', [MajdossierController::class, 'cna']);
 Route::post('/dossier/search/execution', [MajdossierController::class, 'execution']);
 Route::post('/dossier/search/plainte', [MajdossierController::class, 'plainte']);
-Route::post('/dossier/search/curateur', [MajdossierController::class, 'curateur']);
+Route::post('/dossier/search/curateur', [MajdossierController::class, 'currateur']);
 
 Route::post('/dossier/search/procedureRequete', [MajdossierController::class, 'procedureRequete']);
 Route::post('/dossier/search/procedureAudiance', [MajdossierController::class, 'procedureAudiance']);
@@ -87,7 +87,7 @@ Route::post('/dossier/search/procedureNotification', [MajdossierController::clas
 Route::post('/dossier/search/procedureCNA', [MajdossierController::class, 'procedureCNA']);
 Route::post('/dossier/search/procedureExecution', [MajdossierController::class, 'procedureExecution']);
 Route::post('/dossier/search/procedurePlainte', [MajdossierController::class, 'procedurePlainte']);
-Route::post('/dossier/search/procedureCurateur', [MajdossierController::class, 'procedureCurateur']);
+Route::post('/dossier/search/procedureCurateur', [MajdossierController::class, 'procedureCurrateur']);
 
 
 
@@ -122,6 +122,6 @@ Route::post('/expert/modifier', [ExpertController::class, "modifier"]);
 
 
 //currateur
-Route::get('/currateur',[CurrateurController::class, 'index'])->name('currateur');
+Route::get('/currateur', [CurrateurController::class, 'index'])->name('currateur');
 Route::post('/currateur/nouveau', [CurrateurController::class, "nouveau"]);
 Route::post('/currateur/modifier', [CurrateurController::class, "modifier"]);

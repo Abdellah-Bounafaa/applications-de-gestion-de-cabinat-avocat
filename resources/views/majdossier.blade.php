@@ -822,7 +822,6 @@
             $('#' + id_dossier + 'tbody' + id_dossier + '').html('');
 
             $.ajax({
-
                 url: url,
                 method: "POST",
                 data: {
@@ -1108,7 +1107,41 @@
 
 
 
+                    if (id_modal == 'Curateur') {
 
+                        if (data.length > 0) {
+                            $('#' + id_modal + '_dossier').html(
+                                '<div class="table-responsive"><table class="table table-bordered"><thead><tr><th>Nom Currateur</th><th>Ref Tribunal</th><th>Date Insertion Journale</th><th>Date Not Currateur</th><th>Url Currateur</th></tr></thead><tbody id="' +
+                                id_dossier + 'tbody' + id_modal + '"></tbody></table></div>');
+
+
+
+
+                            $.each(data, function(i, res) {
+
+                                var document = '/currateurs/' + res.URL_CURRATEUR + '';
+
+                                $('#' + id_dossier + 'tbody' + id_modal + '').append(
+                                    '<tr><td><string>' + res.NOM_CURRATEUR +
+                                    '</string></td><td><string>' + res.REF_TRIBUNALE +
+                                    '</string></td><td><string>' + moment(res
+                                        .DATE_INSERTION_JOURNALE)
+                                    .format('DD-MMM-YYYY') + '</string></td><td><string>' +
+                                    moment(res.DATE_NOT_CURRATEUR).format('DD-MMM-YYYY') +
+                                    '</string></td> <td> ' + (res
+                                        .URL_CURRATEUR ===
+                                        null ?
+                                        "Pas De Fichier" :
+                                        '<a href="' + document +
+                                        '" target="_blank" style="color:blue;text-decoration: underline">' +
+                                        res.URL_CURRATEUR + '</a>') + '</td>' + '</tr>');
+
+                            });
+
+
+                        }
+
+                    }
                 }
 
             });
@@ -1495,13 +1528,52 @@
 
         });
 
+        // CURRATEUTR
+
+        $("#curateur_form").submit(function(e) {
 
 
+
+            e.preventDefault();
+
+
+            var form = $('#curateur_form').get(0);
+            var formData = new FormData(form); // get the form data
+
+
+            $.ajax({
+
+                url: "{{ url('/dossier/search/curateur') }}",
+                method: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(data) {
+
+
+                    'use strict';
+                    $.toast({
+                        heading: 'Success',
+                        text: "Enregistrement Effectué !",
+                        showHideTransition: 'slide',
+                        icon: 'success',
+                        loaderBg: '#f96868',
+                        position: 'top-center',
+                        hideAfter: 1000,
+
+                    });
+
+
+                    $('#Curateur').modal('toggle');
+
+
+                }
+
+
+            });
+        });
 
         $(document).on('click', 'button[data-role=closer]', function() {
-
-
-
             $('#recherche_dossier').fadeIn(500);
             $('#resultat_dossier').fadeOut(500);
 

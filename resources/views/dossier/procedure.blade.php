@@ -745,3 +745,123 @@
          </div>
      </div>
  </div>
+
+
+ <div class="modal fade" id="Curateur" role="dialog">
+     <div class="modal-dialog modal-lg" role="document">
+         <div class="modal-content">
+             <form id="curateur_form" method="post" action="#" enctype="multipart/form-data">
+                 @csrf
+                 <div class="modal-header d-flex justify-content-between">
+                     <div>
+                         <h4>Créance : <strong id="prix_Curateur"></strong> DH</h4>
+                         <h6 disabled>Dossier N° <strong id="number_dossierCurateur"></strong>
+                         </h6>
+
+                     </div>
+
+                     <button type="button" data-dismiss="modal" class="btn btn-secondary">X</button>
+
+                 </div>
+                 <div class="modal-body">
+                     <div class="row" id="Curateur_dossier"></div>
+
+                     <div class="row">
+                         <input type="hidden" class="form-control" name="id_dossierCurateur"><input type="hidden"
+                             class="form-control" name="id_procedureCurateur">
+                         <div class="col-md-4">
+                             <div class="form-group"><label class="col-form-label col-form-label-sm"> Gestionnaire :
+                                 </label><select class="form-control" name="CIN">
+                                     @foreach ($userr as $use_currateur)
+                                         <option value="{{ $use_currateur->CIN }}">{{ $use_currateur->PRENOM }}
+                                             {{ $use_currateur->NOM }}</option>
+                                     @endforeach
+                                 </select>
+                             </div>
+                         </div>
+                         <div class="col-md-4">
+                             <div class="form-group"><label class="col-form-label col-form-label-sm"> Tribunal :
+                                 </label><select class="form-control" name="ID_TRIBUNAL">
+                                     @foreach ($tribunal as $x)
+                                         <option value="{{ $x->ID_TRIBUNAL }}">{{ $x->NOM_TRIBUNAL }}</option>
+                                     @endforeach
+                                 </select></div>
+                         </div>
+                         <div class="col-md-4">
+                             <div class="form-group"><label class="col-form-label col-form-label-sm">Ref Tribunal :
+                                 </label><input type="text" class="form-control" name="REF_TRIBUNALE"
+                                     placeholder="Ref Tribunal " /></div>
+                         </div>
+                         <div class="col-md-4">
+                             <div class="form-group"><label class="col-form-label col-form-label-sm">Nom Currateur :
+                                 </label><input type="text" class="form-control" name="NOM_CURRATEUR"
+                                     placeholder="Nom Currateur " /></div>
+                         </div>
+                         <div class="col-md-4">
+                             <div class="form-group"><label class="col-form-label col-form-label-sm">Date Ordonnance :
+                                 </label><input type="date" class="form-control" name="DATE_ORDONANCE" /></div>
+                         </div>
+                         <div class="col-md-4">
+                             <div class="form-group"><label class="col-form-label col-form-label-sm">Date Dem
+                                     Notification :
+                                 </label><input type="date" class="form-control" name="DATE_DEM_NOTIFICATION" />
+                             </div>
+                         </div>
+                         <div class="col-md-4">
+                             <div class="form-group"><label class="col-form-label col-form-label-sm">DATE NOT
+                                     CURRATEUR :
+                                 </label><input type="date" class="form-control" name="DATE_NOT_CURRATEUR" />
+                             </div>
+                         </div>
+                         <div class="col-md-4">
+                             <div class="form-group"><label class="col-form-label col-form-label-sm">DATE INSERTION
+                                     JOURNALE :
+                                 </label><input type="date" class="form-control" name="DATE_INSERTION_JOURNALE" />
+                             </div>
+                         </div>
+                         <div class="col-md-4">
+                             <div class="form-group"><label class="col-form-label col-form-label-sm">NOM JOURNALE :
+                                 </label><input type="text" class="form-control" name="NOM_JOURNALE"
+                                     placeholder="NOM JOURNALE " /></div>
+                         </div>
+                         <div class="col-md-4">
+                             <div class="form-group"><label class="col-form-label col-form-label-sm">DATE RETOUR :
+                                 </label><input type="date" class="form-control" name="DATE_RETOUR" /></div>
+                         </div>
+                         <div class="col-md-4">
+                             <div class="form-group"><label class="col-form-label col-form-label-sm">OBS CUR :
+                                 </label><input type="text" class="form-control" name="OBS_CUR"
+                                     placeholder="OBS CUR " /></div>
+                         </div>
+                         <div class="col-md-4">
+                             <div class="form-group"><label class="col-form-label col-form-label-sm">Fichier :
+                                 </label><input type="file" class="form-control form-control-primary"
+                                     name="URL_CURRATEUR" /></div>
+                         </div>
+
+                         <div class="col-md-4">
+                             <div class="form-group"><label class="col-form-label col-form-label-sm">ETAT CURRATEUR :
+                                 </label>
+                                 <select name="ETAT_CURATEUR" class="form-control" id="">
+                                     <option value="" selected> Choisir...</option>
+                                     <option value="1">Oui</option>
+                                     <option value="2">Non</option>
+                                 </select>
+                             </div>
+                         </div>
+
+
+
+                     </div>
+
+
+
+                 </div>
+                 <div class="modal-footer">
+                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                     <button type="submit" class="btn btn-primary">Save changes</button>
+                 </div>
+             </form>
+         </div>
+     </div>
+ </div>

@@ -24,21 +24,16 @@ use App\Models\TypeDossier;
 use App\Models\TypeTribunal;
 use App\Models\User;
 use App\Models\Ville;
+use DateTime;
+use DateTimeZone;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Hash;
 
 
 class MajdossierController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $clients       = Clients::all();
@@ -97,7 +92,30 @@ class MajdossierController extends Controller
             echo json_encode($dossier);
         }
     }
-
+    public function date_filter(Request $request)
+    {
+        $type = $request->date_type;
+        if ($type == 'up') {
+            $dossier = DB::table('dossier')
+                ->join('clients', 'clients.ID_CLIENT', '=', 'dossier.ID_CLIENT')
+                ->join('utilisateurs', 'utilisateurs.CIN', '=', 'dossier.CIN')
+                ->join('adversaires', 'adversaires.ID_ADVERSAIRE', '=', 'dossier.ID_ADVERSAIRE')
+                ->join('nature', 'nature.ID_NATURE', '=', 'dossier.ID_NATURE')
+                ->join('type_dossier', 'type_dossier.ID_TYPEDOSSIER', '=', 'dossier.ID_TYPEDOSSIER')
+                ->select('clients.NOM as nom_client', 'clients.PRENOM as prenom_client', 'adversaires.NOM as nom_adversaire', 'adversaires.PRENOM as prenom_adversaire', 'R_CABINET', 'R_CLIENT', 'DIRECTION', 'dossier.ID_DOSSIER', 'nature.NOM as nature', 'type_dossier.NOM as type', 'LOGIN', 'DATE_OUVERTURE', 'MNT_CREANCE', 'NUM_DOSSIER')
+                ->get();
+        } else {
+            $dossier = DB::table('dossier')
+                ->join('clients', 'clients.ID_CLIENT', '=', 'dossier.ID_CLIENT')
+                ->join('utilisateurs', 'utilisateurs.CIN', '=', 'dossier.CIN')
+                ->join('adversaires', 'adversaires.ID_ADVERSAIRE', '=', 'dossier.ID_ADVERSAIRE')
+                ->join('nature', 'nature.ID_NATURE', '=', 'dossier.ID_NATURE')
+                ->join('type_dossier', 'type_dossier.ID_TYPEDOSSIER', '=', 'dossier.ID_TYPEDOSSIER')
+                ->select('clients.NOM as nom_client', 'clients.PRENOM as prenom_client', 'adversaires.NOM as nom_adversaire', 'adversaires.PRENOM as prenom_adversaire', 'R_CABINET', 'R_CLIENT', 'DIRECTION', 'dossier.ID_DOSSIER', 'nature.NOM as nature', 'type_dossier.NOM as type', 'LOGIN', 'DATE_OUVERTURE', 'MNT_CREANCE', 'NUM_DOSSIER')
+                ->orderBy('DATE_OUVERTURE', 'desc')->get();
+        }
+        echo json_encode($dossier);
+    }
 
 
 
@@ -105,10 +123,6 @@ class MajdossierController extends Controller
     {
 
         $id          = $request->id;
-
-
-
-
         $dossier = DB::table('dossier')
             ->join('clients', 'clients.ID_CLIENT', '=', 'dossier.ID_CLIENT')
             ->join('utilisateurs', 'utilisateurs.CIN', '=', 'dossier.CIN')
@@ -119,8 +133,6 @@ class MajdossierController extends Controller
             ->select('clients.NOM as nom_client', 'clients.PRENOM as prenom_client', 'adversaires.NOM as nom_adversaire', 'adversaires.PRENOM as prenom_adversaire', 'R_CABINET', 'R_CLIENT', 'DIRECTION', 'dossier.ID_DOSSIER', 'nature.ID_NATURE as nature', 'type_dossier.ID_TYPEDOSSIER as type', 'LOGIN', 'DATE_OUVERTURE', 'MNT_CREANCE', 'dossier.NUM_DOSSIER as numero', 'AGENCE', 'document.NOM_DOCUMENT', 'document.DATE_DOC as date_doc', 'document.CHEMINE as chemin', 'dossier.CIN as cin', 'NUM_ARCHIVAGE', 'dossier.OBSERVATION as observation', 'SUSPENTION', 'MANQUE_PIECE', 'SUSPENTION_ARRANGEMENT')
             ->where('dossier.ID_DOSSIER', $id)
             ->get();
-
-
         echo json_encode($dossier);
     }
 
@@ -144,6 +156,12 @@ class MajdossierController extends Controller
 
     public function enregistrer(Request $request)
     {
+
+        $moroccoTimezone = new DateTimeZone('Africa/Casablanca'); // Set the time zone to Morocco
+        $moroccoTime = new DateTime('now', $moroccoTimezone); // Get the current time in Morocco
+        $time = $moroccoTime->format('Y-m-d H:i:s');
+        $date = $moroccoTime->format('Y-m-d');
+
         $nature          = $request->nom_nature;
         $type            = $request->type_dossier;
         $creance         = $request->montant;
@@ -178,13 +196,13 @@ class MajdossierController extends Controller
 
         if (isset($archivage)) {
             $dossier->NUM_ARCHIVAGE      = $archivage;
-            $dossier->DATE_ARCHIVAGE     = date('Y-m-d');
+            $dossier->DATE_ARCHIVAGE     = $date;
         } else {
             $dossier->NUM_ARCHIVAGE  = null;
             $dossier->DATE_ARCHIVAGE     = null;
         }
 
-        $dossier->MODIFICATION       = date('Y-m-d H:i:s');
+        $dossier->MODIFICATION       = $time;
         $dossier->SUSPENTION         = $suspention;
         $dossier->SUSPENTION_ARRANGEMENT = $arr;
         $dossier->MANQUE_PIECE       = $manque;
@@ -199,16 +217,19 @@ class MajdossierController extends Controller
                     $teste   = Document::orderBy('ID_DOCUMENT', 'desc')->first();
 
                     if (empty($teste)) {
-
-
                         $ids  = 1;
                     } else {
-
-
                         $ids  =  $teste->ID_DOCUMENT + 1;
                     }
+                    $path = 'documents';
+                    if (!File::exists(public_path($path))) {
+                        File::makeDirectory(public_path($path), 0777, true);
+                    }
+                    $new_image_name = "UIMG" . uniqid() . "." .  $row->extension();
 
-                    $file = $row->store('public/documents');
+                    $row->move(public_path($path), $new_image_name);
+
+
 
 
                     $document   = new Document();
@@ -217,13 +238,11 @@ class MajdossierController extends Controller
 
                     $document->ID_DOSSIER      = $id;
 
-                    $document->DATE_DOC        = date('Y-m-d H:i:s');
+                    $document->DATE_DOC        = $time;
 
-                    $document->NOM_DOCUMENT    = $row->getClientOriginalName();
+                    $document->NOM_DOCUMENT    = $new_image_name;
 
-                    $document->CHEMINE         = $file;
-
-
+                    $document->CHEMINE         = $new_image_name;
                     $document->save();
                 }
             }
@@ -244,33 +263,16 @@ class MajdossierController extends Controller
     {
 
         $id = $request->id_procedure;
-
-
-
-
-
-
         $procedure   = Suivi::where('ID_PROCEDURE', $id)->get();
-
-
         $i = 0;
         foreach ($procedure as $row) {
-
-
             $etape = Etape::where('ID_ETAPE', $row->ID_ETAPE)
                 ->orderby('ID_ETAPE', 'asc')
                 ->get();
-
             $data[$i]["id_etape"] = $etape[0]->ID_ETAPE;
             $data[$i]["etape"] = $etape[0]->NOM_ETAPE;
-
-
-
-
             $i++;
         }
-
-
         echo json_encode($data);
     }
 
@@ -343,6 +345,7 @@ class MajdossierController extends Controller
         $id_procedure = $request->id_procedureRequete;
         $id_dossier = $request->id_dossierRequete;
         $etat       = $request->etatRequete;
+        $sortRequete       = $request->sortRequete;
 
 
 
@@ -372,11 +375,18 @@ class MajdossierController extends Controller
         $requete->DATE_RETRAIT      = $retrait;
         $requete->JUGE              = $juge;
         if ($url) {
-            $requete->URL_SCAN          = $url->store('public/requete');
+            $path = 'requete';
+            if (!File::exists(public_path($path))) {
+                File::makeDirectory(public_path($path), 0777, true);
+            }
+            $new_image_name = "UIMG" . uniqid() . "." .  $url->extension();
+            $url->move(public_path($path), $new_image_name);
+            $requete->URL_SCAN          = $new_image_name;
         }
 
         $requete->DATE_JUGEMENT     = $jugement;
         $requete->ETAT_REQUETE     = $etat;
+        $requete->sortRequete     = $sortRequete;
 
         $requete->save();
     }
@@ -418,6 +428,8 @@ class MajdossierController extends Controller
         $observation = $request->observationAudiance;
         $id_procedure = $request->id_procedureAudiance;
         $id_dossier = $request->id_dossierAudiance;
+        $ref_tribunal = $request->ref_tribunal;
+        $audianceRetrait = $request->audianceRetrait;
 
 
 
@@ -447,11 +459,19 @@ class MajdossierController extends Controller
         $requete->DATE_AUDIANCE     = $date_audiance;
         $requete->SALLE             = $salle;
         if ($url) {
-            $requete->URL_AUD           = $url->store('public/audiance');
+            $path = 'audiance';
+            if (!File::exists(public_path($path))) {
+                File::makeDirectory(public_path($path), 0777, true);
+            }
+            $new_image_name = "UIMG" . uniqid() . "." .  $url->extension();
+            $url->move(public_path($path), $new_image_name);
+            $requete->URL_AUD           = $new_image_name;
         }
 
         $requete->JUGE_AUD          = $juge;
         $requete->ETAT_AUD          = $etat;
+        $requete->ref_tribunal          = $ref_tribunal;
+        $requete->audianceRetrait          = $audianceRetrait;
 
         $requete->save();
     }
@@ -524,7 +544,14 @@ class MajdossierController extends Controller
         $requete->SORT              = $sort;
         $requete->REF_TRIBU         = $reference;
         if ($url) {
-            $requete->URL_JUGEMENT      = $url->store('public/jugement');
+            $path = 'jugement';
+            if (!File::exists(public_path($path))) {
+                File::makeDirectory(public_path($path), 0777, true);
+            }
+            $new_image_name = "UIMG" . uniqid() . "." .  $url->extension();
+
+            $url->move(public_path($path), $new_image_name);
+            $requete->URL_JUGEMENT      = $new_image_name;
         }
 
         $requete->JUGE              = $juge;
@@ -575,8 +602,7 @@ class MajdossierController extends Controller
         $observation = $request->observationNotification;
         $id_procedure = $request->id_procedureNotification;
         $id_dossier = $request->id_dossierNotification;
-
-
+        $ville = $request->ville;
 
 
 
@@ -604,11 +630,19 @@ class MajdossierController extends Controller
         $requete->SORT              = $sort;
         $requete->NUM_NOTIFICATION  = $numero;
         if ($url) {
-            $requete->PV_SORT           = $url->store('public/notification');
+            $path = 'notification';
+            if (!File::exists(public_path($path))) {
+                File::makeDirectory(public_path($path), 0777, true);
+            }
+            $new_image_name = "UIMG" . uniqid() . "." .  $url->extension();
+
+            $url->move(public_path($path), $new_image_name);
+            $requete->PV_SORT           = $new_image_name;
         }
 
         $requete->DATE_ENVOI_NOT    = $envoie;
         $requete->ETAT_NOTIF        = $etat;
+        $requete->ville        = $ville;
 
         $requete->save();
     }
@@ -652,6 +686,7 @@ class MajdossierController extends Controller
         $observation = $request->observationCNA;
         $id_procedure = $request->id_procedureCNA;
         $id_dossier = $request->id_dossierCNA;
+        $cna_etat = $request->cna_etat;
 
 
 
@@ -682,10 +717,18 @@ class MajdossierController extends Controller
         $requete->N_NOTIFICATION    = $numero;
 
         if ($url) {
-            $requete->URL_CNA           = $url->store('public/cna');
+            $path = 'cna';
+            if (!File::exists(public_path($path))) {
+                File::makeDirectory(public_path($path), 0777, true);
+            }
+            $new_image_name = "UIMG" . uniqid() . "." .  $url->extension();
+
+            $url->move(public_path($path), $new_image_name);
+            $requete->URL_CNA           = $new_image_name;
         }
 
         $requete->REF_CNA           = $reference;
+        $requete->cna_etat = $cna_etat;
 
         $requete->save();
     }
@@ -761,7 +804,14 @@ class MajdossierController extends Controller
         $requete->REF_EXECUTION     = $reference;
 
         if ($url) {
-            $requete->PV                = $url->store('public/execution');
+            $path = 'execution';
+            if (!File::exists(public_path($path))) {
+                File::makeDirectory(public_path($path), 0777, true);
+            }
+            $new_image_name = "UIMG" . uniqid() . "." .  $url->extension();
+
+            $url->move(public_path($path), $new_image_name);
+            $requete->PV                = $new_image_name;
         }
 
         $requete->DATE_ENVOI        = $envoie;
@@ -841,7 +891,14 @@ class MajdossierController extends Controller
         $requete->REF_PLAINTE       = $reference;
 
         if ($url) {
-            $requete->URL_PLAINT        = $url->store('public/plainte');
+            $path = 'plainte';
+            if (!File::exists(public_path($path))) {
+                File::makeDirectory(public_path($path), 0777, true);
+            }
+            $new_image_name = "UIMG" . uniqid() . "." .  $url->extension();
+
+            $url->move(public_path($path), $new_image_name);
+            $requete->URL_PLAINT        = $new_image_name;
         }
 
         $requete->ETAT_PLAINTE      = $etat;

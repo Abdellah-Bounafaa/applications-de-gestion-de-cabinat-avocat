@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Clients;
 use App\Models\TypeTiere;
 use App\Models\Ville;
+use DateTime;
+use DateTimeZone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -54,12 +56,16 @@ class ClientsController extends Controller
         $email_inter                 = $request->email_inter;
         $tel_inter                   = $request->tel_inter;
 
+        $moroccoTimezone = new DateTimeZone('Africa/Casablanca'); // Set the time zone to Morocco
+        $moroccoTime = new DateTime('now', $moroccoTimezone); // Get the current time in Morocco
+        $time = $moroccoTime->format('Y-m-d H:i:s');
+
         $clients = new Clients();
         $clients->ID_CLIENT   = $numero;
         $clients->IDENTIFIANT = $identifiant_client;
         $clients->ID_VILLE    = $ville_client;
         $clients->ID_TYPET    = $type_client;
-        $clients->DATE_CLT    = date('Y-m-d H:i:s');
+        $clients->DATE_CLT    = $time;
         $clients->NOM         = $nom_client;
         $clients->PRENOM      = $prenom_client;
         $clients->ADRESSE     = $adresse_client;

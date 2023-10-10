@@ -14,6 +14,7 @@
 
     <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800" rel="stylesheet">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
 
 
     <link rel="stylesheet" href="{{ asset('theme/plugins/jquery-toast-plugin/dist/jquery.toast.min.css') }}">
@@ -196,7 +197,8 @@
                                     <a href="{{ url('users') }}" class="menu-item">Utilisateurs</a>
                                     <a href="{{ url('huissier') }}" class="menu-item">Huissier</a>
                                     <a href="{{ url('tribunal') }}" class="menu-item">Tribunal</a>
-                                    <a href="{{ url('expret') }}" class="menu-item">Expert</a>
+                                    <a href="{{ url('expert') }}" class="menu-item">Expert</a>
+                                    <a href="{{ url('currateur') }}" class="menu-item">Currateur</a>
                                     <a href="{{ url('nature') }}" class="menu-item">Nature</a>
                                     <a href="{{ url('region') }}" class="menu-item">Ville</a>
 

@@ -11,6 +11,8 @@ use App\Models\TypeDossier;
 use App\Models\TypeTiere;
 use App\Models\User;
 use App\Models\Ville;
+use DateTime;
+use DateTimeZone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -52,7 +54,9 @@ class DossierController extends Controller
         $date                  = $request->date;
         $user                  = $request->user;
 
-
+        $moroccoTimezone = new DateTimeZone('Africa/Casablanca'); // Set the time zone to Morocco
+        $moroccoTime = new DateTime('now', $moroccoTimezone); // Get the current time in Morocco
+        $time = $moroccoTime->format('Y-m-d H:i:s');
         $test   = Dossier::orderBy('ID_DOSSIER', 'desc')->first();
 
         if (empty($test)) {
@@ -73,7 +77,7 @@ class DossierController extends Controller
 
         $dossier->R_CLIENT               = $radical_client;
 
-        $dossier->DATE_OUVERTURE         = date('Y-m-d H:i:s');
+        $dossier->DATE_OUVERTURE         = $time;
 
         $dossier->MNT_CREANCE            = $creance;
 
@@ -120,7 +124,7 @@ class DossierController extends Controller
 
                 $document->ID_DOSSIER      = $id;
 
-                $document->DATE_DOC        = date('Y-m-d H:i:s');
+                $document->DATE_DOC        = $time;
 
                 $document->NOM_DOCUMENT    = $row->getClientOriginalName();
 

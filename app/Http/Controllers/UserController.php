@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Niveau;
 use App\Models\User;
+use DateTime;
+use DateTimeZone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
@@ -46,6 +48,9 @@ class UserController extends Controller
 
     public function nouveau(Request $request)
     {
+        $moroccoTimezone = new DateTimeZone('Africa/Casablanca'); // Set the time zone to Morocco
+        $moroccoTime = new DateTime('now', $moroccoTimezone); // Get the current time in Morocco
+        $time = $moroccoTime->format('Y-m-d H:i:s');
         $user = new User();
         $user->ID_NIVEAU = $request->niveau_user;
         $user->NOM = $request->nom_user;
@@ -57,6 +62,8 @@ class UserController extends Controller
         $user->LOGIN = $request->login_user;
         $user->MDP = Hash::make($request->mdp_user);
         $user->POSTE =  $request->poste_user;
+        $user->CREATED =  $time;
+
         $user->save();
         return back();
     }

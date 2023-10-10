@@ -6,6 +6,8 @@ use App\Models\Adversaire;
 use App\Models\Cautionnaire;
 use App\Models\TypeTiere;
 use App\Models\Ville;
+use DateTime;
+use DateTimeZone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -30,6 +32,9 @@ class AdversaireController extends Controller
     public function nouveau(Request $request)
     {
         $c   = Adversaire::orderBy('ID_ADVERSAIRE', 'desc')->first();
+        $moroccoTimezone = new DateTimeZone('Africa/Casablanca'); // Set the time zone to Morocco
+        $moroccoTime = new DateTime('now', $moroccoTimezone); // Get the current time in Morocco
+        $time = $moroccoTime->format('Y-m-d H:i:s');
         if (empty($c)) {
             $numero = 1;
         } else {
@@ -40,7 +45,8 @@ class AdversaireController extends Controller
         $clients->IDENTIFIANT =  $request->identifiant_adversaire;
         $clients->ID_VILLE    = $request->ville_adversaire;
         $clients->ID_TYPET    = $request->type_adversaire;
-        $clients->DATE_CLT    = date('Y-m-d H:i:s');
+
+        $clients->DATE_CLT    = $time;
         $clients->NOM = $request->nom_adversaire;
         $clients->PRENOM      = $request->prenom_adversaire;
         $clients->ADRESSE     = $request->adresse_adversaire;

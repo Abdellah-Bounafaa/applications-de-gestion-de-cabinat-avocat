@@ -9,6 +9,41 @@
 
 
 @section('contenu')
+    {{-- <style>
+        .filename {
+            border-radius: 5px;
+            border: none
+        }
+
+        .inputfile {
+            width: 0.1px;
+            height: 0.1px;
+            opacity: 0;
+            overflow: hidden;
+            position: absolute;
+            z-index: -1;
+        }
+
+        .inputfile+label {
+            font-size: 1.25em;
+            font-weight: 700;
+            color: white;
+            background-color: #CCD9FF;
+            display: inline-block;
+            border-radius: 10px;
+            padding: 8px 20px
+        }
+
+        .inputfile+label {
+            cursor: pointer;
+        }
+
+        /*
+            .inputfile:focus+label {
+                outline: 1px dotted white;
+                outline: -webkit-focus-ring-color auto 5px;
+            } */
+    </style> --}}
     <div class="row" id="recherche_dossier">
         <div class="col-md-12">
             <div class="card task-board">
@@ -214,9 +249,20 @@
             <div class="card task-board">
                 <div class="card-header">
                     <h3>Dossier</h3>
+                    {{-- <div class="d-flex gap-2 justify-content-end w-100">
+                        <input type="hidden" name="date_type" value="up">
+                        <button data-role="filtrer" type="submit" class="btn btn-success" style="margin-right: 10px;">
+                            <i class="fa-solid fa-arrow-up" style="color: #f0f0f0;"></i>
+                        </button>
 
+                        <input type="hidden" name="date_type" value="down">
+                        <button data-role="filtrer" type="submit" class="btn btn-success">
+                            <i class="fa-solid fa-arrow-down" style="color: #ffffff;"></i> </button>
+
+
+                    </div> --}}
                 </div>
-                <div class="card-body table-responsive">
+                <div class="card-body table-responsive ">
                     <div class="dd" data-plugin="nestable">
                         <div class="row" id="ajax_resultat">
 
@@ -310,12 +356,7 @@
             var donnees = [numero_dossier, radical_cabinet, reference_client, radical_client, client, adversaire,
                 nature, type, gestionnaire
             ];
-
-
-
-
             $.ajax({
-
                 url: "{{ url('dossier/search/rechercher') }}",
                 method: "POST",
                 data: {
@@ -323,19 +364,12 @@
                 },
                 dataType: "JSON",
                 success: function(data) {
-
-
                     $('#resultat')[0].style.display = 'block';
 
                     $('#ajax_resultat').html(
-                        '<table id="simpletable" class="table table-bordered nowrap" style="margin-left:1px"><thead class="text-center"><tr><th class="nosort">Actions</th><th>Nom Dossier</th><th>R.Cabinet</th><th>R.Client</th><th>Client</th><th>Adversaire</th><th>Gestionnaire</th><th>Date_Ouverture</th><th>Montant_Créance</th></thead><tbody id="tbody" class="text-center"></tbody></table>'
+                        '<table id="simpletable" class="table table-bordered nowrap" style="margin-left:1px"><thead class="text-center"><tr><th class="nosort">Actions</th><th>N° Dossier</th><th>R.Cabinet</th><th>R.Client</th><th>Client</th><th>Adversaire</th><th>Gestionnaire</th><th>Date Ouverture</th><th>Montant Créance</th></thead><tbody id="tbody" class="text-center"></tbody></table>'
                     );
-
-
-
                     $.each(data, function(i, res) {
-
-
                         $('#tbody').append('<tr><td><button data-role="modifier" data-id="' +
                             res.ID_DOSSIER +
                             '" class="btn-icon btn-outline-success"><i class="ik ik-edit"></i></button></td><td>' +
@@ -345,29 +379,42 @@
                             res.prenom_adversaire + '</td><td>' + res.LOGIN + '</td><td>' +
                             res.DATE_OUVERTURE + '</td><td>' + res.MNT_CREANCE +
                             ' DH</td></tr>');
-
-
-
                     });
-
-
-
-
-
-
-
-
                 }
-
-
-
-
             });
+        });
 
+        $(document).on('click', 'button[data-role=filtrer]', function() {
+            $('#ajax_resultat').html('');
+            var type = $('input[name=date_type]').val();
+            console.log(type);
+            $.ajax({
 
-
-
-
+                url: "{{ url('/dossier/search/date') }}",
+                method: "POST",
+                data: {
+                    type: type
+                },
+                dataType: "JSON",
+                success: function(data) {
+                    console.log(data);
+                    $('#resultat')[0].style.display = 'block';
+                    $('#ajax_resultat').html(
+                        '  <table id="simpletable" class="table table-bordered nowrap"><thead class="text-center"><tr><th class="nosort">Actions</th><th>N° Dossier</th><th>R.Cabinet</th><th>R.Client</th><th>Client</th><th>Adversaire</th><th>Gestionnaire</th><th>Date Ouverture</th><th>Montant Créance</th></thead><tbody id="tbody" class="text-center"></tbody></table>'
+                    );
+                    $.each(data, function(i, res) {
+                        $('#tbody').append('<tr><td><button data-role="modifier" data-id="' +
+                            res.ID_DOSSIER +
+                            '" class="btn-icon btn-outline-success"><i class="ik ik-edit"></i></button></td><td>' +
+                            res.NUM_DOSSIER + '</td><td>' + res.R_CABINET + '</td><td>' +
+                            res.R_CLIENT + '</td><td>' + res.nom_client + '&nbsp;' + res
+                            .prenom_client + '</td><td>' + res.nom_adversaire + '&nbsp;' +
+                            res.prenom_adversaire + '</td><td>' + res.LOGIN + '</td><td>' +
+                            res.DATE_OUVERTURE + '</td><td>' + res.MNT_CREANCE +
+                            ' DH</td></tr>');
+                    });
+                }
+            });
         });
 
 
@@ -445,10 +492,7 @@
 
 
                     $.each(data, function(i, res) {
-
-
-                        url = '../storage/app/' + res.chemin + '';
-
+                        var url = '/documents/' + res.NOM_DOCUMENT;
 
                         $('#documentation').append('<tr><td><a href="' + url +
                             '" target="_blank" style="color:blue;text-decoration: underline">' +
@@ -565,8 +609,11 @@
 
 
             $('#attache').html(
-                '<div id="attachement0" class="row"><div class="col-md-10"><div class="form-group"><label>Attacher Un fichier : </label><input type="file" class="form-control form-control-primary" id="fichier[0]" name="fichier[0]"></div></div><div class="col-md-2" style="padding:auto;margin:auto"><button data-role="add" class="btn-icon btn-outline-success" type="button"><i class="ik ik-plus"></i></button></div></div>'
+                '<div id="attachement0" class="row"><div class="col-md-10"><p>Ajouter Un Fichier</p><div class="form-group"><input type="file" class="form-control form-control-primary " id="fichier[0]" name="fichier[0]"></div></div><div class="col-md-2" style="padding:auto;margin:auto"><button data-role="add" class="btn-icon btn-outline-success" type="button"><i class="ik ik-plus"></i></button></div></div>'
             );
+            // $('#attache').html(
+            //     '<div id="attachement0" class="row"><div class="col-md-10"><p>Ajouter Un Fichier</p><div class="form-group d-flex"><input type="file" class="form-control form-control-primary inputfile col-md-5" id="fichier[0]" name="fichier[0]"><input type="text" class="ml-10 filename" placeholder="Nom De Fichier" name="filename[0]" /></div></div><div class="col-md-2" style="padding:auto;margin:auto"><button data-role="add" class="btn-icon btn-outline-success" type="button"><i class="ik ik-plus"></i></button></div></div>'
+            // );
 
 
 
@@ -582,12 +629,21 @@
             var i = $('input[type=file]').length;
 
             $('#attache').append('<div id="attachement' + i +
-                '" class="row"><div class="col-md-10"><div class="form-group"><label>Attacher Un fichier : </label><input type="file" class="form-control form-control-primary" name="fichier[' +
+                '" class="row"><div class="col-md-10"><p>Ajouter Un Fichier</p><div class="form-group"><input type="file" class="form-control form-control-primary inputfile" name="fichier[' +
                 i + ']" id="fichier[' + i +
                 ']" required></div></div><div class="col-md-2" style="padding:auto;margin:auto"><button data-id="' +
                 i +
                 '" data-role="delete" class="btn-icon btn-outline-danger" type="button"><i class="ik ik-minus"></i></button></div></div>'
             );
+            // $('#attache').append('<div id="attachement' + i +
+            //     '" class="row"><div class="col-md-10"><p>Ajouter Un Fichier</p><div class="form-group d-flex"><input type="file" class="form-control form-control-primary inputfile" name="fichier[' +
+            //     i + ']" id="fichier[' + i +
+            //     ']" required><input type="text" class="ml-10 filename" placeholder="Nom De Fichier" name="filename[' +
+            //     i +
+            //     ']"  /></div></div><div class="col-md-2" style="padding:auto;margin:auto"><button data-id="' +
+            //     i +
+            //     '" data-role="delete" class="btn-icon btn-outline-danger" type="button"><i class="ik ik-minus"></i></button></div></div>'
+            // );
 
             if (i > 1) {
 
@@ -780,7 +836,7 @@
 
                         if (data.length > 0) {
                             $('#' + id_modal + '_dossier').html(
-                                '<div class="table-responsive"><table class="table table-bordered"><thead><tr><th>Responsable</th><th>Reference_Tribunal</th><th>Date_Retrait</th><th>Date_Dépot</th><th>URL_Scan</th></tr></thead><tbody id="' +
+                                '<div class="table-responsive"><table class="table table-bordered"><thead><tr><th>Responsable</th><th>Reference_Tribunal</th><th>Juge</th><th>Date_Retrait</th><th>Date_Dépot</th><th>URL_Scan</th><th>L\'état</th></tr></thead><tbody id="' +
                                 id_dossier + 'tbody' + id_modal + '"></tbody></table></div>');
 
 
@@ -788,15 +844,21 @@
 
                             $.each(data, function(i, res) {
 
-                                var document = '../storage/app/' + res.URL_SCAN + '';
+                                var document = '/requete/' + res.URL_SCAN + '';
 
                                 $('#' + id_dossier + 'tbody' + id_modal + '').append(
                                     '<tr><td><string>' + res.CIN +
                                     '</string></td><td><string>' + res.REFERANCE_TRIBUNALE +
+                                    '</string></td><td><string>' + res.JUGE +
                                     '</string></td><td><string>' + res.DATE_RETRAIT +
                                     '</string></td><td><string>' + res.DATE_DEPOT +
-                                    '</string></td><td><a href="' + document +
-                                    '" target="_blank" style="color:blue;text-decoration: underline">document à lire</a></td></tr>'
+                                    '</string></td><td>' + (res.URL_SCAN === null ?
+                                        "Pas De Fichier" :
+                                        '<a href="' + document +
+                                        '" target="_blank" style="color:blue;text-decoration: underline">' +
+                                        res.URL_SCAN + '</a>') + '</td>' +
+                                    '<td>' + (res.ETAT_REQUETE === 0 ? "En cours" :
+                                        "Fermé") + '</td></tr>'
                                 );
 
 
@@ -824,15 +886,19 @@
 
                             $.each(data, function(i, res) {
 
-                                var document = '../storage/app/' + res.URL_SCAN + '';
+                                var document = '/audiance/' + res.URL_AUD;
 
                                 $('#' + id_dossier + 'tbody' + id_modal + '').append(
                                     '<tr><td><string>' + res.CIN +
                                     '</string></td><td><string>' + res.ID_TRIBUNAL +
                                     '</string></td><td><string>' + moment(res.DATE_AUDIANCE)
                                     .format('DD-MMM-YYYY') + '</string></td><td><string>' +
-                                    res.SALLE + '</string></td><td><a href="' + document +
-                                    '" target="_blank" style="color:blue;text-decoration: underline">document à lire</a></td></tr>'
+                                    res.SALLE + '</string></td><td>' + (res.URL_AUD ===
+                                        null ?
+                                        "Pas De Fichier" :
+                                        '<a href="' + document +
+                                        '" target="_blank" style="color:blue;text-decoration: underline">' +
+                                        res.URL_AUD + '</a>') + '</td>' + '</tr>'
                                 );
 
 
@@ -860,15 +926,20 @@
 
                             $.each(data, function(i, res) {
 
-                                var document = '../storage/app/' + res.URL_JUGEMENT + '';
+                                var document = '/jugement/' + res.URL_JUGEMENT;
 
                                 $('#' + id_dossier + 'tbody' + id_modal + '').append(
                                     '<tr><td><string>' + res.CIN +
                                     '</string></td><td><string>' + res.ID_TRIBUNAL +
                                     '</string></td><td><string>' + moment(res.DATE_JUGEMENT)
                                     .format('DD-MMM-YYYY') + '</string></td><td><string>' +
-                                    res.JUGE + '</string></td><td><a href="' + document +
-                                    '" target="_blank" style="color:blue;text-decoration: underline">document à lire</a></td></tr>'
+                                    res.JUGE + '</string></td> <td> ' + (res
+                                        .URL_JUGEMENT ===
+                                        null ?
+                                        "Pas De Fichier" :
+                                        '<a href="' + document +
+                                        '" target="_blank" style="color:blue;text-decoration: underline">' +
+                                        res.URL_JUGEMENT + '</a>') + '</td>' + '</tr>'
                                 );
 
 
@@ -893,7 +964,7 @@
 
                             $.each(data, function(i, res) {
 
-                                var document = '../storage/app/' + res.PV_SORT + '';
+                                var document = '/notification/' + res.PV_SORT;
 
                                 $('#' + id_dossier + 'tbody' + id_modal + '').append(
                                     '<tr><td><string>' + res.CIN +
@@ -901,10 +972,13 @@
                                     '</string></td><td><string>' + moment(res
                                         .DATE_ENVOI_NOT).format('DD-MMM-YYYY') +
                                     '</string></td><td><string>' + moment(res.DATE_SORT)
-                                    .format('DD-MMM-YYYY') + '</string></td><td><a href="' +
-                                    document +
-                                    '" target="_blank" style="color:blue;text-decoration: underline">document à lire</a></td></tr>'
-                                );
+                                    .format('DD-MMM-YYYY') + '</string></td> <td> ' + (res
+                                        .PV_SORT ===
+                                        null ?
+                                        "Pas De Fichier" :
+                                        '<a href="' + document +
+                                        '" target="_blank" style="color:blue;text-decoration: underline">' +
+                                        res.PV_SORT + '</a>') + '</td>' + '</tr>');
 
 
                             });
@@ -929,7 +1003,7 @@
 
                             $.each(data, function(i, res) {
 
-                                var document = '../storage/app/' + res.URL_CNA + '';
+                                var document = '/cna/' + res.URL_CNA + '';
 
                                 $('#' + id_dossier + 'tbody' + id_modal + '').append(
                                     '<tr><td><string>' + res.CIN +
@@ -937,9 +1011,13 @@
                                     '</string></td><td><string>' + moment(res.DATE_DEM_CNA)
                                     .format('DD-MMM-YYYY') + '</string></td><td><string>' +
                                     moment(res.DATE_RET_CNA).format('DD-MMM-YYYY') +
-                                    '</string></td><td><a href="' + document +
-                                    '" target="_blank" style="color:blue;text-decoration: underline">document à lire</a></td></tr>'
-                                );
+                                    '</string></td> <td> ' + (res
+                                        .URL_CNA ===
+                                        null ?
+                                        "Pas De Fichier" :
+                                        '<a href="' + document +
+                                        '" target="_blank" style="color:blue;text-decoration: underline">' +
+                                        res.URL_CNA + '</a>') + '</td>' + '</tr>');
 
 
                             });
@@ -963,7 +1041,7 @@
 
                             $.each(data, function(i, res) {
 
-                                var document = '../storage/app/' + res.PV + '';
+                                var document = '/execution/' + res.PV + '';
 
                                 $('#' + id_dossier + 'tbody' + id_modal + '').append(
                                     '<tr><td><string>' + res.CIN +
@@ -971,9 +1049,13 @@
                                     '</string></td><td><string>' + moment(res.DATE_ENVOI)
                                     .format('DD-MMM-YYYY') + '</string></td><td><string>' +
                                     moment(res.DATE_EXECUTION).format('DD-MMM-YYYY') +
-                                    '</string></td><td><a href="' + document +
-                                    '" target="_blank" style="color:blue;text-decoration: underline">document à lire</a></td></tr>'
-                                );
+                                    '</string></td> <td> ' + (res
+                                        .PV ===
+                                        null ?
+                                        "Pas De Fichier" :
+                                        '<a href="' + document +
+                                        '" target="_blank" style="color:blue;text-decoration: underline">' +
+                                        res.PV + '</a>') + '</td>' + '</tr>');
 
 
                             });
@@ -997,7 +1079,7 @@
 
                             $.each(data, function(i, res) {
 
-                                var document = '../storage/app/' + res.URL_PLAINT + '';
+                                var document = '/plainte/' + res.URL_PLAINT + '';
 
                                 $('#' + id_dossier + 'tbody' + id_modal + '').append(
                                     '<tr><td><string>' + res.CIN +
@@ -1005,10 +1087,13 @@
                                     '</string></td><td><string>' + moment(res.DATE_ENVOI_P)
                                     .format('DD-MMM-YYYY') + '</string></td><td><string>' +
                                     moment(res.DATE_DEPOT).format('DD-MMM-YYYY') +
-                                    '</string></td><td><a href="' + document +
-                                    '" target="_blank" style="color:blue;text-decoration: underline">document à lire</a></td></tr>'
-                                );
-
+                                    '</string></td> <td> ' + (res
+                                        .URL_PLAINT ===
+                                        null ?
+                                        "Pas De Fichier" :
+                                        '<a href="' + document +
+                                        '" target="_blank" style="color:blue;text-decoration: underline">' +
+                                        res.URL_PLAINT + '</a>') + '</td>' + '</tr>');
 
                             });
 
@@ -1043,39 +1128,42 @@
 
 
             var form = $('#requete_form').get(0);
-            var formData = new FormData(form); // get the form data
+            var formData = new FormData(form);
+            var retraitDate = new Date(formData.get('retraitRequete'));
+            var depotDate = new Date(formData.get('depotRequete'));
+            var jugementDate = new Date(formData.get('jugementRequete'));
+
+            if (retraitDate <= depotDate) {
+                alert("Date de retrait doit être supérieure strictement à la date de dépôt.");
+            } else if (jugementDate <= depotDate || jugementDate <= retraitDate) {
+                alert("Date de jugement doit être supérieure strictement aux deux autres dates.");
+            } else {
+                $.ajax({
+
+                    url: "{{ url('dossier/search/requete') }}",
+                    method: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(data) {
 
 
-            $.ajax({
-
-                url: "{{ url('dossier/search/requete') }}",
-                method: "POST",
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(data) {
-
-
-                    'use strict';
-                    $.toast({
-                        heading: 'Success',
-                        text: "Enregistrement Effectué !",
-                        showHideTransition: 'slide',
-                        icon: 'success',
-                        loaderBg: '#f96868',
-                        position: 'top-center',
-                        hideAfter: 1000,
-                    });
+                        'use strict';
+                        $.toast({
+                            heading: 'Success',
+                            text: "Enregistrement Effectué !",
+                            showHideTransition: 'slide',
+                            icon: 'success',
+                            loaderBg: '#f96868',
+                            position: 'top-center',
+                            hideAfter: 1000,
+                        });
+                        $('#Requete').modal('toggle');
+                    }
+                });
+            }
 
 
-                    $('#Requete').modal('toggle');
-
-
-
-                }
-
-
-            });
 
 
 
@@ -1096,38 +1184,46 @@
 
 
             var form = $('#audiance_form').get(0);
-            var formData = new FormData(form); // get the form data
+            var formData = new FormData(form);
+            var dateAudiance = new Date(formData.get('dateAudiance'));
+            var audianceRetrait = new Date(formData.get('audianceRetrait'));
 
 
-            $.ajax({
+            if (dateAudiance <= audianceRetrait) {
+                alert("Date d'audiance doit être supérieure strictement à la date de retrait.");
+            } else {
+                $.ajax({
 
-                url: "{{ url('dossier/search/audiance') }}",
-                method: "POST",
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(data) {
-
-
-                    'use strict';
-                    $.toast({
-                        heading: 'Success',
-                        text: "Enregistrement Effectué !",
-                        showHideTransition: 'slide',
-                        icon: 'success',
-                        loaderBg: '#f96868',
-                        position: 'top-center',
-                        hideAfter: 1000,
-                    });
+                    url: "{{ url('dossier/search/audiance') }}",
+                    method: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(data) {
 
 
-                    $('#Audiance').modal('toggle');
+                        'use strict';
+                        $.toast({
+                            heading: 'Success',
+                            text: "Enregistrement Effectué !",
+                            showHideTransition: 'slide',
+                            icon: 'success',
+                            loaderBg: '#f96868',
+                            position: 'top-center',
+                            hideAfter: 1000,
+                        });
 
 
-                }
+                        $('#Audiance').modal('toggle');
 
 
-            });
+                    }
+
+
+                });
+            }
+
+
 
 
 
@@ -1203,7 +1299,6 @@
 
             var form = $('#notification_form').get(0);
             var formData = new FormData(form); // get the form data
-
 
             $.ajax({
 

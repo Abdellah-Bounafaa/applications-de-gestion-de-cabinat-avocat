@@ -12,4 +12,9 @@ class TypeTribunal extends Model
     //Laravel Unknown Column 'updated_at'
 
     public $timestamps = false;
+
+    public function tribunal()
+    {
+        return $this->hasMany(Tribunal::class, 'ID_TRIBUNAL', 'ID_TTRIBUNAL');
+    }
 }

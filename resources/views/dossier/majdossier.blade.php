@@ -66,7 +66,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
 
-                                    <label class="col-form-label col-form-label-sm">N°_Dossier : </label>
+                                    <label class="col-form-label col-form-label-sm">N° Dossier : </label>
 
                                     <input type="text" class="form-control" placeholder="Numero Dossier"
                                         name="numero_dossier">
@@ -79,7 +79,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
 
-                                    <label class="col-form-label col-form-label-sm">Radical_Cabinet : </label>
+                                    <label class="col-form-label col-form-label-sm">Radical Cabinet : </label>
 
                                     <input type="text" class="form-control" placeholder="Radical Cabinet"
                                         name="radical_cabinet">
@@ -91,7 +91,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
 
-                                    <label class="col-form-label col-form-label-sm">Réference_Client : </label>
+                                    <label class="col-form-label col-form-label-sm">Réference Client : </label>
 
                                     <input type="text" class="form-control" placeholder="Réference Client"
                                         name="reference_client">
@@ -103,7 +103,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
 
-                                    <label class="col-form-label col-form-label-sm">Radical_Client : </label>
+                                    <label class="col-form-label col-form-label-sm">Radical Client : </label>
 
                                     <input type="text" class="form-control" placeholder="Radical Client"
                                         name="radical_client">
@@ -305,6 +305,8 @@
 
 @section('script')
     <script>
+        var usersData = @json($users);
+
         $(document).ready(function() {
 
             $.ajaxSetup({
@@ -835,22 +837,22 @@
 
                         if (data.length > 0) {
                             $('#' + id_modal + '_dossier').html(
-                                '<div class="table-responsive"><table class="table table-bordered"><thead><tr><th>Responsable</th><th>Reference_Tribunal</th><th>Juge</th><th>Date_Retrait</th><th>Date_Dépot</th><th>URL_Scan</th><th>L\'état</th></tr></thead><tbody id="' +
+                                '<div class="table-responsive"><table class="table table-bordered"><thead><tr><th>Responsable</th><th>Reference_Tribunal</th><th>Date_Dépot</th><th>Date_Retrait</th><th>URL_Scan</th><th>L\'état</th></tr></thead><tbody id="' +
                                 id_dossier + 'tbody' + id_modal + '"></tbody></table></div>');
 
 
 
 
                             $.each(data, function(i, res) {
-
                                 var document = '/requete/' + res.URL_SCAN + '';
+                                var responsable = usersData.filter(item => item.CIN === res.CIN)
 
                                 $('#' + id_dossier + 'tbody' + id_modal + '').append(
-                                    '<tr><td><string>' + res.CIN +
+                                    '<tr><td><string>' + responsable[0].NOM + " " +
+                                    responsable[0].PRENOM +
                                     '</string></td><td><string>' + res.REFERANCE_TRIBUNALE +
-                                    '</string></td><td><string>' + res.JUGE +
-                                    '</string></td><td><string>' + res.DATE_RETRAIT +
                                     '</string></td><td><string>' + res.DATE_DEPOT +
+                                    '</string></td><td><string>' + res.DATE_RETRAIT +
                                     '</string></td><td>' + (res.URL_SCAN === null ?
                                         "Pas De Fichier" :
                                         '<a href="' + document +
@@ -886,9 +888,11 @@
                             $.each(data, function(i, res) {
 
                                 var document = '/audiance/' + res.URL_AUD;
+                                var responsable = usersData.filter(item => item.CIN === res.CIN)
 
                                 $('#' + id_dossier + 'tbody' + id_modal + '').append(
-                                    '<tr><td><string>' + res.CIN +
+                                    '<tr><td><string>' + responsable[0].NOM + " " +
+                                    responsable[0].PRENOM +
                                     '</string></td><td><string>' + res.ID_TRIBUNAL +
                                     '</string></td><td><string>' + moment(res.DATE_AUDIANCE)
                                     .format('DD-MMM-YYYY') + '</string></td><td><string>' +
@@ -927,9 +931,11 @@
 
                                 var document = '/jugement/' + res.URL_JUGEMENT;
 
+                                var responsable = usersData.filter(item => item.CIN === res.CIN)
                                 $('#' + id_dossier + 'tbody' + id_modal + '').append(
-                                    '<tr><td><string>' + res.CIN +
-                                    '</string></td><td><string>' + res.ID_TRIBUNAL +
+                                    '<tr><td><string>' + responsable[0].NOM + " " +
+                                    responsable[0].PRENOM + '</string></td><td><string>' +
+                                    res.ID_TRIBUNAL +
                                     '</string></td><td><string>' + moment(res.DATE_JUGEMENT)
                                     .format('DD-MMM-YYYY') + '</string></td><td><string>' +
                                     res.JUGE + '</string></td> <td> ' + (res
@@ -964,10 +970,12 @@
                             $.each(data, function(i, res) {
 
                                 var document = '/notification/' + res.PV_SORT;
+                                var responsable = usersData.filter(item => item.CIN === res.CIN)
 
                                 $('#' + id_dossier + 'tbody' + id_modal + '').append(
-                                    '<tr><td><string>' + res.CIN +
-                                    '</string></td><td><string>' + res.ID_HUISSIER +
+                                    '<tr><td><string>' + responsable[0].NOM + " " +
+                                    responsable[0].PRENOM + '</string></td><td><string>' +
+                                    res.ID_HUISSIER +
                                     '</string></td><td><string>' + moment(res
                                         .DATE_ENVOI_NOT).format('DD-MMM-YYYY') +
                                     '</string></td><td><string>' + moment(res.DATE_SORT)
@@ -1003,9 +1011,11 @@
                             $.each(data, function(i, res) {
 
                                 var document = '/cna/' + res.URL_CNA + '';
+                                var responsable = usersData.filter(item => item.CIN === res.CIN)
 
                                 $('#' + id_dossier + 'tbody' + id_modal + '').append(
-                                    '<tr><td><string>' + res.CIN +
+                                    '<tr><td><string>' + responsable[0].NOM + " " +
+                                    responsable[0].PRENOM +
                                     '</string></td><td><string>' + res.ID_TRIBUNAL +
                                     '</string></td><td><string>' + moment(res.DATE_DEM_CNA)
                                     .format('DD-MMM-YYYY') + '</string></td><td><string>' +
@@ -1041,9 +1051,11 @@
                             $.each(data, function(i, res) {
 
                                 var document = '/execution/' + res.PV + '';
+                                var responsable = usersData.filter(item => item.CIN === res.CIN)
 
                                 $('#' + id_dossier + 'tbody' + id_modal + '').append(
-                                    '<tr><td><string>' + res.CIN +
+                                    '<tr><td><string>' + responsable[0].NOM + " " +
+                                    responsable[0].PRENOM +
                                     '</string></td><td><string>' + res.ID_HUISSIER +
                                     '</string></td><td><string>' + moment(res.DATE_ENVOI)
                                     .format('DD-MMM-YYYY') + '</string></td><td><string>' +

@@ -12,4 +12,9 @@ class Requete extends Model
     //Laravel Unknown Column 'updated_at'
 
     public $timestamps = false;
+
+    // public function user()
+    // {
+    //     return $this->belongsTo(User::class, 'CIN');
+    // }
 }

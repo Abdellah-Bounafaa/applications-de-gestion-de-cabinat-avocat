@@ -17,9 +17,8 @@ use App\Models\Procedure;
 use App\Models\Requete;
 use App\Models\Tribunal;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
-
-
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 
 class ConsultationController extends Controller
 {
@@ -27,17 +26,52 @@ class ConsultationController extends Controller
     public function index()
     {
         $dossier = Dossier::count();
+        $dossiers = Dossier::all();
         $clients = Clients::count();
         $adversaire  = Adversaire::count();
         $procedure = Procedure::orderBy('procedures.ID_PROCEDURE', 'ASC')->get();
         $tribunal = Tribunal::orderBy('ID_TRIBUNAL', 'ASC')->get();
+        $tribunaux = Tribunal::all();
         $tribunal1 = Tribunal::orderBy('ID_TRIBUNAL', 'ASC')->get();
         $tribunal2 = Tribunal::orderBy('ID_TRIBUNAL', 'ASC')->get();
         $tribunal3 = Tribunal::orderBy('ID_TRIBUNAL', 'ASC')->get();
         $tribunal4 = Tribunal::orderBy('ID_TRIBUNAL', 'ASC')->get();
         $huissier = Huissier::orderBy('ID_HUISSIER', 'ASC')->get();
+        $huissiers = Huissier::all();
         $huissier1 = Huissier::orderBy('ID_HUISSIER', 'ASC')->get();
-        return view('consultation', compact('dossier', 'clients', 'adversaire', 'procedure', 'tribunal', 'tribunal1', 'tribunal2', 'huissier', 'tribunal3', 'tribunal4', 'huissier1'));
+        $requetes = Requete::where('ETAT_REQUETE', 0)->get();
+        $audiances = Audiance::where('ETAT_AUD', 0)->get();
+        $jugements = Jugement::where('ETAT_JUGEMENT', 0)->get();
+        $notifications = Notification::where('ETAT_NOTIF', 0)->get();
+        $cnas = Cna::where('cna_etat', null)->get();
+        $executions = Execution::where('ETAT_EXEC', 0)->get();
+        $currateurs = Currateur::where('ETAT_CURATEUR', 0)->get();
+        $user = Auth::user();
+
+        return view('consultation', compact(
+            'dossier',
+            'dossiers',
+            'user',
+            'clients',
+            'adversaire',
+            'procedure',
+            'tribunal',
+            'tribunal1',
+            'tribunal2',
+            'huissier',
+            'huissiers',
+            'tribunal3',
+            'tribunal4',
+            'huissier1',
+            "requetes",
+            "audiances",
+            "tribunaux",
+            "jugements",
+            "notifications",
+            "cnas",
+            "executions",
+            "currateurs"
+        ));
     }
 
 
@@ -317,6 +351,68 @@ class ConsultationController extends Controller
                 ->get();
             array_push($tableau, $requete);
             echo json_encode($tableau);
+        }
+    }
+    public function get_etape_data(Request $request)
+    {
+        $etape = $request->etape;
+        if ($etape === "1") {
+            $data = Requete::where('ETAT_REQUETE', 0)->get();
+            return response()->json($data);
+        }
+        if ($etape === "2") {
+            $data =  Audiance::where('ETAT_AUD', 0)->get();
+            return response()->json($data);
+        }
+        if ($etape === "3") {
+            $data
+                = Jugement::where('ETAT_JUGEMENT', 0)->get();
+            return response()->json($data);
+        }
+        if ($etape === "4") {
+            $data =
+                Notification::where('ETAT_NOTIF', 0)->get();
+            return response()->json($data);
+        }
+        if ($etape === "5") {
+            $data =
+                Cna::where('cna_etat', null)->get();
+            return response()->json($data);
+        }
+        if ($etape === "6") {
+            $data =
+                Execution::where('ETAT_EXEC', 0)->get();
+            return response()->json($data);
+        }
+        if ($etape === "7") {
+            $data =
+                Currateur::where('ETAT_CURATEUR', 0)->get();
+            return response()->json($data);
+        }
+    }
+    public function update_etape(Request $request)
+    {
+        $etape = $request->etape;
+        if ($etape == "1") {
+            $requete = Requete::find($request->id_requete);
+            $requete->ID_TRIBUNAL = $request->id_tribunal;
+            $requete->REFERANCE_TRIBUNALE = $request->reference_tribunal;
+            $requete->DATE_DEPOT = $request->date_depot;
+            $requete->DATE_RETRAIT = $request->date_retrait;
+            $requete->JUGE = $request->juge;
+            $requete->DATE_JUGEMENT = $request->date_jugement;
+            $requete->ETAT_REQUETE = $request->etat_requete;
+            if ($request->file('fichier_requete')) {
+                $path = 'requete';
+                if (!File::exists(public_path($path))) {
+                    File::makeDirectory(public_path($path), 0777, true);
+                }
+                $new_image_name = $request->file('fichier_requete')->getClientOriginalName();
+                $request->file('fichier_requete')->move(public_path($path), $new_image_name);
+                $requete->URL_SCAN          = $new_image_name;
+            }
+            $requete->save();
+            return back();
         }
     }
 }

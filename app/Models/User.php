@@ -16,4 +16,8 @@ class User extends Authenticatable
     //Laravel Unknown Column 'updated_at'
 
     public $timestamps = false;
+    // public function requete()
+    // {
+    //     return $this->hasMany(Requete::class, "CIN", 'CIN');
+    // }
 }

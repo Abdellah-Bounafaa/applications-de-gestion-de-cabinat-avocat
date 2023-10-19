@@ -6,16 +6,15 @@
                  @csrf
                  <div class="modal-header d-flex justify-content-between">
                      <div>
-                         <h4 class="text-left">Créance : <strong id="prix_Requete"></strong> DH</h4>
-                         <h6>Dossier N° <strong id="number_dossierRequete"></strong>
-                         </h6>
+                         <h4>Dossier N° <strong id="number_dossierRequete"></strong>
+                         </h4>
+                         <h6 class="text-left">Créance : <strong id="prix_Requete"></strong> DH</h6>
                      </div>
 
                      <button type="button" data-dismiss="modal" class="btn btn-secondary">X</button>
 
                  </div>
                  <div class="modal-body">
-                     <div class="row" id="Requete_dossier"></div>
 
                      <div class="row">
                          <input type="hidden" class="form-control" name="id_dossierRequete">
@@ -32,7 +31,7 @@
                              </div>
                          </div>
                          <div class="col-md-4">
-                             <div class="form-group"><label class="col-form-label col-form-label-sm"> Reference_Tribunal
+                             <div class="form-group"><label class="col-form-label col-form-label-sm"> Référence Tribunal
                                      : </label><input type="text" class="form-control" name="referenceRequete" />
                              </div>
                          </div>
@@ -46,7 +45,7 @@
                              </div>
                          </div>
                          <div class="col-md-4">
-                             <div class="form-group"><label class="col-form-label col-form-label-sm">Date_Dépôt :
+                             <div class="form-group"><label class="col-form-label col-form-label-sm">Date De Dépôt :
                                  </label><input type="date" class="form-control" name="depotRequete" /></div>
                          </div>
                          <div class="col-md-4">
@@ -54,7 +53,7 @@
                                  </label><input type="text" class="form-control" id="jugeRequete" /></div>
                          </div>
                          <div class="col-md-4">
-                             <div class="form-group"><label class="col-form-label col-form-label-sm">Date_Retrait :
+                             <div class="form-group"><label class="col-form-label col-form-label-sm">Date De Retrait :
                                  </label><input type="date" class="form-control" name="retraitRequete" /></div>
                          </div>
                          <div class="col-md-4">
@@ -68,16 +67,16 @@
                              </div>
                          </div>
                          <div class="col-md-4">
-                             <div class="form-group"><label class="col-form-label col-form-label-sm">URL_Scan :
+                             <div class="form-group"><label class="col-form-label col-form-label-sm">URL Scan :
                                  </label><input type="file" class="form-control form-control-primary"
                                      name="urlRequete" /></div>
                          </div>
                          <div class="col-md-4">
-                             <div class="form-group"><label class="col-form-label col-form-label-sm">Date_Jugement :
+                             <div class="form-group"><label class="col-form-label col-form-label-sm">Date De Jugement :
                                  </label><input type="date" class="form-control" name="jugementRequete" /></div>
                          </div>
                          <div class="col-md-4">
-                             <div class="form-group"><label class="col-form-label col-form-label-sm">Etat_Requete :
+                             <div class="form-group"><label class="col-form-label col-form-label-sm">Etat De Requete :
                                  </label><select class="form-control form-control-success" name="etatRequete">
                                      <option selected disabled>Choisir..</option>
                                      <option value="0">En cours</option>
@@ -94,14 +93,13 @@
 
 
                      </div>
-
-
-
+                     <div class="row" id="Requete_dossier"></div>
                  </div>
                  <div class="modal-footer">
                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                      <button type="submit" class="btn btn-primary">Save changes</button>
                  </div>
+
              </form>
          </div>
      </div>
@@ -124,19 +122,19 @@
 
                  <div class="modal-header d-flex justify-content-between">
                      <div>
-                         <h4>Créance : <strong id="prix_Audiance"></strong> DH</h4>
-                         <h6>Dossier N°<strong id="number_dossierAudiance"></strong>
-                         </h6>
+                         <h4>Dossier N°<strong id="number_dossierAudiance"></strong>
+                         </h4>
+                         <h6>Créance : <strong id="prix_Audiance"></strong> DH</h6>
                      </div>
 
                      <button type="button" data-dismiss="modal" class="btn btn-secondary">X</button>
 
                  </div>
                  <div class="modal-body">
-                     <div class="row" id="Audiance_dossier"></div>
 
-                     <div class="row"><input type="hidden" class="form-control" name="id_dossierAudiance"><input
-                             type="hidden" class="form-control" name="id_procedureAudiance">
+                     <div class="row">
+                         <input type="hidden" class="form-control" name="id_dossierAudiance"><input type="hidden"
+                             class="form-control" name="id_procedureAudiance">
                          <div class="col-md-4">
                              <div class="form-group"><label class="col-form-label col-form-label-sm"> Gestionnaire :
                                  </label><select class="form-control" name="gestionAudiance">
@@ -148,7 +146,8 @@
                              </div>
                          </div>
                          <div class="col-md-4">
-                             <div class="form-group"><label class="col-form-label col-form-label-sm"> Juge_Audiance :
+                             <div class="form-group"><label class="col-form-label col-form-label-sm"> Juge D'audiance
+                                     :
                                  </label><input type="text" class="form-control" name="jugeAudiance" /></div>
                          </div>
                          <div class="col-md-4">
@@ -167,15 +166,16 @@
                              </div>
                          </div>
                          <div class="col-md-4">
-                             <div class="form-group"><label class="col-form-label col-form-label-sm">Date_Audience :
+                             <div class="form-group"><label class="col-form-label col-form-label-sm">Date D'audience :
                                  </label><input type="date" class="form-control" name="dateAudiance" /></div>
                          </div>
                          <div class="col-md-4">
-                             <div class="form-group"><label class="col-form-label col-form-label-sm">Date_Création :
+                             <div class="form-group"><label class="col-form-label col-form-label-sm">Date De Création
+                                     :
                                  </label><input type="date" class="form-control" name="creationAudiance" /></div>
                          </div>
                          <div class="col-md-4">
-                             <div class="form-group"><label class="col-form-label col-form-label-sm">Date_Retrait :
+                             <div class="form-group"><label class="col-form-label col-form-label-sm">Date De Retrait :
                                  </label><input type="date" class="form-control" name="audianceRetrait" /></div>
                          </div>
                          <div class="col-md-4">
@@ -185,12 +185,12 @@
                          </div>
 
                          <div class="col-md-4">
-                             <div class="form-group"><label class="col-form-label col-form-label-sm">URL_Scan :
+                             <div class="form-group"><label class="col-form-label col-form-label-sm">URL Scan :
                                  </label><input type="file" class="form-control form-control-primary"
                                      name="urlAudiance" /></div>
                          </div>
                          <div class="col-md-4">
-                             <div class="form-group"><label class="col-form-label col-form-label-sm">Etat_Adiance :
+                             <div class="form-group"><label class="col-form-label col-form-label-sm">Etat D'audiance :
                                  </label><select class="form-control form-control-success" name="etatAudiance">
                                      <option selected disabled>Choisir..</option>
                                      <option value="0">Jugement</option>
@@ -204,7 +204,9 @@
                                  <textarea class="form-control form-control-sm" rows="2" placeholder="Observation" name="observationAudiance"></textarea>
                              </div>
                          </div>
+
                      </div>
+                     <div class="row" id="Audiance_dossier"></div>
 
 
 
@@ -228,19 +230,20 @@
                  @csrf
                  <div class="modal-header d-flex justify-content-between">
                      <div>
-                         <h4>Créance : <strong id="prix_Jugement"></strong> DH</h4>
-                         <h6>Dossier N° <strong id="number_dossierJugement"></strong>
-                         </h6>
+                         <h4>Dossier N° <strong id="number_dossierJugement"></strong>
+                         </h4>
+                         <h6>Créance : <strong id="prix_Jugement"></strong> DH</h6>
                      </div>
 
                      <button type="button" data-dismiss="modal" class="btn btn-secondary">X</button>
 
                  </div>
                  <div class="modal-body">
-                     <div class="row" id="Jugement_dossier"></div>
 
-                     <div class="row"><input type="hidden" class="form-control" name="id_dossierJugement"><input
-                             type="hidden" class="form-control" name="id_procedureJugement">
+
+                     <div class="row">
+                         <input type="hidden" class="form-control" name="id_dossierJugement"><input type="hidden"
+                             class="form-control" name="id_procedureJugement">
                          <div class="col-md-4">
                              <div class="form-group"><label class="col-form-label col-form-label-sm"> Gestionnaire :
                                  </label><select class="form-control" name="gestionJugement">
@@ -280,16 +283,18 @@
                                  </label><input type="text" class="form-control" name="jugeJugement" /></div>
                          </div>
                          <div class="col-md-4">
-                             <div class="form-group"><label class="col-form-label col-form-label-sm">Date_Jugement :
+                             <div class="form-group"><label class="col-form-label col-form-label-sm">Date De Jugement
+                                     :
                                  </label><input type="date" class="form-control" name="dateJugement" /></div>
                          </div>
                          <div class="col-md-6">
-                             <div class="form-group"><label class="col-form-label col-form-label-sm">URL_Scan :
+                             <div class="form-group"><label class="col-form-label col-form-label-sm">URL Scan :
                                  </label><input type="file" class="form-control form-control-primary"
                                      name="urlJugement" /></div>
                          </div>
                          <div class="col-md-6">
-                             <div class="form-group"><label class="col-form-label col-form-label-sm">Etat_Jugement :
+                             <div class="form-group"><label class="col-form-label col-form-label-sm">Etat De Jugement
+                                     :
                                  </label><select class="form-control form-control-success" name="etatJugement">
                                      <option selected disabled>Choisir..</option>
                                      <option value="0">En cours</option>
@@ -303,6 +308,7 @@
                              </div>
                          </div>
                      </div>
+                     <div class="row" id="Jugement_dossier"></div>
 
 
 
@@ -326,20 +332,20 @@
                  @csrf
                  <div class="modal-header d-flex justify-content-between">
                      <div>
-                         <h4>Créance : <strong id="prix_Notification"></strong> DH</h4>
-                         <h6>Dossier N °_<strong id="number_dossierNotification"></strong>
-                         </h6>
+                         <h4>Dossier N °_<strong id="number_dossierNotification"></strong>
+                         </h4>
+                         <h6>Créance : <strong id="prix_Notification"></strong> DH</h6>
                      </div>
 
                      <button type="button" data-dismiss="modal" class="btn btn-secondary">X</button>
 
                  </div>
                  <div class="modal-body">
-                     <div class="row" id="Notification_dossier"></div>
 
-                     <div class="row"><input type="hidden" class="form-control"
-                             name="id_dossierNotification"><input type="hidden" class="form-control"
-                             name="id_procedureNotification">
+
+                     <div class="row">
+                         <input type="hidden" class="form-control" name="id_dossierNotification"><input
+                             type="hidden" class="form-control" name="id_procedureNotification">
                          <div class="col-md-4">
                              <div class="form-group"><label class="col-form-label col-form-label-sm"> Gestionnaire :
                                  </label><select class="form-control" name="gestionNotification">
@@ -377,21 +383,22 @@
                              </div>
                          </div>
                          <div class="col-md-4">
-                             <div class="form-group"><label class="col-form-label col-form-label-sm">Date_Envoi:
+                             <div class="form-group"><label class="col-form-label col-form-label-sm">Date D'envoi:
                                  </label><input type="date" class="form-control" name="envoieNotification" />
                              </div>
                          </div>
                          <div class="col-md-4">
-                             <div class="form-group"><label class="col-form-label col-form-label-sm">Date_Sort :
+                             <div class="form-group"><label class="col-form-label col-form-label-sm">Date De Sort :
                                  </label><input type="date" class="form-control" name="dateNotification" /></div>
                          </div>
                          <div class="col-md-6">
-                             <div class="form-group"><label class="col-form-label col-form-label-sm">PV_Sort :
+                             <div class="form-group"><label class="col-form-label col-form-label-sm">PV Sort :
                                  </label><input type="file" class="form-control form-control-primary"
                                      name="urlNotification" /></div>
                          </div>
                          <div class="col-md-6">
-                             <div class="form-group"><label class="col-form-label col-form-label-sm">Etat_Notification
+                             <div class="form-group"><label class="col-form-label col-form-label-sm">Etat De
+                                     Notification
                                      : </label><select class="form-control form-control-success"
                                      name="etatNotification">
                                      <option selected disabled>Choisir..</option>
@@ -415,6 +422,7 @@
                              </div>
                          </div>
                      </div>
+                     <div class="row" id="Notification_dossier"></div>
 
 
 
@@ -442,19 +450,19 @@
 
                  <div class="modal-header d-flex justify-content-between">
                      <div>
-                         <h4>Créance : <strong id="prix_CNA"></strong> DH</h4>
-                         <h6>Dossier N° <strong id="number_dossierCNA"></strong>
-                         </h6>
+                         <h4>Dossier N° <strong id="number_dossierCNA"></strong>
+                         </h4>
+                         <h6>Créance : <strong id="prix_CNA"></strong> DH</h6>
                      </div>
 
                      <button type="button" data-dismiss="modal" class="btn btn-secondary">X</button>
 
                  </div>
                  <div class="modal-body">
-                     <div class="row" id="CNA_dossier"></div>
 
-                     <div class="row"><input type="hidden" class="form-control" name="id_dossierCNA"><input
-                             type="hidden" class="form-control" name="id_procedureCNA">
+                     <div class="row">
+                         <input type="hidden" class="form-control" name="id_dossierCNA"><input type="hidden"
+                             class="form-control" name="id_procedureCNA">
                          <div class="col-md-4">
                              <div class="form-group"><label class="col-form-label col-form-label-sm"> Gestionnaire :
                                  </label><select class="form-control" name="gestionCNA">
@@ -492,11 +500,11 @@
                              </div>
                          </div>
                          <div class="col-md-4">
-                             <div class="form-group"><label class="col-form-label col-form-label-sm">Date_Demande:
+                             <div class="form-group"><label class="col-form-label col-form-label-sm">Date De Demande:
                                  </label><input type="date" class="form-control" name="demandeCNA" /></div>
                          </div>
                          <div class="col-md-4">
-                             <div class="form-group"><label class="col-form-label col-form-label-sm">Date_Retrait :
+                             <div class="form-group"><label class="col-form-label col-form-label-sm">Date De Retrait :
                                  </label><input type="date" class="form-control" name="retraitCNA" /></div>
                          </div>
                          <div class="col-md-6">
@@ -521,6 +529,7 @@
                              </div>
                          </div>
                      </div>
+                     <div class="row" id="CNA_dossier"></div>
 
 
 
@@ -546,20 +555,19 @@
                  @csrf
                  <div class="modal-header d-flex justify-content-between">
                      <div>
-                         <h4>Créance : <strong id="prix_Execution"></strong> DH</h4>
-                         <h6>Dossier N° <strong id="number_dossierExecution"></strong>
-                         </h6>
+                         <h4>Dossier N° <strong id="number_dossierExecution"></strong>
+                         </h4>
+                         <h6>Créance : <strong id="prix_Execution"></strong> DH</h6>
                      </div>
 
                      <button type="button" data-dismiss="modal" class="btn btn-secondary">X</button>
 
                  </div>
                  <div class="modal-body">
-                     <div class="row" id="Execution_dossier"></div>
 
-                     <div class="row"><input type="hidden" class="form-control"
-                             name="id_dossierExecution"><input type="hidden" class="form-control"
-                             name="id_procedureExecution">
+                     <div class="row">
+                         <input type="hidden" class="form-control" name="id_dossierExecution"><input type="hidden"
+                             class="form-control" name="id_procedureExecution">
                          <div class="col-md-4">
                              <div class="form-group"><label class="col-form-label col-form-label-sm"> Gestionnaire :
                                  </label><select class="form-control" name="gestionExecution">
@@ -589,7 +597,7 @@
                          <div class="col-md-4">
                              <div class="form-group"><label class="col-form-label col-form-label-sm">Sort :
                                  </label>
-                                 <select name="sortExecution" id="">
+                                 <select name="sortExecution" class="form-control" id="">
                                      <option value="" selected> Choisir...</option>
                                      <option value="1"> Oui</option>
                                      <option value="2"> Non</option>
@@ -597,20 +605,22 @@
                              </div>
                          </div>
                          <div class="col-md-4">
-                             <div class="form-group"><label class="col-form-label col-form-label-sm">Date_Envoi:
+                             <div class="form-group"><label class="col-form-label col-form-label-sm">Date D'envoi:
                                  </label><input type="date" class="form-control" name="envoieExecution" /></div>
                          </div>
                          <div class="col-md-4">
-                             <div class="form-group"><label class="col-form-label col-form-label-sm">Date_Execution :
+                             <div class="form-group"><label class="col-form-label col-form-label-sm">Date D'éxecution
+                                     :
                                  </label><input type="date" class="form-control" name="dateExecution" /></div>
                          </div>
                          <div class="col-md-6">
-                             <div class="form-group"><label class="col-form-label col-form-label-sm">PV_Sort :
+                             <div class="form-group"><label class="col-form-label col-form-label-sm">PV Sort :
                                  </label><input type="file" class="form-control form-control-primary"
                                      name="urlExecution" /></div>
                          </div>
                          <div class="col-md-6">
-                             <div class="form-group"><label class="col-form-label col-form-label-sm">Etat_Execution :
+                             <div class="form-group"><label class="col-form-label col-form-label-sm">Etat D'éxecution
+                                     :
                                  </label><select class="form-control form-control-success" name="etatExecution">
                                      <option selected disabled>Choisir..</option>
                                      <option value="0">En cours</option>
@@ -624,6 +634,7 @@
                              </div>
                          </div>
                      </div>
+                     <div class="row" id="Execution_dossier"></div>
 
 
 
@@ -650,9 +661,9 @@
                  @csrf
                  <div class="modal-header d-flex justify-content-between">
                      <div>
-                         <h4>Créance : <strong id="prix_PLAINTE"></strong> DH</h4>
-                         <h6 disabled>Dossier N° <strong id="number_dossierPLAINTE"></strong>
-                         </h6>
+                         <h4>Dossier N° <strong id="number_dossierPLAINTE"></strong>
+                         </h4>
+                         <h6>Créance : <strong id="prix_PLAINTE"></strong> DH</h6>
 
                      </div>
 
@@ -660,10 +671,11 @@
 
                  </div>
                  <div class="modal-body">
-                     <div class="row" id="PLAINTE_dossier"></div>
 
-                     <div class="row"><input type="hidden" class="form-control" name="id_dossierPLAINTE"><input
-                             type="hidden" class="form-control" name="id_procedurePLAINTE">
+
+                     <div class="row">
+                         <input type="hidden" class="form-control" name="id_dossierPLAINTE"><input type="hidden"
+                             class="form-control" name="id_procedurePLAINTE">
                          <div class="col-md-4">
                              <div class="form-group"><label class="col-form-label col-form-label-sm"> Gestionnaire :
                                  </label><select class="form-control" name="gestionPLAINTE">
@@ -679,7 +691,7 @@
                                  </label><input type="text" class="form-control" name="referencePLAINTE" /></div>
                          </div>
                          <div class="col-md-4">
-                             <div class="form-group"><label class="col-form-label col-form-label-sm">Date_Dépot:
+                             <div class="form-group"><label class="col-form-label col-form-label-sm">Date De Dépot:
                                  </label><input type="date" class="form-control" name="depotPLAINTE" /></div>
                          </div>
                          <div class="col-md-4">
@@ -687,7 +699,7 @@
                                  </label><input type="text" class="form-control" name="procureurePLAINTE" /></div>
                          </div>
                          <div class="col-md-4">
-                             <div class="form-group"><label class="col-form-label col-form-label-sm">Sort_Plainte :
+                             <div class="form-group"><label class="col-form-label col-form-label-sm">Sort Plainte :
                                  </label>
                                  <select name="sortPLAINTE" class="form-control" id="">
                                      <option value="" selected> Choisir...</option>
@@ -697,17 +709,17 @@
                              </div>
                          </div>
                          <div class="col-md-4">
-                             <div class="form-group"><label class="col-form-label col-form-label-sm">Type_Plainte :
+                             <div class="form-group"><label class="col-form-label col-form-label-sm">Type Plainte :
                                  </label><input type="text" class="form-control" name="typePLAINTE" /></div>
                          </div>
                          <div class="col-md-4">
-                             <div class="form-group"><label class="col-form-label col-form-label-sm">Date_Envoi:
+                             <div class="form-group"><label class="col-form-label col-form-label-sm">Date D'envoi:
                                  </label><input type="date" class="form-control" name="envoiePLAINTE" /></div>
                          </div>
                          <div class="col-md-4">
-                             <div class="form-group"><label
-                                     class="col-form-label col-form-label-sm">Arrandissement_police : </label><input
-                                     type="date" class="form-control" name="arrPLAINTE" /></div>
+                             <div class="form-group"><label class="col-form-label col-form-label-sm">Arrandissement De
+                                     Police : </label><input type="date" class="form-control" name="arrPLAINTE" />
+                             </div>
                          </div>
                          <div class="col-md-4">
                              <div class="form-group"><label class="col-form-label col-form-label-sm">Tribunal :
@@ -724,7 +736,7 @@
                                      name="urlPLAINTE" /></div>
                          </div>
                          <div class="col-md-6">
-                             <div class="form-group"><label class="col-form-label col-form-label-sm">Etat_Plainte :
+                             <div class="form-group"><label class="col-form-label col-form-label-sm">Etat Plainte :
                                  </label><select class="form-control form-control-success" name="etatPLAINTE">
                                      <option selected disabled>Choisir..</option>
                                      <option value="0">En cours</option>
@@ -733,6 +745,7 @@
                          </div>
 
                      </div>
+                     <div class="row" id="PLAINTE_dossier"></div>
 
 
 
@@ -754,9 +767,9 @@
                  @csrf
                  <div class="modal-header d-flex justify-content-between">
                      <div>
-                         <h4>Créance : <strong id="prix_Curateur"></strong> DH</h4>
-                         <h6 disabled>Dossier N° <strong id="number_dossierCurateur"></strong>
-                         </h6>
+                         <h4 disabled>Dossier N° <strong id="number_dossierCurateur"></strong>
+                         </h4>
+                         <h6>Créance : <strong id="prix_Curateur"></strong> DH</h6>
 
                      </div>
 
@@ -764,7 +777,6 @@
 
                  </div>
                  <div class="modal-body">
-                     <div class="row" id="Curateur_dossier"></div>
 
                      <div class="row">
                          <input type="hidden" class="form-control" name="id_dossierCurateur"><input type="hidden"
@@ -844,8 +856,8 @@
                                  </label>
                                  <select name="ETAT_CURATEUR" class="form-control" id="">
                                      <option value="" selected> Choisir...</option>
+                                     <option value="0">Non</option>
                                      <option value="1">Oui</option>
-                                     <option value="2">Non</option>
                                  </select>
                              </div>
                          </div>
@@ -853,6 +865,7 @@
 
 
                      </div>
+                     <div class="row" id="Curateur_dossier"></div>
 
 
 

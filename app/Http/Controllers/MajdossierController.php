@@ -331,9 +331,6 @@ class MajdossierController extends Controller
 
     public function requete(Request $request)
     {
-
-
-
         $gestion    = $request->gestionRequete;
         $reference  = $request->referenceRequete;
         $tribunal   = $request->tribunalRequete;
@@ -347,23 +344,12 @@ class MajdossierController extends Controller
         $id_dossier = $request->id_dossierRequete;
         $etat       = $request->etatRequete;
         $sortRequete       = $request->sortRequete;
-
-
-
-
-
-
-
         $id    = Requete::orderBy('ID_REQUETE', 'desc')->first();
         if ($id == null) {
             $ids  = 1;
         } else {
             $ids    = $id->ID_REQUETE + 1;
         }
-
-
-
-
         $requete                    = new Requete();
         $requete->ID_REQUETE        = $ids;
         $requete->ID_PROCEDURE      = $id_procedure;
@@ -384,11 +370,9 @@ class MajdossierController extends Controller
             $url->move(public_path($path), $new_image_name);
             $requete->URL_SCAN          = $new_image_name;
         }
-
         $requete->DATE_JUGEMENT     = $jugement;
         $requete->ETAT_REQUETE     = $etat;
         $requete->sortRequete     = $sortRequete;
-
         $requete->save();
     }
 

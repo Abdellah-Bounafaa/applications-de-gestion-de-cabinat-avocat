@@ -19,33 +19,63 @@
         }
     </style>
     <div class="row clearfix">
+        {{--
+        <div class="d-flex col-12 justify-content-center text-white">
+            <div class="col-md-3 text-center mb-2 d-flex justify-content-between align-items-center mx-1 position-relative"
+                style="background-color: #7E87B2;border-radius:3px;">
+                Requetes
+                <button style="width:40%;position:absolute;right:0;border-radius:0 3px 0 3px;" class="btn btn-secondary"
+                    type="button" data-etape="1" data-role="affichage">{{ $requetes->count() }}</button>
+            </div>
+            <div class="col-md-3 text-center mb-2 d-flex justify-content-between align-items-center mx-1 position-relative"
+                style="background-color: #7E87B2;border-radius:3px;">
+                Audiances
+                <button class="btn btn-secondary" style="width:40%;position:absolute;right:0;border-radius:0 3px 0 3px;"
+                    data-etape="2" type="button" data-role="affichage">{{ $audiances->count() }}</button>
+            </div>
+
+            <div class="col-md-3 text-center mb-2 d-flex justify-content-between align-items-center mx-1 position-relative"
+                style="background-color: #7E87B2;border-radius:3px;">
+                Jugements
+                <div style="width:40%;position:absolute;right:0;border-radius:0 3px 0 3px;" class="bg-secondary">
+                    <button class="btn" type="button" data-etape="3"
+                        data-role="affichage">{{ $jugements->count() }}</button>
+                </div>
+            </div>
+            <div class="col-md-3 text-center mb-2 d-flex justify-content-between align-items-center mx-1 position-relative"
+                style="background-color: #7E87B2;border-radius:3px;">
+                Notifications -
+                <div style="width:40%;position:absolute;right:0;border-radius:0 3px 0 3px;" class="bg-secondary">
+                    <button class="btn" data-etape="4" data-role="affichage">{{ $notifications->count() }}</button>
+                </div>
+            </div>
+        </div> --}}
+        <div class="col-md-3 text-center">
+            Requetes -
+            <button class="btn" type="button" data-etape="1" data-role="affichage">{{ $requetes->count() }}</button>
+        </div>
+        <div class="col-md-3 text-center">
+            Audiences -
+            <button class="btn" data-etape="2" type="button" data-role="affichage">{{ $audiances->count() }}</button>
+        </div>
+        <div class="col-md-3 text-center">
+            Jugements -
+            <button class="btn" type="button" data-etape="3" data-role="affichage">{{ $jugements->count() }}</button>
+        </div>
+        <div class="col-md-3 text-center">
+            Notifications -
+            <button class="btn" data-etape="4" data-role="affichage">{{ $notifications->count() }}</button>
+        </div>
+
 
         <div class="col-sm-3 text-center">
-            Requetes - <button class="text-success" type="button" data-etape="1"
-                data-role="affichage">{{ $requetes->count() }}</button>
+            CNA - <button class="btn  " data-etape="5" data-role="affichage">{{ $cnas->count() }}</button>
         </div>
         <div class="col-sm-3 text-center">
-            Audiances - <button class="text-success" data-etape="2" type="button"
-                data-role="affichage">{{ $audiances->count() }}</button>
+            Executions - <button class="btn  " data-etape="7" data-role="affichage">{{ $executions->count() }}</button>
         </div>
         <div class="col-sm-3 text-center">
-            Jugements - <button class="text-success" type="button" data-etape="3"
-                data-role="affichage">{{ $jugements->count() }}</button>
-        </div>
-        <div class="col-sm-3 text-center">
-            Notifications - <button class="text-success" data-etape="4"
-                data-role="affichage">{{ $notifications->count() }}</button>
-        </div>
-        <div class="col-sm-3 text-center">
-            CNA - <button class="text-success" data-etape="5" data-role="affichage">{{ $cnas->count() }}</button>
-        </div>
-        <div class="col-sm-3 text-center">
-            Executions - <button class="text-success" data-etape="6"
-                data-role="affichage">{{ $executions->count() }}</button>
-        </div>
-        <div class="col-sm-3 text-center">
-            Currateurs - <button class="text-success" data-etape="7"
-                data-role="affichage">{{ $currateurs->count() }}</button>
+            Currateurs - <button class="btn " data-etape="6" data-role="affichage">{{ $currateurs->count() }}</button>
         </div>
 
 
@@ -81,26 +111,14 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel"></h5>
-
                     </div>
-
                     <div class="modal-body" id="modal_example">
-
                     </div>
-
                 </div>
             </div>
         </div>
-
-
-
-
     </div>
     <!-- Modal -->
-
-
-
-
     <div class="modal" tabindex="-1" role="dialog" id="modification">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -139,6 +157,9 @@
 @section('script')
     <script>
         var user = @json($user);
+        var tribunaux = @json($tribunaux);
+        var dossiers = @json($dossiers);
+        var huissiers = @json($huissiers);
         $(document).ready(function() {
 
             $.ajaxSetup({
@@ -249,9 +270,6 @@
         });
 
 
-
-
-
         $(document).on('click', 'a[data-role=ouverture]', function() {
 
             var id_etape = $(this).data('id_etape');
@@ -298,8 +316,6 @@
                             if (res.DATE_RETRAIT == null) {
                                 res.DATE_RETRAIT = '';
                             }
-
-
                             if (res.DATE_JUGEMENT == null) {
                                 res.DATE_JUGEMENT = '';
                             }
@@ -318,6 +334,7 @@
                                 var etat = '<span class="badge badge-danger">FERME</span>';
 
                             }
+                            var document = '/requete/' + res.URL_SCAN + '';
 
                             $('#tbody').append(
                                 '<tr><td><button data-toggle="modal" data-target="#modification" data-role="update" data-id_etape="' +
@@ -340,8 +357,14 @@
                                 .REFERANCE_TRIBUNALE + '</td><td>' + res.DATE_DEPOT +
                                 '</td><td>' + res.DATE_RETRAIT + '</td><td>' + res.JUGE +
                                 '</td><td>' + res.DATE_JUGEMENT + '</td><td>' + etat +
-                                '</td><td><a href="storage/app/' + res.URL_SCAN +
-                                '" target="_blank" style="color:blue;text-decoration: underline">document à lire</a></td></tr>'
+                                '</td><td>' + (res.URL_SCAN === null ?
+                                    "Pas De Fichier" :
+                                    '<a href="' + document +
+                                    '" target="_blank" style="color:blue;text-decoration: underline">' +
+                                    res.URL_SCAN + '</a>') + '</td>' +
+                                '<td>' + (res.ETAT_REQUETE === 0 ? "En cours" :
+                                    "Fermé") + '</td></tr>'
+
                             );
 
 
@@ -435,6 +458,7 @@
                                 var etat = '<span class="badge badge-danger">FERME</span>';
 
                             }
+                            var document = '/jugement/' + res.URL_JUGEMENT + '';
 
                             $('#tbody').append(
                                 '<tr><td><button data-toggle="modal" data-target="#modification" data-role="update" data-id_etape="' +
@@ -453,9 +477,12 @@
                                 res.ID_JUGEMENT + '</td><td>' + res.NUM_DOSSIER +
                                 '</td><td>' + res.NOM_TRIBUNAL + '</td><td>' + res
                                 .REF_TRIBU + '</td><td>' + res.JUGE + '</td><td>' + res
-                                .DATE_JUGEMENT + '</td><td>' + res.SORT + '</td><td>' +
-                                etat + '</td><td><a href="storage/app/' + res.URL_JUGEMENT +
-                                '" target="_blank" style="color:blue;text-decoration: underline">document à lire</a></td></tr>'
+                                .DATE_JUGEMENT + '</td>' + '<td>' + (res.URL_JUGEMENT ===
+                                    null ?
+                                    "Pas De Fichier" :
+                                    '<a href="' + document +
+                                    '" target="_blank" style="color:blue;text-decoration: underline">' +
+                                    res.URL_JUGEMENT + '</a>') + '</td>' + '</tr>'
                             );
 
 
@@ -494,6 +521,7 @@
                                 var etat = '<span class="badge badge-danger">FERME</span>';
 
                             }
+                            var document = '/notification/' + res.PV_SORT;
 
                             $('#tbody').append(
                                 '<tr><td><button data-toggle="modal" data-target="#modification" data-role="update" data-id_etape="' +
@@ -514,9 +542,13 @@
                                 '</td><td>' + res.NUM_DOSSIER + '</td><td>' + res.PRENOM +
                                 '_' + res.NOM + '</td><td>' + res.DATE_ENVOI_NOT +
                                 '</td><td>' + res.DATE_SORT + '</td><td>' + res.SORT +
-                                '</td><td>' + etat + '</td><td><a href="storage/app/' + res
-                                .PV_SORT +
-                                '" target="_blank" style="color:blue;text-decoration: underline">document à lire</a></td></tr>'
+                                '</td><td>' + etat + '</td><td> ' + (res
+                                    .PV_SORT ===
+                                    null ?
+                                    "Pas De Fichier" :
+                                    '<a href="' + document +
+                                    '" target="_blank" style="color:blue;text-decoration: underline">' +
+                                    res.PV_SORT + '</a>') + '</td></tr>'
                             );
 
 
@@ -789,14 +821,10 @@
 
 
             if (id_etape == 1) {
-
-
                 var id_requete = $(this).data('id_requete');
                 var reference_tribunal = $(this).data('reference_tribunal');
                 var num_dossier = $(this).data('num_dossier');
                 var id_tribunal = $(this).data('id_tribunal');
-
-
                 var date_depot = $(this).data('date_depot');
                 var date_retrait = $(this).data('date_retrait');
                 var juge = $(this).data('juge');
@@ -851,27 +879,16 @@
 
             }
             if (id_etape == 2) {
-
-
                 var id_audiance = $(this).data('id_audiance');
-
                 var num_dossier = $(this).data('num_dossier');
                 var id_tribunal = $(this).data('id_tribunal');
-
-
                 var date_creation = $(this).data('date_creation');
                 var date_audiance = $(this).data('date_audiance');
                 var salle = $(this).data('salle');
                 var juge_audiance = $(this).data('juge_audiance');
                 var etat_audiance = $(this).data('etat_audiance');
-
-
                 $('#title_modification').html(nom_procedure + ' / ' + nom_etape + ' :' + id_audiance + ' / ' + user
                     .CIN);
-
-
-
-
                 $('#contenu_modification').append(
                     '<div class="row"><input type="hidden" class="form-control text-center form-control-success" id="id_etape" name="id_etape" value="' +
                     id_etape +
@@ -885,7 +902,7 @@
                     id_audiance +
                     '"  style="background-color:white;font-weight:bold" required><input type="hidden" class="form-control text-center form-control-success" id="num_dossier"  name="num_dossier" value="' +
                     num_dossier +
-                    '" style="background-color:white;font-weight:bold"><div class="col-lg-3"><div class="form-group"><label>Tribunal</label><select class="form-control text-center" id="id_tribunal" name="id_tribunal"><option value="" disabled>--Choisir_Tribunal--</option>@foreach ($tribunal1 as $tribunal1)<option value="{{ $tribunal1->ID_TRIBUNAL }}">{{ $tribunal1->NOM_TRIBUNAL }}</option>@endforeach</select></div></div><div class="col-lg-3"><div class="form-group"><label>Date_Creation</label><input type="date" class="form-control text-center" id="date_creation" name="date_creation" value="' +
+                    '" style="background-color:white;font-weight:bold"><div class="col-lg-3"><div class="form-group"><label>Tribunal</label><select class="form-control text-center" id="id_tribunal" name="id_tribunal"><option value="" disabled>--Choisir_Tribunal--</option>@foreach ($tribunaux as $tribunal)<option value="{{ $tribunal->ID_TRIBUNAL }}">{{ $tribunal->NOM_TRIBUNAL }}</option>@endforeach</select></div></div><div class="col-lg-3"><div class="form-group"><label>Date_Creation</label><input type="date" class="form-control text-center" id="date_creation" name="date_creation" value="' +
                     date_creation +
                     '"></div></div><div class="col-lg-3"><div class="form-group"><label>Date_Audiance</label><input type="date" class="form-control text-center" id="date_audiance" name="date_audiance" value="' +
                     date_audiance +
@@ -895,43 +912,24 @@
                     salle +
                     '"></div></div><div class="col-lg-3"><div class="form-group"><label>Etat_Requete</label><select class="form-control text-center" id="etat_audiance" name="etat_audiance"><option value="0">EN COURS</option><option value="1">FERME</option></select></div></div><div class="col-lg-6"><div class="form-group"><label>Fichier_Audiance</label><input type="file" name="fichier_audiance" id="fichier_audiance" class="form-control text-center"></div></div></div> '
                 );
-
-
                 $('select[id=etat_audiance]').val(etat_audiance).change();
-
-
-
-
                 $('select[id=id_tribunal]').select2({
                     with: '100%',
                     dropdownParent: $('#modification')
                 });
-
                 $('select[id=id_tribunal]').val(id_tribunal).change();
-
             }
             if (id_etape == 3) {
-
-
                 var id_jugement = $(this).data('id_jugement');
-
                 var num_dossier = $(this).data('num_dossier');
                 var id_tribunal = $(this).data('id_tribunal');
-
-
                 var reference_tribunal = $(this).data('reference_tribunal');
                 var date_jugement = $(this).data('date_jugement');
                 var sort = $(this).data('sort');
                 var juge = $(this).data('juge');
                 var etat_jugement = $(this).data('etat_jugement');
-
-
                 $('#title_modification').html(nom_procedure + ' / ' + nom_etape + ' :' + id_jugement + ' / ' + user
                     .CIN);
-
-
-
-
                 $('#contenu_modification').append(
                     '<div class="row"><input type="hidden" class="form-control text-center form-control-success" id="id_etape" name="id_etape" value="' +
                     id_etape +
@@ -1013,7 +1011,7 @@
                     numero_notification +
                     '"></div></div><div class="col-lg-3"><div class="form-group"><label>Sort</label><input type="text" class="form-control text-center" id="sort_notification" name="sort_notification" value="' +
                     sort +
-                    '"></div></div><div class="col-lg-3"><div class="form-group"><label>Etat_Jugement</label><select class="form-control text-center" id="etat_notification" name="etat_notification"><option value="0">EN COURS</option><option value="1">FERME</option></select></div></div><div class="col-lg-6"><div class="form-group"><label>Fichier_Jugement</label><input type="file" name="fichier_notification" id="fichier_notification" class="form-control text-center"></div></div></div> '
+                    '"></div></div><div class="col-lg-3"><div class="form-group"><label>Etat_Jugement</label><select class="form-control text-center" id="etat_notification" name="etat_notification"><option value="0">EN COURS</option><option value="1">FERME</option></select></div></div><div class="col-lg-6"><div class="form-group"><label>Fichier De Jugement</label><input type="file" name="fichier_notification" id="fichier_notification" class="form-control text-center"></div></div></div> '
                 );
 
 
@@ -1105,10 +1103,6 @@
 
                 $('#title_modification').html(nom_procedure + ' / ' + nom_etape + ' :' + id_execution + ' / ' +
                     user.CIN);
-
-
-
-
                 $('#contenu_modification').append(
                     '<div class="row"><input type="hidden" class="form-control text-center form-control-success" id="id_etape" name="id_etape" value="' +
                     id_etape +
@@ -1163,13 +1157,8 @@
                 var arrendissement_police = $(this).data('arrendissement_police');
                 var etat_plainte = $(this).data('etat_plainte');
                 var type_plainte = $(this).data('type_plainte');
-
-
                 $('#title_modification').html(nom_procedure + ' / ' + nom_etape + ' :' + id_plainte + ' / ' + user
                     .CIN);
-
-
-
 
                 $('#contenu_modification').append(
                     '<div class="row"><input type="hidden" class="form-control text-center form-control-success" id="id_etape" name="id_etape" value="' +
@@ -1233,22 +1222,22 @@
                 dataType: "JSON",
                 processData: false,
                 contentType: false,
-                // beforeSend: function(x) {
-                //     $('#progres').html("<progress id='bar' value='0' max='100'></progress>").show();
+                beforeSend: function(x) {
+                    $('#progres').html("<progress id='bar' value='0' max='100'></progress>").show();
 
-                //     $('#bar').val(25);
+                    $('#bar').val(25);
 
-                //     setTimeout(function() {
+                    setTimeout(function() {
 
-                //         $('#bar').val(50);
-                //     }, 1000);
-                //     setTimeout(function() {
+                        $('#bar').val(50);
+                    }, 1000);
+                    setTimeout(function() {
 
-                //         $('#bar').val(75);
-                //     }, 1000);
-                // },
+                        $('#bar').val(75);
+                    }, 1000);
+                },
                 success: function(data) {
-                    // $('#progres').hide();
+                    $('#progres').hide();
                     $('#modification').modal('toggle');
                     swal({
                         title: "Mise A Jour Effectuée",
@@ -1257,40 +1246,28 @@
                         timerProgressBar: true,
                     });
                     if (data[0][0].id_etape == 1) {
-
                         $('#exampleModal').fadeIn(200);
                         $('#modal_example').html(
                             '<div class="table-responsive"><table class="table table-bordered"><thead class="text-center"><th>Actions</th><th>ID_Requete</th><th>NUM_Dossier</th><th>Nom_Tribunal</th><th>Referance_Tribunal</th><th>Date_Depot</th><th>Date_Retrait</th><th>Juge</th><th>Date_Jugement</th><th>Etat_Requete</th><th>Fichier_Requete</th></thead><tbody id="tbody" class="text-center"></tbody></table></div>'
                         );
-
-
-
                         $.each(data[1], function(i, res) {
-
                             if (res.DATE_RETRAIT == null) {
                                 res.DATE_RETRAIT = '';
                             }
-
-
                             if (res.DATE_JUGEMENT == null) {
                                 res.DATE_JUGEMENT = '';
                             }
-
                             if (res.JUGE == null) {
                                 res.JUGE = '';
                             }
-
-
                             if (res.ETAT_REQUETE == 0) {
                                 var etat = '<span class="badge badge-info">En Cours</span>';
                             } else if (res.ETAT_REQUETE == null) {
-
                                 var etat = '';
                             } else {
                                 var etat = '<span class="badge badge-danger">Fermé</span>';
-
                             }
-
+                            var document = '/requete/' + res.URL_SCAN + '';
                             $('#tbody').append(
                                 '<tr><td><button data-toggle="modal" data-target="#modification" data-role="update" data-id_etape="' +
                                 data[0][0].id_etape + '" data-nom_etape="' + data[0][0]
@@ -1312,42 +1289,31 @@
                                 .REFERANCE_TRIBUNALE + '</td><td>' + res.DATE_DEPOT +
                                 '</td><td>' + res.DATE_RETRAIT + '</td><td>' + res.JUGE +
                                 '</td><td>' + res.DATE_JUGEMENT + '</td><td>' + etat +
-                                '</td><td><a href="storage/app/' + res.URL_SCAN +
-                                '" target="_blank" style="color:blue;text-decoration: underline">document à lire</a></td></tr>'
+                                '</td>' + '<td>' + (res.URL_SCAN === null ?
+                                    "Pas De Fichier" :
+                                    '<a href="' + document +
+                                    '" target="_blank" style="color:blue;text-decoration: underline">' +
+                                    res.URL_SCAN + '</a>') + '</td>' + '</tr>'
                             );
-
-
                         });
-
-
-
-
                     } else if (data[0][0].id_etape == 2) {
 
                         $('#exampleModal').fadeIn(200);
                         $('#modal_example').html(
                             '<div class="table-responsive"><table class="table table-bordered"><thead class="text-center"><th>Actions</th><th>ID_Audiance</th><th>NUM_Dossier</th><th>Nom_Tribunal</th><th>Date_Creation</th><th>Juge_Audiance</th><th>Date_Audiance</th><th>Salle</th><th>Etat_AUD</th><th>Fichier_AUD</th></thead><tbody id="tbody" class="text-center"></tbody></table></div>'
                         );
-
-
-
                         $.each(data[1], function(i, res) {
-
                             if (res.DATE_RETRAIT == null) {
                                 res.DATE_RETRAIT = '';
                             }
-
-
                             if (res.ETAT_AUD == 0) {
-                                var etat = '<span class="badge badge-info">EN_COURS</span>';
+                                var etat = '<span class="badge badge-info">En Cours</span>';
                             } else if (res.ETAT_AUD == null) {
-
                                 var etat = '';
                             } else {
-                                var etat = '<span class="badge badge-danger">FERME</span>';
-
+                                var etat = '<span class="badge badge-danger">Fermé</span>';
                             }
-
+                            var document = '/audiance/' + res.URL_AUD + '';
                             $('#tbody').append(
                                 '<tr><td><button data-toggle="modal" data-target="#modification" data-role="update" data-id_etape="' +
                                 data[0][0].id_etape + '" data-nom_etape="' + data[0][0]
@@ -1367,16 +1333,13 @@
                                 '</td><td>' + res.NOM_TRIBUNAL + '</td><td>' + res
                                 .DATE_CREATION + '</td><td>' + res.JUGE_AUD + '</td><td>' +
                                 res.DATE_AUDIANCE + '</td><td>' + res.SALLE + '</td><td>' +
-                                etat + '</td><td><a href="storage/app/' + res.URL_AUD +
-                                '" target="_blank" style="color:blue;text-decoration: underline">document à lire</a></td></tr>'
+                                etat + '</td>' + '<td>' + (res.URL_AUD === null ?
+                                    "Pas De Fichier" :
+                                    '<a href="' + document +
+                                    '" target="_blank" style="color:blue;text-decoration: underline">' +
+                                    res.URL_AUD + '</a>') + '</td>' + '</tr>'
                             );
-
-
                         });
-
-
-
-
                     } else if (data[0][0].id_etape == 3) {
 
                         $('#exampleModal').fadeIn(200);
@@ -1405,7 +1368,7 @@
                                 var etat = '<span class="badge badge-danger">FERME</span>';
 
                             }
-
+                            var document = '/jugement/' + res.URL_JUGEMENT;
                             $('#tbody').append(
                                 '<tr><td><button data-toggle="modal" data-target="#modification" data-role="update" data-id_etape="' +
                                 data[0][0].id_etape + '" data-nom_etape="' + data[0][0]
@@ -1423,9 +1386,14 @@
                                 res.ID_JUGEMENT + '</td><td>' + res.NUM_DOSSIER +
                                 '</td><td>' + res.NOM_TRIBUNAL + '</td><td>' + res
                                 .REF_TRIBU + '</td><td>' + res.JUGE + '</td><td>' + res
-                                .DATE_JUGEMENT + '</td><td>' + res.SORT + '</td><td>' +
-                                etat + '</td><td><a href="storage/app/' + res.URL_JUGEMENT +
-                                '" target="_blank" style="color:blue;text-decoration: underline">document à lire</a></td></tr>'
+                                .DATE_JUGEMENT + '</td><td>' + res.SORT + '</td><td>' + res
+                                .ETAT_JUGEMENT + '</td><td>' + (res
+                                    .URL_JUGEMENT ===
+                                    null ?
+                                    "Pas De Fichier" :
+                                    '<a href="' + document +
+                                    '" target="_blank" style="color:blue;text-decoration: underline">' +
+                                    res.URL_JUGEMENT + '</a>') + '</td></tr>'
                             );
 
 
@@ -1464,7 +1432,7 @@
                                 var etat = '<span class="badge badge-danger">FERME</span>';
 
                             }
-
+                            var document = '/notification/' + res.PV_SORT;
                             $('#tbody').append(
                                 '<tr><td><button data-toggle="modal" data-target="#modification" data-role="update"  data-id_etape="' +
                                 data[0][0].id_etape + '" data-nom_etape="' + data[0][0]
@@ -1484,9 +1452,13 @@
                                 '</td><td>' + res.NUM_DOSSIER + '</td><td>' + res.PRENOM +
                                 '_' + res.NOM + '</td><td>' + res.DATE_ENVOI_NOT +
                                 '</td><td>' + res.DATE_SORT + '</td><td>' + res.SORT +
-                                '</td><td>' + etat + '</td><td><a href="storage/app/' + res
-                                .PV_SORT +
-                                '" target="_blank" style="color:blue;text-decoration: underline">document à lire</a></td></tr>'
+                                '</td><td>' + etat + '</td><td> ' + (res
+                                    .PV_SORT ===
+                                    null ?
+                                    "Pas De Fichier" :
+                                    '<a href="' + document +
+                                    '" target="_blank" style="color:blue;text-decoration: underline">' +
+                                    res.PV_SORT + '</a>') + '</td>' + '</tr>'
                             );
 
 
@@ -1501,21 +1473,14 @@
                         $('#modal_example').html(
                             '<div class="table-responsive"><table class="table table-bordered"><thead class="text-center"><th>Actions</th><th>ID_CNA</th><th>NUM_Dossier</th><th>Nom_Tribunal</th><th>Ref_CNA</th><th>Date_Demande</th><th>Date_Retrait</th><th>Num_Notification</th><th>Fichier_CNA</th></thead><tbody id="tbody" class="text-center"></tbody></table></div>'
                         );
-
-
-
                         $.each(data[1], function(i, res) {
-
+                            var document = '/cna/' + res.URL_CNA + '';
                             if (res.DATE_DEM_CNA == null) {
                                 res.DATE_DEM_CNA = '';
                             }
-
                             if (res.DATE_RET_CNA == null) {
                                 res.DATE_RET_CNA = '';
                             }
-
-
-
                             $('#tbody').append(
                                 '<tr><td><button data-toggle="modal" data-target="#modification" data-role="update" data-id_etape="' +
                                 data[0][0].id_etape + '" data-nom_etape="' + data[0][0]
@@ -1534,8 +1499,86 @@
                                 res.NOM_TRIBUNAL + '</td><td>' + res.REF_CNA + '</td><td>' +
                                 res.DATE_DEM_CNA + '</td><td>' + res.DATE_RET_CNA +
                                 '</td><td>' + res.N_NOTIFICATION +
-                                '</td><td><a href="storage/app/' + res.URL_CNA +
-                                '" target="_blank" style="color:blue;text-decoration: underline">document à lire</a></td></tr>'
+                                '</td><td> ' + (res
+                                    .URL_CNA ===
+                                    null ?
+                                    "Pas De Fichier" :
+                                    '<a href="' + document +
+                                    '" target="_blank" style="color:blue;text-decoration: underline">' +
+                                    res.URL_CNA + '</a>') + '</td></tr>'
+                            );
+
+
+                        });
+
+
+
+
+                    } else if (data[0][0].id_etape == 6) {
+
+                        $('#exampleModal').fadeIn(200);
+                        $('#modal_example').html(
+                            '<div class="table-responsive"><table class="table table-bordered"><thead class="text-center"><th>Actions</th><th>ID Currateur</th><th>Numéro De Dossier</th><th>Nom De Tribunal</th><th>Référence De Tribunal</th><th>Date D\'ordonance</th><th>Date De Demande De Notification</th><th>Nom De Currateur</th><th>Date De Notification De Currateur</th><th>Date D\'insertion De Journale</th><th>Nom De Journale</th><th>Date De Retour</th><th>Etat De Currateur</th><th>Fichier De Currateur</th></thead><tbody id="tbody" class="text-center"></tbody></table></div>'
+                        );
+                        $.each(data[1], function(i, res) {
+                            var document = '/currateurs/' + res.URL_CURRATEUR + '';
+                            var dossier = dossiers.filter((dossier) => dossier
+                                .ID_DOSSIER === res.ID_DOSSIER)
+                            var tribunal = tribunaux.filter((tribunal) => tribunal
+                                .ID_TRIBUNAL === res.ID_TRIBUNAL)
+                            if (res.DATE_DEM_NOTIFICATION == null) {
+                                res.DATE_DEM_NOTIFICATION = '';
+                            }
+                            if (res.DATE_NOT_CURRATEUR == null) {
+                                res.DATE_NOT_CURRATEUR = '';
+                            }
+                            if (res.DATE_INSERTION_JOURNAL == null) {
+                                res.DATE_INSERTION_JOURNAL = '';
+                            }
+                            if (res.ETAT_CURRATEUR == 0) {
+                                res.ETAT_CURRATEUR =
+                                    '<span class="badge badge-info">En Cours</span>';
+                            }
+                            $('#tbody').append(
+                                '<tr><td><button data-toggle="modal" data-target="#modification" data-role="update" data-id_etape="' +
+                                data[0][0].id_etape + '" data-nom_etape="' + data[0][0]
+                                .nom_etape + '" data-nom_procedure="' + data[0][0]
+                                .nom_procedure + '" data-id_procedure="' + data[0][0]
+                                .id_procedure +
+                                '"data-id_currateur="' + res.ID_CURRATEUR +
+                                '"data-num_dossier="' + dossier[0].NUM_DOSSIER +
+                                '"data-id_tribunal="' + res.ID_TRIBUNAL +
+                                '"data-ref_tribunal="' + res.REF_TRIBUNALE +
+                                '"data-date_ordonnance="' + res.DATE_ORDONANCE +
+                                '"data-date_dem_notification="' + res
+                                .DATE_DEM_NOTIFICATION +
+                                '"data-date_insertion_journale="' + res
+                                .DATE_INSERTION_JOURNALE +
+                                '"data-nom_journale="' + res.NOM_JOURNALE +
+                                '"data-date_retour="' + res.DATE_RETOUR +
+                                '"data-etat_currateur="' + res.ETAT_CURATEUR +
+                                '"class="btn-icon btn-outline-success"><i class="ik ik-edit-2"></i></button></td><td>' +
+                                res.ID_CURRATEUR + '</td><td>' + dossier[0].NUM_DOSSIER +
+                                '</td><td>' + tribunal[0].NOM_TRIBUNAL + '</td><td>' + res
+                                .REF_TRIBUNALE + '</td><td>' + res.DATE_ORDONANCE +
+                                '</td><td>' + res.DATE_DEM_NOTIFICATION + '</td><td>' + res
+                                .NOM_CURRATEUR + '</td><td>' + res.DATE_NOT_CURRATEUR +
+                                '</td><td>' + res.DATE_INSERTION_JOURNALE + '</td><td>' +
+                                res
+                                .NOM_JOURNALE + '</td><td>' + res.DATE_RETOUR +
+                                '</td>' +
+                                '<td>' +
+                                (res.ETAT_CURATEUR === 0 ?
+                                    '<span class="badge badge-danger">Non</span>' : res
+                                    .ETAT_CURATEUR === 1 ?
+                                    '<span class="badge badge-danger">Oui</span>' : "") +
+                                '</td>' +
+                                '<td>' + (res.URL_CURRATEUR === null ?
+                                    "Pas De Fichier" :
+                                    '<a href="' + document +
+                                    '" target="_blank" style="color:blue;text-decoration: underline">' +
+                                    res.URL_CURRATEUR + '</a>') + '</td>' +
+                                '</tr>'
                             );
 
 
@@ -1570,7 +1613,7 @@
                                 var etat = '<span class="badge badge-danger">FERME</span>';
 
                             }
-
+                            var document = '/execution/' + res.PV + '';
                             $('#tbody').append(
                                 '<tr><td><button data-toggle="modal" data-target="#modification" data-role="update" data-id_etape="' +
                                 data[0][0].id_etape + '" data-nom_etape="' + data[0][0]
@@ -1590,9 +1633,13 @@
                                 '</td><td>' + res.PRENOM + '_' + res.NOM + '</td><td>' + res
                                 .REF_EXECUTION + '</td><td>' + res.DATE_ENVOI +
                                 '</td><td>' + res.DATE_EXECUTION + '</td><td>' + res.SORT +
-                                '</td><td>' + etat + '</td><td><a href="storage/app/' + res
-                                .PV +
-                                '" target="_blank" style="color:blue;text-decoration: underline">document à lire</a></td></tr>'
+                                '</td><td>' + etat + '</td><td> ' + (res
+                                    .PV ===
+                                    null ?
+                                    "Pas De Fichier" :
+                                    '<a href="' + document +
+                                    '" target="_blank" style="color:blue;text-decoration: underline">' +
+                                    res.PV + '</a>') + '</td></tr>'
                             );
 
 
@@ -1677,9 +1724,6 @@
         });
 
 
-        var tribunaux = @json($tribunaux);
-        var dossiers = @json($dossiers);
-        var huissiers = @json($huissiers);
         $(document).on('click', 'button[data-role=affichage]', function() {
             var etape = $(this).data('etape');
             $('#modal_example').html('');
@@ -1723,7 +1767,7 @@
                             $('#tbody').append(
                                 '<tr><td><button data-toggle="modal" data-target="#modification" data-role="modify"' +
 
-                                '" data-etape="' + etape +
+                                '" data-id_etape="' + etape +
                                 '" data-id_requete="' + res.ID_REQUETE +
                                 '" data-id_dossier="' + res.ID_DOSSIER +
                                 '" data-num_dossier="' + tribunal[0].NOM_TRIBUNAL +
@@ -1741,8 +1785,6 @@
                                 '</td><td>' + res.DATE_RETRAIT + '</td><td>' + res.JUGE +
                                 '</td><td>' + res.DATE_JUGEMENT + '</td><td>' + etat +
                                 '</td>' +
-                                // '<td><a href="storage/app/' + res.URL_SCAN +
-                                // '" target="_blank" style="color:blue;text-decoration: underline">document à lire</a></td>'
                                 '<td>' + (res.URL_SCAN === null ?
                                     "Pas De Fichier" :
                                     '<a href="' + document +
@@ -1763,11 +1805,11 @@
                             '<div class="table-responsive"><table class="table table-bordered"><thead class="text-center"><th>Actions</th><th>ID Audiance</th><th>NUM Dossier</th><th>Nom De Tribunal</th><th>Date De Creation</th><th>Juge D\'audiance</th><th>Date D\'audiance</th><th>Salle</th><th>Etat_AUD</th><th>Fichier D\'audiance</th></thead><tbody id="tbody" class="text-center"></tbody></table></div>'
                         );
                         $.each(data, function(i, res) {
-                            var document = '/audiance/' + res.URL_SCAN + '';
+                            var document = '/audiance/' + res.URL_AUD + '';
                             var tribunal = tribunaux.filter((tribunal) => tribunal
-                                .ID_TRIBUNAL === res.ID_TRIBUNAL)
+                                .ID_TRIBUNAL === res.ID_TRIBUNAL);
                             var dossier = dossiers.filter((dossier) => dossier
-                                .ID_DOSSIER === res.ID_DOSSIER)
+                                .ID_DOSSIER === res.ID_DOSSIER);
                             if (res.DATE_CREATION == null) {
                                 res.DATE_CREATION = '';
                             }
@@ -1781,14 +1823,12 @@
                                 var etat = '';
                             } else {
                                 var etat = '<span class="badge badge-danger">Fermé</span>';
-
                             }
-
                             $('#tbody').append(
                                 '<tr><td><button data-toggle="modal" data-target="#modification" data-role="modify" ' +
-                                '" data-etape="' + etape +
+                                '" data-id_etape="' + etape +
                                 '" data-id_audiance="' + res.ID_AUDIANCE +
-                                // '" data-id_dossier="' + res.ID_DOSSIER +
+                                '" data-id_dossier="' + res.ID_DOSSIER +
                                 '" data-num_dossier="' + dossier[0].NUM_DOSSIER +
                                 '" data-id_tribunal="' + res.ID_TRIBUNAL +
                                 '" data-date_creation="' + res.DATE_CREATION +
@@ -1801,8 +1841,6 @@
                                 .DATE_CREATION + '</td><td>' + res.JUGE_AUD + '</td><td>' +
                                 res.DATE_AUDIANCE + '</td><td>' + res.SALLE + '</td><td>' +
                                 etat + '</td>' +
-                                // '<td><a href="storage/app/' + res.URL_AUD +
-                                // '" target="_blank" style="color:blue;text-decoration: underline">document à lire</a></td>'
                                 '<td>' + (res.URL_AUD === null ?
                                     "Pas De Fichier" :
                                     '<a href="' + document +
@@ -1823,7 +1861,7 @@
                             '<div class="table-responsive"><table class="table table-bordered"><thead class="text-center"><th>Actions</th><th>ID Jugement</th><th>NUM Dossier</th><th>Nom De Tribunal</th><th>Ref Tribunal</th><th>Juge</th><th>Date De Jugement</th><th>Sort</th><th>Etat De Jugement</th><th>Fichier De Jugement</th></thead><tbody id="tbody" class="text-center"></tbody></table></div>'
                         );
                         $.each(data, function(i, res) {
-                            var document = '/jugement/' + res.URL_SCAN + '';
+                            var document = '/jugement/' + res.URL_JUGEMENT + '';
 
                             var tribunal = tribunaux.filter((tribunal) => tribunal
                                 .ID_TRIBUNAL === res.ID_TRIBUNAL)
@@ -1844,7 +1882,7 @@
 
                             $('#tbody').append(
                                 '<tr><td><button data-toggle="modal" data-target="#modification" data-role="modify" ' +
-                                '" data-etape="' + etape +
+                                '" data-id_etape="' + etape +
                                 '" data-id_jugement="' + res.ID_JUGEMENT +
                                 // '" data-id_dossier="' + res.ID_DOSSIER +
                                 '" data-num_dossier="' + dossier[0].NUM_DOSSIER +
@@ -1859,8 +1897,6 @@
                                 .REF_TRIBU + '</td><td>' + res.JUGE + '</td><td>' + res
                                 .DATE_JUGEMENT + '</td><td>' + res.SORT + '</td><td>' +
                                 etat + '</td>' +
-                                // '<td><a href="storage/app/' + res.URL_JUGEMENT +
-                                // '" target="_blank" style="color:blue;text-decoration: underline">document à lire</a></td>'
                                 '<td>' + (res.URL_JUGEMENT === null ?
                                     "Pas De Fichier" :
                                     '<a href="' + document +
@@ -1885,7 +1921,7 @@
 
 
                         $.each(data, function(i, res) {
-                            var document = '/notification/' + res.URL_SCAN + '';
+                            var document = '/notification/' + res.PV_SORT + '';
 
                             var huissier = huissiers.filter((huissier) => huissier
                                 .ID_HUISSIER === res.ID_HUISSIER)
@@ -1902,18 +1938,18 @@
 
 
                             if (res.ETAT_NOTIF == 0) {
-                                var etat = '<span class="badge badge-info">EN_COURS</span>';
+                                var etat = '<span class="badge badge-info">En Cours</span>';
                             } else if (res.ETAT_NOTIF == null) {
 
                                 var etat = '';
                             } else {
-                                var etat = '<span class="badge badge-danger">FERME</span>';
+                                var etat = '<span class="badge badge-danger">Fermé</span>';
 
                             }
 
                             $('#tbody').append(
                                 '<tr><td><button data-toggle="modal" data-target="#modification" data-role="modify" ' +
-                                '" data-etape="' + etape +
+                                '" data-id_etape="' + etape +
                                 '" data-id_notification="' + res.ID_NOTIFICATION +
                                 '" data-id_dossier="' + res.ID_DOSSIER +
                                 '" data-num_dossier="' + dossier[0].NUM_DOSSIER +
@@ -1930,9 +1966,6 @@
                                 ' ' + huissier[0].NOM + '</td><td>' + res.DATE_ENVOI_NOT +
                                 '</td><td>' + res.DATE_SORT + '</td><td>' + res.SORT +
                                 '</td><td>' + etat + '</td>' +
-                                // '<td><a href="storage/app/' + res
-                                // .PV_SORT +
-                                // '" target="_blank" style="color:blue;text-decoration: underline">document à lire</a></td>'
                                 '<td>' + (res.PV_SORT === null ?
                                     "Pas De Fichier" :
                                     '<a href="' + document +
@@ -1953,7 +1986,7 @@
                             '<div class="table-responsive"><table class="table table-bordered"><thead class="text-center"><th>Actions</th><th>ID CNA</th><th>NUM De Dossier</th><th>Nom De Tribunal</th><th>Ref CNA</th><th>Date De Demande</th><th>Date De Retrait</th><th>Num De Notification</th><th>Fichier CNA</th></thead><tbody id="tbody" class="text-center"></tbody></table></div>'
                         );
                         $.each(data, function(i, res) {
-                            var document = '/cna/' + res.URL_SCAN + '';
+                            var document = '/cna/' + res.URL_CNA + '';
 
                             var tribunal = tribunaux.filter((tribunal) => tribunal
                                 .ID_TRIBUNAL === res.ID_TRIBUNAL)
@@ -1967,7 +2000,7 @@
                             }
                             $('#tbody').append(
                                 '<tr><td><button data-toggle="modal" data-target="#modification" data-role="modify"' +
-                                '" data-etape="' + etape +
+                                '" data-id_etape="' + etape +
                                 '" data-id_cna="' +
                                 res.ID_CNA +
                                 // '" data-id_dossier="' + res.ID_DOSSIER +
@@ -1985,8 +2018,6 @@
                                 res.DATE_DEM_CNA + '</td><td>' + res.DATE_RET_CNA +
                                 '</td><td>' + res.N_NOTIFICATION +
                                 '</td>' +
-                                // '<td><a href="storage/app/' + res.URL_CNA +
-                                // '" target="_blank" style="color:blue;text-decoration: underline">document à lire</a></td>'
                                 '<td>' + (res.URL_CNA === null ?
                                     "Pas De Fichier" :
                                     '<a href="' + document +
@@ -2002,72 +2033,12 @@
 
 
                     } else if (etape == 6) {
-
-                        $('#exampleModal').fadeIn(200);
-                        $('#modal_example').html(
-                            '<div class="table-responsive"><table class="table table-bordered"><thead class="text-center"><th>Actions</th><th>ID Execution</th><th>NUM Dossier</th><th>Huissier</th><th>Reference Execution</th><th>Date D\'envoie</th><th>Date D\'execution</th><th>Sort</th><th>Etat D\'éxecution</th><th>Fichier D\'éxecution</th></thead><tbody id="tbody" class="text-center"></tbody></table></div>'
-                        );
-                        $.each(data, function(i, res) {
-                            var document = '/execution/' + res.URL_SCAN + '';
-
-                            var dossier = dossiers.filter((dossier) => dossier
-                                .ID_DOSSIER === res.ID_DOSSIER)
-                            var huissier = huissiers.filter((huissier) => huissier
-                                .ID_HUISSIER === res.ID_HUISSIER)
-                            if (res.DATE_EXECUTION == null) {
-                                res.DATE_EXECUTION = '';
-                            }
-                            if (res.ETAT_EXEC == 0) {
-                                var etat = '<span class="badge badge-info">En Cours</span>';
-                            } else if (res.ETAT_EXEC == null) {
-                                var etat = '';
-                            } else {
-                                var etat = '<span class="badge badge-danger">Fermé</span>';
-                            }
-                            $('#tbody').append(
-                                '<tr><td><button data-toggle="modal" data-target="#modification" data-role="modify"' +
-                                '"data-etape="' + etape +
-                                '" data-id_execution="' + res.ID_EXECUTION +
-                                '" data-id_dossier="' + res.ID_DOSSIER +
-                                '" data-num_dossier="' + dossier[0].NUM_DOSSIER +
-                                '" data-id_huissier="' + res.ID_HUISSIER +
-                                '" data-date_envoie="' + res.DATE_ENVOI +
-                                '" data-date_execution="' + res.DATE_EXECUTION +
-                                '" data-sort="' + res.SORT +
-                                '" data-reference_execution="' + res.REF_EXECUTION +
-                                '" data-etat_execution="' + res.ETAT_EXEC +
-                                '" class="btn-icon btn-outline-success"><i class="ik ik-edit-2"></i></button></td><td>' +
-                                res.ID_EXECUTION + '</td><td>' + dossier[0].NUM_DOSSIER +
-                                '</td><td>' + huissier[0].PRENOM + '_' + huissier[0].NOM +
-                                '</td><td>' + res
-                                .REF_EXECUTION + '</td><td>' + res.DATE_ENVOI +
-                                '</td><td>' + res.DATE_EXECUTION + '</td><td>' + res.SORT +
-                                '</td><td>' + etat +
-                                '</td>' +
-                                // '<td><a href="storage/app/' + res
-                                // .PV +
-                                // '" target="_blank" style="color:blue;text-decoration: underline">document à lire</a></td>'
-                                '<td>' + (res.PV === null ?
-                                    "Pas De Fichier" :
-                                    '<a href="' + document +
-                                    '" target="_blank" style="color:blue;text-decoration: underline">' +
-                                    res.PV + '</a>') + '</td>' +
-                                '</tr>'
-                            );
-
-
-                        });
-
-
-
-
-                    } else if (etape == 7) {
                         $('#exampleModal').fadeIn(200);
                         $('#modal_example').html(
                             '<div class="table-responsive"><table class="table table-bordered"><thead class="text-center"><th>Actions</th><th>ID Currateur</th><th>Numéro De Dossier</th><th>Nom De Tribunal</th><th>Référence De Tribunal</th><th>Date D\'ordonance</th><th>Date De Demande De Notification</th><th>Nom De Currateur</th><th>Date De Notification De Currateur</th><th>Date D\'insertion De Journale</th><th>Nom De Journale</th><th>Date De Retour</th><th>Etat De Currateur</th><th>Fichier De Currateur</th></thead><tbody id="tbody" class="text-center"></tbody></table></div>'
                         );
                         $.each(data, function(i, res) {
-                            var document = '/currateurs/' + res.URL_SCAN + '';
+                            var document = '/currateurs/' + res.URL_CURRATEUR + '';
                             var dossier = dossiers.filter((dossier) => dossier
                                 .ID_DOSSIER === res.ID_DOSSIER)
                             var tribunal = tribunaux.filter((tribunal) => tribunal
@@ -2089,8 +2060,7 @@
 
 
                                 '<tr><td><button data-toggle="modal" data-target="#modification" data-role="modify"' +
-                                '" data-etape="' + etape +
-
+                                '" data-id_etape="' + etape +
                                 '"data-id_currateur="' + res.ID_CURRATEUR +
                                 '"data-num_dossier="' + dossier[0].NUM_DOSSIER +
                                 '"data-id_tribunal="' + res.ID_TRIBUNAL +
@@ -2119,9 +2089,6 @@
                                     .ETAT_CURATEUR === 1 ?
                                     '<span class="badge badge-danger">Oui</span>' : "") +
                                 '</td>' +
-                                // '<td><a href="storage/app/' + res
-                                // .URL_CURRATEUR +
-                                // '" target="_blank" style="color:blue;text-decoration: underline">document à lire</a></td>'
                                 '<td>' + (res.URL_CURRATEUR === null ?
                                     "Pas De Fichier" :
                                     '<a href="' + document +
@@ -2136,7 +2103,58 @@
 
 
 
+                    } else if (etape == 7) {
+                        $('#exampleModal').fadeIn(200);
+                        $('#modal_example').html(
+                            '<div class="table-responsive"><table class="table table-bordered"><thead class="text-center"><th>Actions</th><th>ID Execution</th><th>NUM Dossier</th><th>Huissier</th><th>Reference Execution</th><th>Date D\'envoie</th><th>Date D\'execution</th><th>Sort</th><th>Etat D\'éxecution</th><th>Fichier D\'éxecution</th></thead><tbody id="tbody" class="text-center"></tbody></table></div>'
+                        );
+                        $.each(data, function(i, res) {
+                            var document = '/execution/' + res.PV + '';
+
+                            var dossier = dossiers.filter((dossier) => dossier
+                                .ID_DOSSIER === res.ID_DOSSIER)
+                            var huissier = huissiers.filter((huissier) => huissier
+                                .ID_HUISSIER === res.ID_HUISSIER)
+                            if (res.DATE_EXECUTION == null) {
+                                res.DATE_EXECUTION = '';
+                            }
+                            if (res.ETAT_EXEC == 0) {
+                                var etat = '<span class="badge badge-info">En Cours</span>';
+                            } else if (res.ETAT_EXEC == null) {
+                                var etat = '';
+                            } else {
+                                var etat = '<span class="badge badge-danger">Fermé</span>';
+                            }
+                            $('#tbody').append(
+                                '<tr><td><button data-toggle="modal" data-target="#modification" data-role="modify"' +
+                                '" data-id_etape="' + etape +
+                                '" data-id_execution="' + res.ID_EXECUTION +
+                                '" data-id_dossier="' + res.ID_DOSSIER +
+                                '" data-num_dossier="' + dossier[0].NUM_DOSSIER +
+                                '" data-id_huissier="' + res.ID_HUISSIER +
+                                '" data-date_envoie="' + res.DATE_ENVOI +
+                                '" data-date_execution="' + res.DATE_EXECUTION +
+                                '" data-sort="' + res.SORT +
+                                '" data-reference_execution="' + res.REF_EXECUTION +
+                                '" data-etat_execution="' + res.ETAT_EXEC +
+                                '" class="btn-icon btn-outline-success"><i class="ik ik-edit-2"></i></button></td><td>' +
+                                res.ID_EXECUTION + '</td><td>' + dossier[0].NUM_DOSSIER +
+                                '</td><td>' + huissier[0].PRENOM + '_' + huissier[0].NOM +
+                                '</td><td>' + res
+                                .REF_EXECUTION + '</td><td>' + res.DATE_ENVOI +
+                                '</td><td>' + res.DATE_EXECUTION + '</td><td>' + res.SORT +
+                                '</td><td>' + etat +
+                                '</td>' +
+                                '<td>' + (res.PV === null ?
+                                    "Pas De Fichier" :
+                                    '<a href="' + document +
+                                    '" target="_blank" style="color:blue;text-decoration: underline">' +
+                                    res.PV + '</a>') + '</td>' +
+                                '</tr>'
+                            );
+                        });
                     }
+
                 }
 
 
@@ -2155,7 +2173,7 @@
 
         $(document).on('click', 'button[data-role=modify]', function() {
             $('#contenu_modification').html('');
-            var etape = $(this).data('etape');
+            var etape = $(this).data('id_etape');
             if (etape == 1) {
                 var id_requete = $(this).data('id_requete');
                 var id_dossier = $(this).data('id_dossier');
@@ -2169,9 +2187,9 @@
                 var etat_requete = $(this).data('etat_requete');
                 $('#title_modification').html("Requete : " + id_requete + " / " + "CIN : " + user.CIN);
                 $('#contenu_modification').append(
-                    '<div class="row"><input type="hidden" class="form-control text-center form-control-success" id="etape" name="etape" value="' +
+                    '<div class="row"><input type="hidden" class="form-control text-center form-control-success" id="id_etape" name="id_etape" value="' +
                     etape +
-                    '" style="background-color:white;font-weight:bold" required><input type="hidden" class="form-control text-center form-control-success" id="id_requete" name="id_requete" value="' +
+                    '" style="background-color:white;font-weight:bold" required><input type="hidden" value="true" name="is_modify"/><input type="hidden" class="form-control text-center form-control-success" id="id_requete" name="id_requete" value="' +
                     id_requete +
                     '"  style="background-color:white;font-weight:bold" required><input type="hidden" class="form-control text-center form-control-success" id="num_dossier"  name="num_dossier" value="' +
                     num_dossier +
@@ -2204,14 +2222,12 @@
                 var salle = $(this).data('salle');
                 var juge_audiance = $(this).data('juge_audiance');
                 var etat_audiance = $(this).data('etat_audiance');
-                console.log(etape);
-
                 $('#title_modification').html("Audiance : " + id_audiance + " / " + "CIN : " + user.CIN);
 
                 $('#contenu_modification').append(
-                    '<div class="row"><input type="hidden" class="form-control text-center form-control-success" id="etape" name="etape" value="' +
+                    '<div class="row"><input type="hidden" class="form-control text-center form-control-success" id="id_etape" name="id_etape" value="' +
                     etape +
-                    '" style="background-color:white;font-weight:bold" required><input type="hidden" class="form-control text-center form-control-success" id="id_audiance" name="id_audiance" value="' +
+                    '" style="background-color:white;font-weight:bold" required><input type="hidden" value="true" name="is_modify"/><input type="hidden" class="form-control text-center form-control-success" id="id_audiance" name="id_audiance" value="' +
                     id_audiance +
                     '"  style="background-color:white;font-weight:bold" required><input type="hidden" class="form-control text-center form-control-success" id="num_dossier"  name="num_dossier" value="' +
                     num_dossier +
@@ -2243,9 +2259,9 @@
                 var etat_jugement = $(this).data('etat_jugement');
                 $('#title_modification').html("Jugement : " + id_jugement + " / " + "CIN : " + user.CIN);
                 $('#contenu_modification').append(
-                    '<div class="row"><input type="hidden" class="form-control text-center form-control-success" id="etape" name="etape" value="' +
+                    '<div class="row"><input type="hidden" class="form-control text-center form-control-success" id="id_etape" name="id_etape" value="' +
                     etape +
-                    '" style="background-color:white;font-weight:bold" required><input type="hidden" class="form-control text-center form-control-success" id="id_jugement" name="id_jugement" value="' +
+                    '" style="background-color:white;font-weight:bold" required><input type="hidden" value="true" name="is_modify"/><input type="hidden" class="form-control text-center form-control-success" id="id_jugement" name="id_jugement" value="' +
                     id_jugement +
                     '"  style="background-color:white;font-weight:bold" required><input type="hidden" class="form-control text-center form-control-success" id="num_dossier"  name="num_dossier" value="' +
                     num_dossier +
@@ -2279,9 +2295,9 @@
                 var etat_notification = $(this).data('etat_notification');
                 $('#title_modification').html("Notification : " + id_notification + " / " + "CIN : " + user.CIN);
                 $('#contenu_modification').append(
-                    '<div class="row"><input type="hidden" class="form-control text-center form-control-success" id="etape" name="etape" value="' +
+                    '<div class="row"><input type="hidden" class="form-control text-center form-control-success" id="id_etape" name="id_etape" value="' +
                     etape +
-                    '" style="background-color:white;font-weight:bold" required><input type="hidden" class="form-control text-center form-control-success" id="id_notification" name="id_notification" value="' +
+                    '" style="background-color:white;font-weight:bold" required><input type="hidden" value="true" name="is_modify"/><input type="hidden" class="form-control text-center form-control-success" id="id_notification" name="id_notification" value="' +
                     id_notification +
                     '"  style="background-color:white;font-weight:bold" required><input type="hidden" class="form-control text-center form-control-success" id="num_dossier"  name="num_dossier" value="' +
                     num_dossier +
@@ -2312,9 +2328,9 @@
                 var reference_cna = $(this).data('reference_cna');
                 $('#title_modification').html("CNA : " + id_cna + " / " + "CIN : " + user.CIN);
                 $('#contenu_modification').append(
-                    '<div class="row"><input type="hidden" class="form-control text-center form-control-success" id="etape" name="etape" value="' +
+                    '<div class="row"><input type="hidden" class="form-control text-center form-control-success" id="id_etape" name="id_etape" value="' +
                     etape +
-                    '" style="background-color:white;font-weight:bold" required><input type="hidden" class="form-control text-center form-control-success" id="id_cna" name="id_cna" value="' +
+                    '" style="background-color:white;font-weight:bold" required><input type="hidden" value="true" name="is_modify"/><input type="hidden" class="form-control text-center form-control-success" id="id_cna" name="id_cna" value="' +
                     id_cna +
                     '"  style="background-color:white;font-weight:bold" required><input type="hidden" class="form-control text-center form-control-success" id="num_dossier"  name="num_dossier" value="' +
                     num_dossier +
@@ -2335,6 +2351,46 @@
                 $('select[id=id_tribunal]').val(id_tribunal).change();
             }
             if (etape == 6) {
+                var id_currateur = $(this).data('id_currateur');
+                var num_dossier = $(this).data('num_dossier');
+                var id_tribunal = $(this).data('id_tribunal');
+                var ref_tribunal = $(this).data('ref_tribunal')
+                var date_ordonnance = $(this).data('date_ordonnance');
+                var date_dem_notification = $(this).data('date_dem_notification');
+                var date_insertion_journale = $(this).data('date_insertion_journale');
+                var date_retour = $(this).data('date_retour');
+                var nom_journale = $(this).data('nom_journale');
+                var etat_currateur = $(this).data('etat_currateur');
+                $('#title_modification').html("Currateur : " + id_currateur + " / " + "CIN : " + user.CIN);
+                $('#contenu_modification').append(
+                    '<div class="row"><input type="hidden" class="form-control text-center form-control-success" id="id_etape" name="id_etape" value="' +
+                    etape +
+                    '" style="background-color:white;font-weight:bold" required><input type="hidden" value="true" name="is_modify"/><input type="hidden" class="form-control text-center form-control-success" id="id_currateur" name="id_currateur" value="' +
+                    id_currateur +
+                    '"  style="background-color:white;font-weight:bold" required><input type="hidden" class="form-control text-center form-control-success" id="num_dossier"  name="num_dossier" value="' +
+                    num_dossier +
+                    '" style="background-color:white;font-weight:bold"><div class="col-lg-3"><div class="form-group"><label>Tribunal</label><select class="form-control text-center" id="id_tribunal" name="id_tribunal"><option value="" disabled>--Choisir Une Tribunal--</option>@foreach ($tribunaux as $tribunal)<option value="{{ $tribunal->ID_TTRIBUNAL }}">{{ $tribunal->NOM_TRIBUNAL }}</option>@endforeach</select></div></div><div class="col-lg-3"><div class="form-group"><label>Référence De Tribunal</label><input type="text" class="form-control text-center" id="ref_tribunal" name="ref_tribunal" value="' +
+                    ref_tribunal +
+                    '"></div></div><div class="col-lg-3"><div class="form-group"><label>Date D\'ordannance</label><input type="date" class="form-control text-center" id="date_ordonnance" name="date_ordonnance" value="' +
+                    date_ordonnance +
+                    '"></div></div><div class="col-lg-3"><div class="form-group"><label>Date De Demande De Notification</label><input type="date" class="form-control text-center" id="date_dem_notification" name="date_dem_notification" value="' +
+                    date_dem_notification +
+                    '"></div></div><div class="col-lg-3"><div class="form-group"><label>Date D\'insertion De Journale</label><input type="date" class="form-control text-center" id="date_insertion_journale" name="date_insertion_journale" value="' +
+                    date_insertion_journale +
+                    '"></div></div><div class="col-lg-3"><div class="form-group"><label>Date De Retour</label><input type="date" class="form-control text-center" id="date_retour" name="date_retour" value="' +
+                    date_retour +
+                    '"></div></div><div class="col-lg-3"><div class="form-group"><label>Nom De Journale</label><input type="text" class="form-control text-center" id="nom_journale" name="nom_journale" value="' +
+                    nom_journale +
+                    '"></div></div><div class="col-lg-3"><div class="form-group"><label>Etat De Currateur</label><select class="form-control text-center" id="etat_currateur" name="etat_currateur"><option value="0">Non</option><option value="1">Oui</option></select></div></div><div class="col-lg-6"><div class="form-group"><label>Fichier De Currateur</label><input type="file" name="fichier_currateur" id="fichier_currateur" class="form-control text-center"></div></div></div> '
+                );
+                $('select[id=etat_currateur]').val(etat_currateur).change();
+                $('select[id=id_tribunal]').select2({
+                    with: '100%',
+                    dropdownParent: $('#modification')
+                });
+                $('select[id=id_tribunal').val(id_tribunal).change();
+            }
+            if (etape == 7) {
                 var id_execution = $(this).data('id_execution');
                 var num_dossier = $(this).data('num_dossier');
                 var id_huissier = $(this).data('id_huissier');
@@ -2345,9 +2401,9 @@
                 var etat_execution = $(this).data('etat_execution');
                 $('#title_modification').html("Execution : " + id_execution + " / " + "CIN : " + user.CIN);
                 $('#contenu_modification').append(
-                    '<div class="row"><input type="hidden" class="form-control text-center form-control-success" id="etape" name="etape" value="' +
+                    '<div class="row"><input type="hidden" class="form-control text-center form-control-success" id="id_etape" name="id_etape" value="' +
                     etape +
-                    '" style="background-color:white;font-weight:bold" required><input type="hidden" class="form-control text-center form-control-success" id="id_execution" name="id_execution" value="' +
+                    '" style="background-color:white;font-weight:bold" required><input type="hidden" value="true" name="is_modify"/><input type="hidden" class="form-control text-center form-control-success" id="id_execution" name="id_execution" value="' +
                     id_execution +
                     '"  style="background-color:white;font-weight:bold" required><input type="hidden" class="form-control text-center form-control-success" id="num_dossier"  name="num_dossier" value="' +
                     num_dossier +
@@ -2368,123 +2424,8 @@
                 });
                 $('select[id=id_huissier').val(id_huissier).change();
             }
-            if (etape == 7) {
-                var id_currateur = $(this).data('id_currateur');
-                var num_dossier = $(this).data('num_dossier');
-                var id_tribunal = $(this).data('id_tribunal');
-                var ref_tribunal = $(this).data('ref_tribunal')
-                var date_ordonnance = $(this).data('date_ordonnance');
-                var date_dem_notification = $(this).data('date_dem_notification');
-                var date_insertion_journale = $(this).data('date_insertion_journale');
-                var date_retour = $(this).data('date_retour');
-                var nom_journale = $(this).data('nom_journale');
-                var etat_currateur = $(this).data('etat_currateur');
-                $('#title_modification').html("Currateur : " + id_currateur + " / " + "CIN : " + user.CIN);
-                $('#contenu_modification').append(
-                    '<div class="row"><input type="hidden" class="form-control text-center form-control-success" id="etape" name="etape" value="' +
-                    etape +
-                    '" style="background-color:white;font-weight:bold" required><input type="hidden" class="form-control text-center form-control-success" id="id_currateur" name="id_currateur" value="' +
-                    id_currateur +
-                    '"  style="background-color:white;font-weight:bold" required><input type="hidden" class="form-control text-center form-control-success" id="num_dossier"  name="num_dossier" value="' +
-                    num_dossier +
-                    '" style="background-color:white;font-weight:bold"><div class="col-lg-3"><div class="form-group"><label>Tribunal</label><select class="form-control text-center" id="id_tribunal" name="id_tribunal"><option value="" disabled>--Choisir Une Tribunal--</option>@foreach ($tribunaux as $tribunal)<option value="{{ $tribunal->ID_TTRIBUNAL }}">{{ $tribunal->NOM_TRIBUNAL }}</option>@endforeach</select></div></div><div class="col-lg-3"><div class="form-group"><label>Référence De Tribunal</label><input type="text" class="form-control text-center" id="ref_tribunal" name="ref_tribunal" value="' +
-                    ref_tribunal +
-                    '"></div></div><div class="col-lg-3"><div class="form-group"><label>Date D\'ordannance</label><input type="date" class="form-control text-center" id="date_ordonnance" name="date_ordonnance" value="' +
-                    date_ordonnance +
-                    '"></div></div><div class="col-lg-3"><div class="form-group"><label>Date De Demande De Notification</label><input type="date" class="form-control text-center" id="date_dem_notification" name="date_dem_notification" value="' +
-                    date_dem_notification +
-                    '"></div></div><div class="col-lg-3"><div class="form-group"><label>Date D\'insertion De Journale</label><input type="date" class="form-control text-center" id="date_insertion_journale" name="date_insertion_journale" value="' +
-                    date_insertion_journale +
-                    '"></div></div><div class="col-lg-3"><div class="form-group"><label>Date De Retour</label><input type="date" class="form-control text-center" id="date_retour" name="date_retour" value="' +
-                    date_retour +
-                    '"></div></div><div class="col-lg-3"><div class="form-group"><label>Nom De Journale</label><input type="text" class="form-control text-center" id="nom_journale" name="nom_journale" value="' +
-                    nom_journale +
-                    '"></div></div><div class="col-lg-3"><div class="form-group"><label>Etat De Currateur</label><select class="form-control text-center" id="etat_currateur" name="etat_currateur"><option value="0">Non</option><option value="1">Oui</option></select></div></div><div class="col-lg-6"><div class="form-group"><label>Fichier_Jugement</label><input type="file" name="fichier_execution" id="fichier_execution" class="form-control text-center"></div></div></div> '
-                );
-                $('select[id=etat_currateur]').val(etat_currateur).change();
-                $('select[id=id_tribunal]').select2({
-                    with: '100%',
-                    dropdownParent: $('#modification')
-                });
-                $('select[id=id_tribunal').val(id_tribunal).change();
-            }
+
 
         });
-        //update etape code
-        // $("#form_procedure").submit(function(e) {
-        //     e.preventDefault();
-        //     var form = $('#form_procedure').get(0);
-        //     var formData = new FormData(form); // get the form data
-        //     $.ajax({
-        //         url: "{{ url('/consultations/update-etape') }}",
-        //         method: "POST",
-        //         data: formData,
-        //         dataType: "JSON",
-        //         processData: false,
-        //         contentType: false,
-        //         success: function(data) {
-        //             // $('#progres').hide();
-        //             $('#modification').modal('toggle');
-        //             swal({
-        //                 title: "Mise A Jour Effectuée",
-        //                 icon: "success",
-        //                 timer: 2000,
-        //                 timerProgressBar: true,
-        //             });
-        //             if (data[0][0].id_etape == 1) {
-
-        //                 $('#exampleModal').fadeIn(200);
-        //                 $('#modal_example').html(
-        //                     '<div class="table-responsive"><table class="table table-bordered"><thead class="text-center"><th>Actions</th><th>ID_Requete</th><th>NUM_Dossier</th><th>Nom_Tribunal</th><th>Referance_Tribunal</th><th>Date_Depot</th><th>Date_Retrait</th><th>Juge</th><th>Date_Jugement</th><th>Etat_Requete</th><th>Fichier_Requete</th></thead><tbody id="tbody" class="text-center"></tbody></table></div>'
-        //                 );
-        //                 $.each(data[1], function(i, res) {
-        //                     if (res.DATE_RETRAIT == null) {
-        //                         res.DATE_RETRAIT = '';
-        //                     }
-        //                     if (res.DATE_JUGEMENT == null) {
-        //                         res.DATE_JUGEMENT = '';
-        //                     }
-        //                     if (res.JUGE == null) {
-        //                         res.JUGE = '';
-        //                     }
-        //                     if (res.ETAT_REQUETE == 0) {
-        //                         var etat = '<span class="badge badge-info">En Cours</span>';
-        //                     } else if (res.ETAT_REQUETE == null) {
-
-        //                         var etat = '';
-        //                     } else {
-        //                         var etat = '<span class="badge badge-danger">Fermé</span>';
-
-        //                     }
-        //                     $('#tbody').append(
-        //                         '<tr><td><button data-toggle="modal" data-target="#modification" data-role="update" data-etape="' +
-        //                         data[0][0].etape + '" data-id_requete="' + res.ID_REQUETE +
-        //                         '" data-id_dossier="' + res.ID_DOSSIER +
-        //                         '" data-num_dossier="' + res.NUM_DOSSIER +
-        //                         '" data-id_tribunal="' + res.ID_TRIBUNAL +
-        //                         '" data-date_depot="' + res.DATE_DEPOT +
-        //                         '" data-date_retrait="' + res.DATE_RETRAIT +
-        //                         '" data-reference_tribunal="' + res.REFERANCE_TRIBUNALE +
-        //                         '" data-juge="' + res.JUGE + '" data-date_jugement="' + res
-        //                         .DATE_JUGEMENT + '" data-etat_requete="' + res
-        //                         .ETAT_REQUETE +
-        //                         '" class="btn-icon btn-outline-success"><i class="ik ik-edit-2"></i></button></td><td>' +
-        //                         res.ID_REQUETE + '</td><td>' + res.NUM_DOSSIER +
-        //                         '</td><td>' + res.NOM_TRIBUNAL + '</td><td>' + res
-        //                         .REFERANCE_TRIBUNALE + '</td><td>' + res.DATE_DEPOT +
-        //                         '</td><td>' + res.DATE_RETRAIT + '</td><td>' + res.JUGE +
-        //                         '</td><td>' + res.DATE_JUGEMENT + '</td><td>' + etat +
-        //                         '</td><td><a href="storage/app/' + res.URL_SCAN +
-        //                         '" target="_blank" style="color:blue;text-decoration: underline">document à lire</a></td></tr>'
-        //                     );
-        //                 });
-
-
-
-
-        //             }
-        //         }
-        //     });
-        // });
     </script>
 @endsection

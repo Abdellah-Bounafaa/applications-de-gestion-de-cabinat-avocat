@@ -796,11 +796,7 @@
 
 
         $(document).on('click', 'a[data-role=ouverture]', function() {
-
             var id_modal = $(this).data('id');
-
-
-
             var id_procedure = $(this).data('procedure');
             var id_dossier = $('#dossier_id').html();
             var montant = $('#montant_creance').val();
@@ -1191,8 +1187,6 @@
                     processData: false,
                     contentType: false,
                     success: function(data) {
-
-
                         'use strict';
                         $.toast({
                             heading: 'Success',

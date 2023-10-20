@@ -39,13 +39,13 @@ class ConsultationController extends Controller
         $huissier = Huissier::orderBy('ID_HUISSIER', 'ASC')->get();
         $huissiers = Huissier::all();
         $huissier1 = Huissier::orderBy('ID_HUISSIER', 'ASC')->get();
-        $requetes = Requete::where('ETAT_REQUETE', 0)->get();
-        $audiances = Audiance::where('ETAT_AUD', 0)->get();
-        $jugements = Jugement::where('ETAT_JUGEMENT', 0)->get();
-        $notifications = Notification::where('ETAT_NOTIF', 0)->get();
-        $cnas = Cna::where('cna_etat', null)->get();
-        $executions = Execution::where('ETAT_EXEC', 0)->get();
-        $currateurs = Currateur::where('ETAT_CURATEUR', 0)->get();
+        $requetes = Requete::where('ETAT_REQUETE', 0)->where('CIN', auth()->user()->CIN)->get();
+        $audiances = Audiance::where('ETAT_AUD', 0)->where('CIN', auth()->user()->CIN)->get();
+        $jugements = Jugement::where('ETAT_JUGEMENT', 0)->where('CIN', auth()->user()->CIN)->get();;
+        $notifications = Notification::where('ETAT_NOTIF', 0)->where('CIN', auth()->user()->CIN)->get();
+        $cnas = Cna::where('cna_etat', null)->where('CIN', auth()->user()->CIN)->get();
+        $executions = Execution::where('ETAT_EXEC', 0)->where('CIN', auth()->user()->CIN)->get();
+        $currateurs = Currateur::where('ETAT_CURATEUR', 0)->where('CIN', auth()->user()->CIN)->get();
         $user = Auth::user();
 
         return view('consultation', compact(
@@ -165,7 +165,13 @@ class ConsultationController extends Controller
             $requetes->DATE_JUGEMENT      = $request->date_jugement;
             $requetes->ETAT_REQUETE       = $request->etat_requete;
             if ($url) {
-                $requetes->URL_SCAN           = $url->store('public/requete');
+                $path = 'requete';
+                if (!File::exists(public_path($path))) {
+                    File::makeDirectory(public_path($path), 0777, true);
+                }
+                $new_image_name = $request->file('fichier_requete')->getClientOriginalName();
+                $request->file('fichier_requete')->move(public_path($path), $new_image_name);
+                $requetes->URL_SCAN          = $new_image_name;
             }
             $requetes->save();
             $data[0]["id_etape"] = $request->id_etape;
@@ -173,11 +179,20 @@ class ConsultationController extends Controller
             $data[0]["id_procedure"] = $request->id_procedure;
             $data[0]["nom_procedure"] = $request->nom_procedure;
             array_push($tableau, $data);
-            $requete = Requete::join('tribunal', 'tribunal.ID_TRIBUNAL', '=', 'requete.ID_TRIBUNAL')
-                ->join('dossier', 'dossier.ID_DOSSIER', '=', 'requete.ID_DOSSIER')
-                ->where('requete.ID_PROCEDURE', $requetes->ID_PROCEDURE)
-                ->where('requete.CIN', auth()->user()->CIN)
-                ->get();
+            if ($request->is_modify) {
+                $requete = Requete::join('tribunal', 'tribunal.ID_TRIBUNAL', '=', 'requete.ID_TRIBUNAL')
+                    ->join('dossier', 'dossier.ID_DOSSIER', '=', 'requete.ID_DOSSIER')
+                    ->where('requete.ID_PROCEDURE', $requetes->ID_PROCEDURE)
+                    ->where('requete.CIN', auth()->user()->CIN)
+                    ->where('ETAT_REQUETE', 0)
+                    ->get();
+            } else {
+                $requete = Requete::join('tribunal', 'tribunal.ID_TRIBUNAL', '=', 'requete.ID_TRIBUNAL')
+                    ->join('dossier', 'dossier.ID_DOSSIER', '=', 'requete.ID_DOSSIER')
+                    ->where('requete.ID_PROCEDURE', $requetes->ID_PROCEDURE)
+                    ->where('requete.CIN', auth()->user()->CIN)
+                    ->get();
+            }
             array_push($tableau, $requete);
             echo json_encode($tableau);
         } else if ($request->id_etape == 2) {
@@ -186,14 +201,20 @@ class ConsultationController extends Controller
             $requetes = Audiance::where('ID_AUDIANCE', $request->id_audiance)
                 ->where('CIN', auth()->user()->CIN)
                 ->first();
-            $requetes->ID_TRIBUNAL        = $request->id_tribunal;
             $requetes->JUGE_AUD           = $request->juge_audiance;
+            $requetes->ID_TRIBUNAL        = $request->id_tribunal;
             $requetes->DATE_CREATION      = $request->date_creation;
             $requetes->DATE_AUDIANCE      = $request->date_audiance;
             $requetes->SALLE              = $request->salle;
             $requetes->ETAT_AUD           = $request->etat_audiance;
             if ($url) {
-                $requetes->URL_AUD          = $url->store('public/audiance');
+                $path = 'audiance';
+                if (!File::exists(public_path($path))) {
+                    File::makeDirectory(public_path($path), 0777, true);
+                }
+                $new_image_name = $url->getClientOriginalName();
+                $url->move(public_path($path), $new_image_name);
+                $requetes->URL_AUD           = $new_image_name;
             }
             $requetes->save();
             $data[0]["id_etape"] = $request->id_etape;
@@ -201,11 +222,19 @@ class ConsultationController extends Controller
             $data[0]["id_procedure"] = $request->id_procedure;
             $data[0]["nom_procedure"] = $request->nom_procedure;
             array_push($tableau, $data);
-            $requete = Audiance::join('tribunal', 'tribunal.ID_TRIBUNAL', '=', 'audiance.ID_TRIBUNAL')
-                ->join('dossier', 'dossier.ID_DOSSIER', '=', 'audiance.ID_DOSSIER')
-                ->where('audiance.ID_PROCEDURE', $request->id_procedure)
-                ->where('audiance.CIN', auth()->user()->CIN)
-                ->get();
+            if ($request->is_modify)
+                $requete = Audiance::join('tribunal', 'tribunal.ID_TRIBUNAL', '=', 'audiance.ID_TRIBUNAL')
+                    ->join('dossier', 'dossier.ID_DOSSIER', '=', 'audiance.ID_DOSSIER')
+                    ->where('audiance.ID_PROCEDURE', $requetes->ID_PROCEDURE)
+                    ->where('audiance.CIN', auth()->user()->CIN)
+                    ->where('ETAT_AUD', 0)
+                    ->get();
+            else
+                $requete = Audiance::join('tribunal', 'tribunal.ID_TRIBUNAL', '=', 'audiance.ID_TRIBUNAL')
+                    ->join('dossier', 'dossier.ID_DOSSIER', '=', 'audiance.ID_DOSSIER')
+                    ->where('audiance.ID_PROCEDURE', $requetes->ID_PROCEDURE)
+                    ->where('audiance.CIN', auth()->user()->CIN)
+                    ->get();
             array_push($tableau, $requete);
             echo json_encode($tableau);
         } else if ($request->id_etape == 3) {
@@ -220,21 +249,41 @@ class ConsultationController extends Controller
             $requetes->REF_TRIBU          = $request->reference_tribunal;
             $requetes->SORT               = $request->sort_jugement;
             $requetes->ETAT_JUGEMENT      = $request->etat_jugement;
+            // if ($url) {
+            //     $requetes->URL_JUGEMENT          = $url->store('public/jugement');
+            // }
             if ($url) {
-                $requetes->URL_JUGEMENT          = $url->store('public/jugement');
+                $path = 'jugement';
+                if (!File::exists(public_path($path))) {
+                    File::makeDirectory(public_path($path), 0777, true);
+                }
+                $new_image_name = $url->getClientOriginalName();
+
+                $url->move(public_path($path), $new_image_name);
+                $requetes->URL_JUGEMENT      = $new_image_name;
             }
+
             $requetes->save();
             $data[0]["id_etape"] = $request->id_etape;
             $data[0]["nom_etape"] = $request->nom_etape;
             $data[0]["id_procedure"] = $request->id_procedure;
             $data[0]["nom_procedure"] = $request->nom_procedure;
             array_push($tableau, $data);
+            if ($request->is_modify) {
+                $requete = Jugement::join('tribunal', 'tribunal.ID_TRIBUNAL', '=', 'jugement.ID_TRIBUNAL')
+                    ->join('dossier', 'dossier.ID_DOSSIER', '=', 'jugement.ID_DOSSIER')
+                    ->where('jugement.ID_PROCEDURE', $requetes->ID_PROCEDURE)
+                    ->where('jugement.CIN', auth()->user()->CIN)
+                    ->where('jugement.ETAT_JUGEMENT', 0)
+                    ->get();
+            } else {
+                $requete = Jugement::join('tribunal', 'tribunal.ID_TRIBUNAL', '=', 'jugement.ID_TRIBUNAL')
+                    ->join('dossier', 'dossier.ID_DOSSIER', '=', 'jugement.ID_DOSSIER')
+                    ->where('jugement.ID_PROCEDURE', $requetes->ID_PROCEDURE)
+                    ->where('jugement.CIN', auth()->user()->CIN)
+                    ->get();
+            }
 
-            $requete = Jugement::join('tribunal', 'tribunal.ID_TRIBUNAL', '=', 'jugement.ID_TRIBUNAL')
-                ->join('dossier', 'dossier.ID_DOSSIER', '=', 'jugement.ID_DOSSIER')
-                ->where('jugement.ID_PROCEDURE', $request->id_procedure)
-                ->where('jugement.CIN', auth()->user()->CIN)
-                ->get();
             array_push($tableau, $requete);
             echo json_encode($tableau);
         } else if ($request->id_etape == 4) {
@@ -249,8 +298,18 @@ class ConsultationController extends Controller
             $requetes->DATE_SORT         = $request->date_sort;
             $requetes->SORT               = $request->sort_notification;
             $requetes->ETAT_NOTIF      = $request->etat_notification;
+            // if ($url) {
+            //     $requetes->PV_SORT          = $url->store('public/notification');
+            // }
             if ($url) {
-                $requetes->PV_SORT          = $url->store('public/notification');
+                $path = 'notification';
+                if (!File::exists(public_path($path))) {
+                    File::makeDirectory(public_path($path), 0777, true);
+                }
+                $new_image_name = $url->getClientOriginalName();
+
+                $url->move(public_path($path), $new_image_name);
+                $requetes->PV_SORT           = $new_image_name;
             }
             $requetes->save();
             $data[0]["id_etape"] = $request->id_etape;
@@ -258,11 +317,19 @@ class ConsultationController extends Controller
             $data[0]["id_procedure"] = $request->id_procedure;
             $data[0]["nom_procedure"] = $request->nom_procedure;
             array_push($tableau, $data);
-            $requete = Notification::join('huissier', 'huissier.ID_HUISSIER', '=', 'notification.ID_HUISSIER')
-                ->join('dossier', 'dossier.ID_DOSSIER', '=', 'notification.ID_DOSSIER')
-                ->where('notification.ID_PROCEDURE', $request->id_procedure)
-                ->where('notification.CIN', auth()->user()->CIN)
-                ->get();
+            if ($request->is_modify)
+                $requete = Notification::join('huissier', 'huissier.ID_HUISSIER', '=', 'notification.ID_HUISSIER')
+                    ->join('dossier', 'dossier.ID_DOSSIER', '=', 'notification.ID_DOSSIER')
+                    ->where('notification.ID_PROCEDURE', $requetes->ID_PROCEDURE)
+                    ->where('notification.CIN', auth()->user()->CIN)
+                    ->where('ETAT_NOTIF', 0)
+                    ->get();
+            else
+                $requete = Notification::join('huissier', 'huissier.ID_HUISSIER', '=', 'notification.ID_HUISSIER')
+                    ->join('dossier', 'dossier.ID_DOSSIER', '=', 'notification.ID_DOSSIER')
+                    ->where('notification.ID_PROCEDURE', $requetes->ID_PROCEDURE)
+                    ->where('notification.CIN', auth()->user()->CIN)
+                    ->get();
             array_push($tableau, $requete);
             echo json_encode($tableau);
         } else if ($request->id_etape == 5) {
@@ -276,8 +343,18 @@ class ConsultationController extends Controller
             $requetes->DATE_RET_CNA       = $request->date_retrait;
             $requetes->N_NOTIFICATION     = $request->numero_notification;
             $requetes->REF_CNA            = $request->reference_cna;
+            // if ($url) {
+            //     $requetes->URL_CNA          = $url->store('public/cna');
+            // }
             if ($url) {
-                $requetes->URL_CNA          = $url->store('public/cna');
+                $path = 'cna';
+                if (!File::exists(public_path($path))) {
+                    File::makeDirectory(public_path($path), 0777, true);
+                }
+                $new_image_name = $url->getClientOriginalName();
+
+                $url->move(public_path($path), $new_image_name);
+                $requetes->URL_CNA           = $new_image_name;
             }
             $requetes->save();
             $data[0]["id_etape"] = $request->id_etape;
@@ -285,11 +362,66 @@ class ConsultationController extends Controller
             $data[0]["id_procedure"] = $request->id_procedure;
             $data[0]["nom_procedure"] = $request->nom_procedure;
             array_push($tableau, $data);
-            $requete = Cna::join('tribunal', 'tribunal.ID_TRIBUNAL', '=', 'cna.ID_TRIBUNAL')
-                ->join('dossier', 'dossier.ID_DOSSIER', '=', 'cna.ID_DOSSIER')
-                ->where('cna.ID_PROCEDURE', $request->id_procedure)
-                ->where('cna.CIN', auth()->user()->CIN)
-                ->get();
+            if ($request->is_modify)
+                $requete = Cna::join('tribunal', 'tribunal.ID_TRIBUNAL', '=', 'cna.ID_TRIBUNAL')
+                    ->join('dossier', 'dossier.ID_DOSSIER', '=', 'cna.ID_DOSSIER')
+                    ->where('cna.ID_PROCEDURE', $requetes->ID_PROCEDURE)
+                    ->where('cna.CIN', auth()->user()->CIN)
+                    ->where('cna_etat', null)
+                    ->get();
+            else
+                $requete = Cna::join('tribunal', 'tribunal.ID_TRIBUNAL', '=', 'cna.ID_TRIBUNAL')
+                    ->join('dossier', 'dossier.ID_DOSSIER', '=', 'cna.ID_DOSSIER')
+                    ->where('cna.ID_PROCEDURE', $requetes->ID_PROCEDURE)
+                    ->where('cna.CIN', auth()->user()->CIN)
+                    ->get();
+            array_push($tableau, $requete);
+            echo json_encode($tableau);
+        } else if ($request->id_etape == 6) {
+            $tableau = array();
+            $url = $request->file('fichier_currateur');
+            $requetes = Currateur::where('ID_CURRATEUR', $request->id_currateur)
+                ->where('CIN', auth()->user()->CIN)
+                ->first();
+            $requetes->ID_TRIBUNAL = $request->id_tribunal;
+            $requetes->REF_TRIBUNALE = $request->ref_tribunal;
+            $requetes->DATE_ORDONANCE = $request->date_ordonnance;
+            $requetes->DATE_DEM_NOTIFICATION = $request->date_dem_notification;
+            $requetes->DATE_INSERTION_JOURNALE = $request->date_insertion_journale;
+            $requetes->DATE_RETOUR = $request->date_retour;
+            $requetes->NOM_JOURNALE = $request->nom_journale;
+            $requetes->ETAT_CURATEUR = $request->etat_currateur;
+            if ($request->file('fichier_currateur')) {
+                $path = 'currateurs';
+                $filename = $request->file('fichier_currateur')->getClientOriginalName();
+                if (!File::exists(public_path($path))) {
+                    File::makeDirectory(public_path($path), 0777, true);
+                }
+                $request->file('fichier_currateur')->move(public_path($path), $filename);
+                $requetes->URL_CURRATEUR = $filename;
+            }
+
+
+
+            $requetes->save();
+            $data[0]["id_etape"] = $request->id_etape;
+            $data[0]["nom_etape"] = $request->nom_etape;
+            $data[0]["id_procedure"] = $request->id_procedure;
+            $data[0]["nom_procedure"] = $request->nom_procedure;
+            array_push($tableau, $data);
+            if ($request->is_modify)
+                $requete = Currateur::join('tribunal', 'tribunal.ID_TRIBUNAL', '=', 'currateur.ID_TRIBUNAL')
+                    ->join('dossier', 'dossier.ID_DOSSIER', '=', 'currateur.ID_DOSSIER')
+                    ->where('currateur.ID_PROCEDURE', $requetes->ID_PROCEDURE)
+                    ->where('currateur.CIN', auth()->user()->CIN)
+                    ->where('ETAT_CURATEUR', 0)
+                    ->get();
+            else
+                $requete = Currateur::join('tribunal', 'tribunal.ID_TRIBUNAL', '=', 'currateur.ID_TRIBUNAL')
+                    ->join('dossier', 'dossier.ID_DOSSIER', '=', 'currateur.ID_DOSSIER')
+                    ->where('currateur.ID_PROCEDURE', $requetes->ID_PROCEDURE)
+                    ->where('currateur.CIN', auth()->user()->CIN)
+                    ->get();
             array_push($tableau, $requete);
             echo json_encode($tableau);
         } else if ($request->id_etape == 7) {
@@ -304,8 +436,17 @@ class ConsultationController extends Controller
             $requetes->DATE_EXECUTION    = $request->date_execution;
             $requetes->SORT               = $request->sort_execution;
             $requetes->ETAT_EXEC          = $request->etat_execution;
+            // if ($url) {
+            //     $requetes->PV          = $url->store('public/execution');
+            // }
             if ($url) {
-                $requetes->PV          = $url->store('public/execution');
+                $path = 'execution';
+                if (!File::exists(public_path($path))) {
+                    File::makeDirectory(public_path($path), 0777, true);
+                }
+                $new_image_name = $url->getClientOriginalName();
+                $url->move(public_path($path), $new_image_name);
+                $requetes->PV                = $new_image_name;
             }
             $requetes->save();
             $data[0]["id_etape"] = $request->id_etape;
@@ -315,7 +456,7 @@ class ConsultationController extends Controller
             array_push($tableau, $data);
             $requete = Execution::join('huissier', 'huissier.ID_HUISSIER', '=', 'execution.ID_HUISSIER')
                 ->join('dossier', 'dossier.ID_DOSSIER', '=', 'execution.ID_DOSSIER')
-                ->where('execution.ID_PROCEDURE', $request->id_procedure)
+                ->where('execution.ID_PROCEDURE', $requetes->ID_PROCEDURE)
                 ->where('execution.CIN', auth()->user()->CIN)
                 ->get();
             array_push($tableau, $requete);
@@ -335,8 +476,18 @@ class ConsultationController extends Controller
             $requetes->TYPE_PLAINTE       = $request->type_plainte;
             $requetes->ETAT_PLAINTE       = $request->etat_plainte;
             $requetes->REF_PLAINTE       = $request->reference_plainte;
+            // if ($url) {
+            //     $requetes->URL_PLAINTE          = $url->store('public/plainte');
+            // }
             if ($url) {
-                $requetes->URL_PLAINTE          = $url->store('public/plainte');
+                $path = 'plainte';
+                if (!File::exists(public_path($path))) {
+                    File::makeDirectory(public_path($path), 0777, true);
+                }
+                $new_image_name = $url->getClientOriginalName();
+
+                $url->move(public_path($path), $new_image_name);
+                $requetes->URL_PLAINT        = $new_image_name;
             }
             $requetes->save();
             $data[0]["id_etape"] = $request->id_etape;
@@ -357,62 +508,37 @@ class ConsultationController extends Controller
     {
         $etape = $request->etape;
         if ($etape === "1") {
-            $data = Requete::where('ETAT_REQUETE', 0)->get();
+            $data = Requete::where('ETAT_REQUETE', 0)->where('CIN', auth()->user()->CIN)->get();
             return response()->json($data);
         }
         if ($etape === "2") {
-            $data =  Audiance::where('ETAT_AUD', 0)->get();
+            $data =  Audiance::where('ETAT_AUD', 0)->where('CIN', auth()->user()->CIN)->get();
             return response()->json($data);
         }
         if ($etape === "3") {
             $data
-                = Jugement::where('ETAT_JUGEMENT', 0)->get();
+                = Jugement::where('ETAT_JUGEMENT', 0)->where('CIN', auth()->user()->CIN)->get();
             return response()->json($data);
         }
         if ($etape === "4") {
             $data =
-                Notification::where('ETAT_NOTIF', 0)->get();
+                Notification::where('ETAT_NOTIF', 0)->where('CIN', auth()->user()->CIN)->get();
             return response()->json($data);
         }
         if ($etape === "5") {
             $data =
-                Cna::where('cna_etat', null)->get();
+                Cna::where('cna_etat', null)->where('CIN', auth()->user()->CIN)->get();
             return response()->json($data);
         }
         if ($etape === "6") {
             $data =
-                Execution::where('ETAT_EXEC', 0)->get();
+                Currateur::where('ETAT_CURATEUR', 0)->where('CIN', auth()->user()->CIN)->get();
             return response()->json($data);
         }
         if ($etape === "7") {
             $data =
-                Currateur::where('ETAT_CURATEUR', 0)->get();
+                Execution::where('ETAT_EXEC', 0)->where('CIN', auth()->user()->CIN)->get();
             return response()->json($data);
-        }
-    }
-    public function update_etape(Request $request)
-    {
-        $etape = $request->etape;
-        if ($etape == "1") {
-            $requete = Requete::find($request->id_requete);
-            $requete->ID_TRIBUNAL = $request->id_tribunal;
-            $requete->REFERANCE_TRIBUNALE = $request->reference_tribunal;
-            $requete->DATE_DEPOT = $request->date_depot;
-            $requete->DATE_RETRAIT = $request->date_retrait;
-            $requete->JUGE = $request->juge;
-            $requete->DATE_JUGEMENT = $request->date_jugement;
-            $requete->ETAT_REQUETE = $request->etat_requete;
-            if ($request->file('fichier_requete')) {
-                $path = 'requete';
-                if (!File::exists(public_path($path))) {
-                    File::makeDirectory(public_path($path), 0777, true);
-                }
-                $new_image_name = $request->file('fichier_requete')->getClientOriginalName();
-                $request->file('fichier_requete')->move(public_path($path), $new_image_name);
-                $requete->URL_SCAN          = $new_image_name;
-            }
-            $requete->save();
-            return back();
         }
     }
 }

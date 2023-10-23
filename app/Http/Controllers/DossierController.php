@@ -60,7 +60,6 @@ class DossierController extends Controller
         $test   = Dossier::orderBy('ID_DOSSIER', 'desc')->first();
 
         if (empty($test)) {
-
             $id = 1;
         } else {
             $id = $test->ID_DOSSIER + 1;

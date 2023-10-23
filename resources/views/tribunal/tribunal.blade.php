@@ -40,13 +40,9 @@
             </ul>
         </div>
     </div>
-
     <div class="tab-content" id="myTabContent">
-
         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-
             <div class="row">
-
                 <div class="card">
                     <div class="card-header d-block">
                         <h3>Listes Tribunaux</h3>

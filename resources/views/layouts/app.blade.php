@@ -198,9 +198,8 @@
                                     <a href="{{ url('huissier') }}" class="menu-item">Huissier</a>
                                     <a href="{{ url('tribunal') }}" class="menu-item">Tribunal</a>
                                     <a href="{{ url('expert') }}" class="menu-item">Expert</a>
-                                    <a href="{{ url('currateur') }}" class="menu-item">Currateur</a>
                                     <a href="{{ url('nature') }}" class="menu-item">Nature</a>
-                                    <a href="{{ url('region') }}" class="menu-item">Ville</a>
+                                    <a href="{{ url('ville') }}" class="menu-item">Ville</a>
 
 
 

@@ -13,6 +13,7 @@ use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\MajdossierController;
 use App\Http\Controllers\TribunalController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VilleController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest');
@@ -122,7 +123,7 @@ Route::post('/expert/nouveau', [ExpertController::class, "nouveau"]);
 Route::post('/expert/modifier', [ExpertController::class, "modifier"]);
 
 
-//currateur
-Route::get('/currateur', [CurrateurController::class, 'index'])->name('currateur');
-Route::post('/currateur/nouveau', [CurrateurController::class, "nouveau"]);
-Route::post('/currateur/modifier', [CurrateurController::class, "modifier"]);
+//ville
+Route::get('/ville', [VilleController::class, 'index'])->name('ville');
+Route::post('/ville/nouveau', [VilleController::class, 'nouveau']);
+Route::post('/ville/modifier', [VilleController::class, 'modifier']);

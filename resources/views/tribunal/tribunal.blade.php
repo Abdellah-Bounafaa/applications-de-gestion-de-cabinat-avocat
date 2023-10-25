@@ -52,12 +52,11 @@
                             <thead class="text-center">
                                 <tr>
                                     <th class="nosort"><i class="ik ik-settings"></i></th>
-                                    <th>ID_TRIBUNAL</th>
+                                    <th>Id Tribunal</th>
                                     <th>Ville</th>
-                                    <th>NOM_TRIBUNAL</th>
-                                    <th>LIBELLE</th>
-                                    <th>TYPE TRIBUNAL</th>
-                                    <th>NUM_TRIBUNAL</th>
+                                    <th>Nom De Tribunal</th>
+                                    <th>Type De Tribunal</th>
+                                    <th>Numéro De Tribunal</th>
                                 </tr>
                             </thead>
                             <tbody class="text-center">
@@ -77,7 +76,6 @@
                                             {{ $row->ville->NOM_VILLE }}
                                         </td>
                                         <td>{{ $row->NOM_TRIBUNAL }}</td>
-                                        <td>{{ $row->LIBELLE }}</td>
                                         <td>{{ $row->type_tribunal->NOM }}</td>
                                         <td>{{ $row->NUM_TRIBUNAL }}</td>
                                     </tr>

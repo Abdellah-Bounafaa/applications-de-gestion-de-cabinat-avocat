@@ -181,8 +181,8 @@
 
                             <div class="nav-lavel text-center" style="background-color: black">
                                 <img src="{{ asset('theme/img/user1.jpg') }}" class="btn btn-icon btn-outline">
-                                <small class="badge badge-success">{{ strtoupper(Session::get('nom')) }}
-                                    {{ strtoupper(Session::get('prenom')) }} </small><br>
+                                <small class="badge badge-success">{{ strtoupper(auth()->user()->NOM) }}
+                                    {{ strtoupper(auth()->user()->PRENOM) }} </small><br>
                                 <small style="color:white"><i class="fa fa-circle text-green"></i> En ligne</small>
                             </div>
                             <div class="nav-lavel">Principale</div>

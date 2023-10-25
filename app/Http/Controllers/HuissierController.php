@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Huissier;
+use App\Models\Ville;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -15,8 +16,9 @@ class HuissierController extends Controller
 {
     public function index()
     {
+        $villes = Ville::all();
         $huissier = Huissier::orderBy('ID_HUISSIER', 'ASC')->get();
-        return view('huissier.huissier', compact('huissier'));
+        return view('huissier.huissier', compact('huissier', 'villes'));
     }
 
 
@@ -29,6 +31,7 @@ class HuissierController extends Controller
         $huissier->ADRESS         = $tableau[3];
         $huissier->TELEPHONE          = $tableau[4];
         $huissier->EMAIL        = $tableau[5];
+        $huissier->ID_VILLE        = $tableau[6];
         $huissier->save();
     }
 
@@ -46,6 +49,7 @@ class HuissierController extends Controller
         $huissier->ADRESS          = $request->ADRESS;
         $huissier->TELEPHONE        = $request->TELEPHONE;
         $huissier->EMAIL            = $request->EMAIL;
+        $huissier->ID_VILLE            = $request->ID_VILLE;
         if ($huissier->save()) {
             return back()->with(Session::flash('nouveau'));
         }

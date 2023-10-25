@@ -54,7 +54,6 @@
                             <thead class="text-center">
                                 <tr>
                                     <th class="nosort"><i class="ik ik-settings"></i></th>
-                                    <th>Id Ville</th>
                                     <th>Nom Ville</th>
                                 </tr>
                             </thead>
@@ -66,7 +65,6 @@
                                                 data-id_ville="{{ $row->ID_VILLE }}"
                                                 data-nom_ville="{{ $row->NOM_VILLE }}"><i class="ik ik-edit"></i></button>
                                         </td>
-                                        <td>{{ $row->ID_VILLE }}</td>
                                         <td>{{ $row->NOM_VILLE }}</td>
                                     </tr>
                                 @endforeach

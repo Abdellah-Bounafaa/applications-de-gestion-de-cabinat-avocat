@@ -25,8 +25,8 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="col-form-label col-form-label-sm">ID EXPERT : </label>
-                                    <input type="number" class="form-control form-control-sm" placeholder="ID EXPERT"
+                                    <label class="col-form-label col-form-label-sm">Id Expert : </label>
+                                    <input type="number" class="form-control form-control-sm" placeholder="Id Expert"
                                         id="ID_EXPERT" name="ID_EXPERT" required>
                                 </div>
                             </div>
@@ -34,9 +34,22 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="col-form-label col-form-label-sm">NOM : </label>
-                                    <input type="text" name="NOM" id="NOM" placeholder="NOM EXPERT"
+                                    <label class="col-form-label col-form-label-sm">Nom : </label>
+                                    <input type="text" name="NOM" id="NOM" placeholder="Nom"
                                         class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-form-label col-form-label-sm">Ville : </label>
+                                    <select name="ID_VILLE" class="form-control" id="ville">
+                                        <option value="" disabled>Choisir Une Ville</option>
+                                        @foreach ($villes as $ville)
+                                            <option value="{{ $ville->ID_VILLE }}">{{ $ville->NOM_VILLE }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                         </div>

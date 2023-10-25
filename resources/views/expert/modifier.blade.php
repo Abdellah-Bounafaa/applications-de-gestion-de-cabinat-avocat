@@ -15,10 +15,21 @@
 
 
 
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="form-group">
-                            <label class="col-form-label col-form-label-sm" for="clientCity">NOM : </label><br>
-                            <input id="NOM_MOD" class="form-control" name="NOM" required>
+                            <label class="col-form-label col-form-label-sm" for="clientCity">Nom : </label><br>
+                            <input id="NOM_MOD" class="form-control" placeholder="Nom" name="NOM" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label col-form-label-sm">Ville : </label>
+                            <select name="ville" class="form-control" id="Ville_MOD">
+                                <option value="" disabled>Choisir Une Ville</option>
+                                @foreach ($villes as $ville)
+                                    <option value="{{ $ville->ID_VILLE }}">{{ $ville->NOM_VILLE }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
 

@@ -381,16 +381,12 @@ class MajdossierController extends Controller
 
     public function procedureRequete(Request $request)
     {
-
         $id_dossier = $request->id_dossier;
         $id_procedure = $request->id_procedure;
-
         $requete   = Requete::where('ID_DOSSIER', $id_dossier)
             ->where('ID_PROCEDURE', $id_procedure)
             ->latest('DATE_RETRAIT')
             ->get();
-
-
         echo json_encode($requete);
     }
 

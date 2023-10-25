@@ -12,4 +12,8 @@ class Huissier extends Model
     //Laravel Unknown Column 'updated_at'
 
     public $timestamps = false;
+    public function ville()
+    {
+        return $this->belongsTo(Ville::class, 'ID_VILLE');
+    }
 }

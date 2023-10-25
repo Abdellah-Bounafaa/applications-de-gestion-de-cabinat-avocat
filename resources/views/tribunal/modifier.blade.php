@@ -15,8 +15,8 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="col-form-label col-form-label-sm">NOM TRIBUNAL : </label>
-                            <input type="text" class="form-control form-control-sm" placeholder="NOM TRIBUNAL"
+                            <label class="col-form-label col-form-label-sm">Nom De Tribunal : </label>
+                            <input type="text" class="form-control form-control-sm" placeholder="Nom De Tribunal"
                                 id="NOM_TRIBUNAL_MOD" name="NOM_TRIBUNAL" required>
                         </div>
                     </div>
@@ -24,7 +24,7 @@
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="col-form-label col-form-label-sm">VILLE : </label>
+                            <label class="col-form-label col-form-label-sm">Ville : </label>
                             <select name="ID_VILLE" id="ID_VILLE_MOD" class="form-control" id="" required>
                                 @foreach ($villes as $ville)
                                     <option value="{{ $ville->ID_VILLE }}">{{ $ville->NOM_VILLE }}</option>
@@ -41,7 +41,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="col-form-label col-form-label-sm">TYPE TRIBUNAL : </label>
+                            <label class="col-form-label col-form-label-sm">Type De Tribunal : </label>
                             <select name="ID_TTRIBUNAL" id="ID_TTRIBUNAL_MOD" class="form-control" id=""
                                 required>
                                 @foreach ($type_tribunal as $type)
@@ -56,8 +56,8 @@
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="col-form-label col-form-label-sm">LIBELLE : </label>
-                            <input type="number" class="form-control form-control-sm" placeholder="LIBELLE"
+                            <label class="col-form-label col-form-label-sm">Libellé : </label>
+                            <input type="number" class="form-control form-control-sm" placeholder="Libellé"
                                 id="LIBELLE_MOD" name="LIBELLE" required>
                         </div>
                     </div>
@@ -65,8 +65,8 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="col-form-label col-form-label-sm">NUM TRIBUNAL : </label>
-                            <input type="text" class="form-control form-control-sm" placeholder="NUM_TRIBUNAL"
+                            <label class="col-form-label col-form-label-sm">Num De Tribunal : </label>
+                            <input type="text" class="form-control form-control-sm" placeholder="Num De Tribunal"
                                 id="NUM_TRIBUNAL_MOD" name="NUM_TRIBUNAL" required>
                         </div>
                     </div>

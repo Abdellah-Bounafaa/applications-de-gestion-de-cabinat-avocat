@@ -55,15 +55,13 @@
                             <thead class="text-center">
                                 <tr>
                                     <th class="nosort"><i class="ik ik-settings"></i></th>
-                                    <th>Date_Création</th>
                                     <th>CIN</th>
-                                    <th>NIVEAU</th>
-                                    <th>PRENOM</th>
-                                    <th>NOM</th>
-                                    <th>ADRESE</th>
-                                    <th>TEL</th>
-                                    <th>EMAIL</th>
-                                    <th>POSTE</th>
+                                    <th>Nom</th>
+                                    <th>Prénom</th>
+                                    <th>Niveau</th>
+                                    <th>Numéro De Téléphone</th>
+                                    <th>Email</th>
+                                    <th>Poste</th>
                                 </tr>
                             </thead>
                             <tbody class="text-center">
@@ -76,12 +74,10 @@
                                                 data-poste="{{ $row->POSTE }}" data-adresse="{{ $row->ADRESSE }}"
                                                 data-tel="{{ $row->TEL }}" data-login="{{ $row->LOGIN }}"><i
                                                     class="ik ik-edit"></i></button></td>
-                                        <td>{{ $row->CREATED }}</td>
                                         <td>{{ $row->CIN }}</td>
-                                        <td>{{ $row->NOM_NIVEAU }}</td>
-                                        <td>{{ $row->PRENOM }}</td>
                                         <td>{{ $row->NOM }}</td>
-                                        <td>{{ $row->ADRESSE }}</td>
+                                        <td>{{ $row->PRENOM }}</td>
+                                        <td>{{ $row->NOM_NIVEAU }}</td>
                                         <td>{{ $row->TEL }}</td>
                                         <td>{{ $row->EMAIL }}</td>
                                         <td>{{ $row->POSTE }}</td>

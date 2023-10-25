@@ -17,4 +17,16 @@ class Ville extends Model
     {
         return $this->hasMany(Tribunal::class, "ID_VILLE", "ID_VILLE");
     }
+    // public function expert()
+    // {
+    //     return $this->hasMany(Expert::class, 'ID_VILLE', 'ID_VILLE');
+    // }
+    public function expert()
+    {
+        return $this->hasMany(Expert::class, 'ID_VILLE', 'ID_VILLE');
+    }
+    public function huissier()
+    {
+        return $this->hasMany(Huissier::class, 'ID_VILLE', 'ID_VILLE');
+    }
 }

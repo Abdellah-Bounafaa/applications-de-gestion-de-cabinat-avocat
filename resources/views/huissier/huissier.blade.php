@@ -9,8 +9,6 @@
 
 @section('contenu')
     <div class="card">
-
-
         <div class="card-header">
             <h3> Gestion Huissier</h3>
             <div class="card-header-right">
@@ -20,8 +18,6 @@
                     <li><i class="ik ik-x close-card"></i></li>
                 </ul>
             </div>
-
-
         </div>
         <div class="card-body">
             <ul class="nav nav-pills nav-fill">
@@ -55,12 +51,13 @@
                             <thead class="text-center">
                                 <tr>
                                     <th class="nosort"><i class="ik ik-settings"></i></th>
-                                    <th>ID_HUISSIER</th>
-                                    <th>NOM</th>
-                                    <th>PRENOM</th>
-                                    <th>ADRESE</th>
-                                    <th>TEL</th>
-                                    <th>EMAIL</th>
+                                    <th>Id Huissier</th>
+                                    <th>Nom</th>
+                                    <th>Prénom</th>
+                                    <th>Adresse</th>
+                                    <th>Numéro De Téléphone</th>
+                                    <th>Email</th>
+                                    <th>Ville</th>
                                 </tr>
                             </thead>
                             <tbody class="text-center">
@@ -70,24 +67,24 @@
                                                 data-toggle="modal" data-target="#edition"
                                                 data-id_huissier="{{ $row->ID_HUISSIER }}" data-prenom="{{ $row->PRENOM }}"
                                                 data-nom="{{ $row->NOM }}" data-email="{{ $row->EMAIL }}"
-                                                data-adresse="{{ $row->ADRESS }}" data-telephone="{{ $row->TELEPHONE }}"><i
-                                                    class="ik ik-edit"></i></button></td>
+                                                data-adresse="{{ $row->ADRESS }}" data-telephone="{{ $row->TELEPHONE }}"
+                                                data-id_ville="{{ $row->ID_VILLE }}"><i class="ik ik-edit"></i></button>
+                                        </td>
                                         <td>{{ $row->ID_HUISSIER }}</td>
                                         <td>{{ $row->PRENOM }}</td>
                                         <td>{{ $row->NOM }}</td>
                                         <td>{{ $row->ADRESS }}</td>
                                         <td>{{ $row->TELEPHONE }}</td>
                                         <td>{{ $row->EMAIL }}</td>
-
+                                        <td> {{ isset($row->ville->NOM_VILLE) ? $row->ville->NOM_VILLE : '' }}
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
-
                         </table>
                     </div>
                 </div>
             </div>
-
         </div>
 
         <div class="tab-pane fade" id="nouveau" role="tabpanel" aria-labelledby="nouveau-tab">
@@ -320,6 +317,7 @@
             var adress = $(this).data('adresse');
             var tel = $(this).data('telephone');
             var email = $(this).data('email');
+            var id_ville = $(this).data('id_ville');
 
 
 
@@ -329,6 +327,7 @@
             $('#ADRESS_MOD').val(adress);
             $('#TEL_MOD').val(tel);
             $('#EMAIL_MOD').val(email);
+            $('#VILLE_MOD').val(email);
 
         });
 
@@ -346,9 +345,10 @@
             var adresse = $('#ADRESS_MOD').val();
             var tel = $('#TEL_MOD').val();
             var email = $('#EMAIL_MOD').val();
+            var ville = $('#VILLE_MOD').val();
 
             var fruits = new Array();
-            fruits = [id_huissier, nom, prenom, adresse, tel, email];
+            fruits = [id_huissier, nom, prenom, adresse, tel, email, ville];
             $.ajax({
                 url: "{{ url('huissier/modifier') }}",
                 method: "POST",

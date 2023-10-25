@@ -56,8 +56,9 @@
                             <thead class="text-center">
                                 <tr>
                                     <th class="nosort"><i class="ik ik-settings"></i></th>
-                                    <th>ID EXPERT</th>
-                                    <th>NOM</th>
+                                    <th>Id Expert</th>
+                                    <th>Nom</th>
+                                    <th>Ville</th>
                                 </tr>
                             </thead>
                             <tbody class="text-center">
@@ -65,12 +66,15 @@
                                     <tr>
                                         <td><button data-role="update" class="btn-icon btn-outline-success"
                                                 data-toggle="modal" data-target="#edition"
-                                                data-id_expert="{{ $row->ID_EXPERT }}" data-nom="{{ $row->NOM }}"><i
-                                                    class="ik ik-edit"></i></button>
+                                                data-id_expert="{{ $row->ID_EXPERT }}" data-nom="{{ $row->NOM }}"
+                                                data-ville="{{ $row->ville }}"><i class="ik ik-edit"></i></button>
                                         </td>
                                         <td>{{ $row->ID_EXPERT }}</td>
                                         <td>
                                             {{ $row->NOM }}
+                                        </td>
+                                        <td>
+                                            {{ isset($row->ville->NOM_VILLE) ? $row->ville->NOM_VILLE : '' }}
                                         </td>
                                     </tr>
                                 @endforeach
@@ -213,8 +217,10 @@
         $(document).on('click', 'button[data-role=update]', function() {
             var id_expert = $(this).data('id_expert');
             var nom = $(this).data('nom');
+            var ville = $(this).data('ville');
             $('#ID_EXPERT_MOD').html(id_expert);
             $('#NOM_MOD').val(nom);
+            $('#Ville_MOD').val(ville);
         });
 
 
@@ -223,8 +229,9 @@
         $(document).on('click', 'button[data-role=sauvegarder]', function() {
             var id_expert = $('#ID_EXPERT_MOD').html();
             var nom = $('#NOM_MOD').val();
+            var ville = $('#Ville_MOD').val();
             var donnees = new Array();
-            donnees = [id_expert, nom];
+            donnees = [id_expert, nom, ville];
             $.ajax({
                 url: "{{ url('/expert/modifier') }}",
                 method: "POST",

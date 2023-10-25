@@ -25,8 +25,8 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="col-form-label col-form-label-sm">ID TRIBUNAL : </label>
-                                    <input type="number" class="form-control form-control-sm" placeholder="ID TRIBUNAL"
+                                    <label class="col-form-label col-form-label-sm">Id Tribunal : </label>
+                                    <input type="number" class="form-control form-control-sm" placeholder="Id Tribunal"
                                         id="ID_TRIBUNAL" name="ID_TRIBUNAL" required>
                                 </div>
                             </div>
@@ -34,7 +34,7 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="col-form-label col-form-label-sm">VILLE : </label>
+                                    <label class="col-form-label col-form-label-sm">Ville : </label>
                                     <select name="ID_VILLE" id="ID_VILLE" class="form-control" id="" required>
                                         <option selected disabled>Choisir..</option>
                                         @foreach ($villes as $ville)
@@ -52,7 +52,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="col-form-label col-form-label-sm">TYPE TRIBUNAL : </label>
+                                    <label class="col-form-label col-form-label-sm">Type De Tribunal : </label>
                                     <select name="ID_TTRIBUNAL" id="ID_TTRIBUNAL" class="form-control" id=""
                                         required>
                                         <option selected disabled>Choisir..</option>
@@ -64,26 +64,19 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="col-form-label col-form-label-sm">NOM TRIBUNAL : </label>
+                                    <label class="col-form-label col-form-label-sm">Nom De Tribunal : </label>
                                     <input type="text" class="form-control form-control-sm"
                                         placeholder="NOM_TRIBUNAL" id="NOM_TRIBUNAL" name="NOM_TRIBUNAL" required>
                                 </div>
                             </div>
-
-
-
-
-
-
-
                         </div>
 
 
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="col-form-label col-form-label-sm">LIBELLE : </label>
-                                    <input type="number" class="form-control form-control-sm" placeholder="LIBELLE"
+                                    <label class="col-form-label col-form-label-sm">Libellé : </label>
+                                    <input type="number" class="form-control form-control-sm" placeholder="Libellé"
                                         id="LIBELLE" name="LIBELLE" required>
                                 </div>
                             </div>
@@ -91,13 +84,11 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="col-form-label col-form-label-sm">NUM TRIBUNAL : </label>
+                                    <label class="col-form-label col-form-label-sm">Num De Tribunal : </label>
                                     <input type="text" class="form-control form-control-sm"
-                                        placeholder="NUM_TRIBUNAL" id="NUM_TRIBUNAL" name="NUM_TRIBUNAL" required>
+                                        placeholder="Num De Tribunal" id="NUM_TRIBUNAL" name="NUM_TRIBUNAL" required>
                                 </div>
                             </div>
-
-
                         </div>
                     </div>
 
@@ -109,17 +100,7 @@
             <div class="card task-board">
 
                 <div class="card-body todo-task">
-
-
-
                     <button data-role="inserer" type="submit" class="btn btn-info" style="width:100%">Ajouter</button>
-
-
-
-
-
-
-
                 </div>
             </div>
         </div>

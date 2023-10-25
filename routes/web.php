@@ -46,7 +46,7 @@ Route::get('/consultations', [ConsultationController::class, 'index']);
 Route::post('/consultations/etapes', [ConsultationController::class, 'etapes']);
 Route::post('/consultations/update', [ConsultationController::class, 'update']);
 Route::post('/consultations/search/etape', [ConsultationController::class, "get_etape_data"]);
-Route::post('/consultations/update-etape', [ConsultationController::class, "update_etape"]);
+// Route::post('/consultations/update-item', [ConsultationController::class, "update_item"]);
 
 
 

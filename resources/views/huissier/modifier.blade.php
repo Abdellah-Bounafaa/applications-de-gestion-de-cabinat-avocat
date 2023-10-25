@@ -10,78 +10,61 @@
                         aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
-
-
                 <div class="row">
-
-
-
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label class="col-form-label col-form-label-sm" for="clientCity">NOM : </label><br>
+                            <label class="col-form-label col-form-label-sm" for="clientCity">Nom : </label><br>
+                            <input id="NOM_MOD" class="form-control" name="NOM" placeholder="Nom" required>
+                        </div>
+                    </div>
+                </div>
 
-
-                            <input id="NOM_MOD" class="form-control" name="NOM" required>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label col-form-label-sm" for="clientCity">Prénom : </label><br>
+                            <input id="PRENOM_MOD" class="form-control" placeholder="Prénom" required>
 
                         </div>
                     </div>
-
-
-
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label col-form-label-sm" for="clientCity">Adresse : </label><br>
+                            <input id="ADRESS_MOD" class="form-control" placeholder="Adresse" required>
+                        </div>
+                    </div>
                 </div>
 
 
 
                 <div class="row">
-
-
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="col-form-label col-form-label-sm" for="clientCity">PRENOM : </label><br>
-
-
-                            <input id="PRENOM_MOD" class="form-control" required>
-
+                            <label class="col-form-label col-form-label-sm" for="clientCity">Numéro De Téléphone :
+                            </label><br>
+                            <input id="TEL_MOD" class="form-control" placeholder="Numéro De Téléphone" required>
                         </div>
                     </div>
-
-
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="col-form-label col-form-label-sm" for="clientCity">ADRESS : </label><br>
-
-
-                            <input id="ADRESS_MOD" class="form-control" required>
-
+                            <label class="col-form-label col-form-label-sm" for="clientCity">Email : </label><br>
+                            <input id="EMAIL_MOD" class="form-control" placeholder="Email" required>
                         </div>
                     </div>
 
                 </div>
-
-
-
                 <div class="row">
-
-
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="col-form-label col-form-label-sm" for="clientCity">TELEPHONE : </label><br>
-
-
-                            <input id="TEL_MOD" class="form-control" required>
-
+                            <label class="col-form-label col-form-label-sm">Ville : </label>
+                            <select name="ville" class="form-control" id="VILLE_MOD">
+                                <option value="" disabled>Choisir Une Ville</option>
+                                @foreach ($villes as $ville)
+                                    <option value="{{ $ville->ID_VILLE }}">{{ $ville->NOM_VILLE }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
-
-
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="col-form-label col-form-label-sm" for="clientCity">EMAIL : </label><br>
-                            <input id="EMAIL_MOD" class="form-control" required>
-
-                        </div>
-                    </div>
-
                 </div>
 
 

@@ -234,6 +234,7 @@
 
 
         var user = @json($user);
+        var users = @json($users);
         var tribunaux = @json($tribunaux);
         var dossiers = @json($dossiers);
         var huissiers = @json($huissiers);
@@ -527,12 +528,12 @@
 
 
                             if (res.ETAT_JUGEMENT == 0) {
-                                var etat = '<span class="badge badge-info">EN_COURS</span>';
+                                var etat = '<span class="badge badge-info">En Cours</span>';
                             } else if (res.ETAT_JUGEMENT == null) {
 
                                 var etat = '';
                             } else {
-                                var etat = '<span class="badge badge-danger">FERME</span>';
+                                var etat = '<span class="badge badge-danger">Fermé</span>';
 
                             }
                             var document = '/jugement/' + res.URL_JUGEMENT + '';
@@ -554,7 +555,8 @@
                                 res.ID_JUGEMENT + '</td><td>' + res.NUM_DOSSIER +
                                 '</td><td>' + res.NOM_TRIBUNAL + '</td><td>' + res
                                 .REF_TRIBU + '</td><td>' + res.JUGE + '</td><td>' + res
-                                .DATE_JUGEMENT + '</td>' + '<td>' + (res.URL_JUGEMENT ===
+                                .DATE_JUGEMENT + '</td><td>' + res.SORT + '</td><td>' +
+                                etat + '</td><td>' + (res.URL_JUGEMENT ===
                                     null ?
                                     "Pas De Fichier" :
                                     '<a href="' + document +
@@ -908,15 +910,15 @@
                 var date_jugement = $(this).data('date_jugement');
                 var etat_requete = $(this).data('etat_requete');
 
-                // $('#title_modification').html(nom_procedure + ' / ' + nom_etape + ' :' + id_requete + ' / ' + user
-                //     .CIN);
+                $('#title_modification').html(nom_procedure + ' / ' + nom_etape + ' :' + id_requete + ' / ' + user
+                    .CIN);
 
-                var updated_at = $(this).data('updated_at');
-                $('#title_modification').html('<div><h6>Requete : ' + '<b>' + id_requete + '</b>' + ' / ' +
-                    'CIN : ' + '<b>' + user
-                    .CIN + '</b>' + '</h6>' + (updated_at ? '<p> Dernière Modification : ' + '<b>' +
-                        updated_at + '</b>' +
-                        '</p>' + '</div>' : ""));
+                // var updated_at = $(this).data('updated_at');
+                // $('#title_modification').html('<div><h6>Requete : ' + '<b>' + id_requete + '</b>' + ' / ' +
+                //     'CIN : ' + '<b>' + user
+                //     .CIN + '</b>' + '</h6>' + (updated_at ? '<p> Dernière Modification : ' + '<b>' +
+                //         updated_at + '</b>' +
+                //         '</p>' + '</div>' : ""));
 
 
                 $('#contenu_modification').append(
@@ -1406,6 +1408,9 @@
                                 '" data-nom_procedure="' + data[0][0].nom_procedure +
                                 '" data-updated_at="' + (res.UPDATED_AT ? res.UPDATED_AT :
                                     '') +
+                                '" data-modifier_par="' + (res.MODIFIE_PAR ? res
+                                    .MODIFIE_PAR :
+                                    '') +
                                 // Check for updated_at existence
                                 '" data-id_procedure="' + data[0][0].id_procedure +
                                 '" data-id_requete="' + res.ID_REQUETE +
@@ -1466,6 +1471,9 @@
                                     res.UPDATED_AT :
                                     '') + '" data-id_procedure="' + data[0][0]
                                 .id_procedure + '"  data-id_audiance="' + res.ID_AUDIANCE +
+                                '" data-modifier_par="' + (res.MODIFIE_PAR ? res
+                                    .MODIFIE_PAR :
+                                    '') +
                                 '" data-id_dossier="' + res.ID_DOSSIER +
                                 '" data-num_dossier="' + dossier[0].NUM_DOSSIER +
                                 '" data-id_tribunal="' + res.ID_TRIBUNAL +
@@ -1519,6 +1527,9 @@
                                 '" data-id_dossier="' + res.ID_DOSSIER +
                                 '" data-updated_at="' + (res.UPDATED_AT ?
                                     res.UPDATED_AT :
+                                    '') +
+                                '" data-modifier_par="' + (res.MODIFIE_PAR ? res
+                                    .MODIFIE_PAR :
                                     '') +
                                 '" data-date_jugement="' + res.DATE_JUGEMENT +
                                 '" data-num_dossier="' + dossier[0].NUM_DOSSIER +
@@ -1583,6 +1594,9 @@
                                 '" data-updated_at="' + (res.UPDATED_AT ?
                                     res.UPDATED_AT :
                                     '') +
+                                '" data-modifier_par="' + (res.MODIFIE_PAR ? res
+                                    .MODIFIE_PAR :
+                                    '') +
                                 '" data-num_dossier="' + dossier[0].NUM_DOSSIER +
                                 '" data-id_huissier="' + res.ID_HUISSIER +
                                 '" data-date_envoie="' + res.DATE_ENVOI_NOT +
@@ -1639,6 +1653,8 @@
                                 '" data-id_dossier="' + res.ID_DOSSIER +
                                 '" data-updated_at="' + (res.UPDATED_AT ?
                                     res.UPDATED_AT :
+                                    '') + '" data-modifier_par="' + (res.MODIFIE_PAR ? res
+                                    .MODIFIE_PAR :
                                     '') +
                                 '" data-num_dossier="' + dossier[0].NUM_DOSSIER +
                                 '" data-id_tribunal="' + res.ID_TRIBUNAL +
@@ -1703,6 +1719,9 @@
                                 '"data-num_dossier="' + dossier[0].NUM_DOSSIER +
                                 '" data-updated_at="' + (res.UPDATED_AT ?
                                     res.UPDATED_AT :
+                                    '') +
+                                '" data-modifier_par="' + (res.MODIFIE_PAR ? res
+                                    .MODIFIE_PAR :
                                     '') +
                                 '"data-id_tribunal="' + res.ID_TRIBUNAL +
                                 '"data-ref_tribunal="' + res.REF_TRIBUNALE +
@@ -1780,6 +1799,8 @@
                                 '" data-id_dossier="' + res.ID_DOSSIER +
                                 '" data-updated_at="' + (res.UPDATED_AT ?
                                     res.UPDATED_AT :
+                                    '') + '" data-modifier_par="' + (res.MODIFIE_PAR ? res
+                                    .MODIFIE_PAR :
                                     '') +
                                 '" data-num_dossier="' + dossier[0].NUM_DOSSIER +
                                 '" data-id_huissier="' + res.ID_HUISSIER +
@@ -1931,6 +1952,7 @@
                                 '" data-id_dossier="' + res.ID_DOSSIER +
                                 '"data-id_procedure="' + res.ID_PROCEDURE +
                                 '"data-updated_at="' + res.UPDATED_AT +
+                                '"data-modifier_par="' + res.MODIFIE_PAR +
                                 '"data-cin="' + res.CIN +
                                 '" data-num_dossier="' + tribunal[0].NOM_TRIBUNAL +
                                 '" data-id_tribunal="' + res.ID_TRIBUNAL +
@@ -1992,6 +2014,7 @@
                                 '" data-id_audiance="' + res.ID_AUDIANCE +
                                 '" data-id_dossier="' + res.ID_DOSSIER +
                                 '" data-updated_at="' + res.UPDATED_AT +
+                                '"data-modifier_par="' + res.MODIFIE_PAR +
                                 '" data-num_dossier="' + dossier[0].NUM_DOSSIER +
                                 '" data-id_tribunal="' + res.ID_TRIBUNAL +
                                 '" data-date_creation="' + res.DATE_CREATION +
@@ -2045,6 +2068,7 @@
                                 '" data-id_etape="' + etape +
                                 '" data-id_jugement="' + res.ID_JUGEMENT +
                                 '" data-updated_at="' + res.UPDATED_AT +
+                                '"data-modifier_par="' + res.MODIFIE_PAR +
                                 // '" data-id_dossier="' + res.ID_DOSSIER +
                                 '" data-num_dossier="' + dossier[0].NUM_DOSSIER +
                                 '" data-id_tribunal="' + res.ID_TRIBUNAL +
@@ -2106,6 +2130,7 @@
                                 '" data-id_notification="' + res.ID_NOTIFICATION +
                                 '" data-id_dossier="' + res.ID_DOSSIER +
                                 '" data-updated_at="' + res.UPDATED_AT +
+                                '"data-modifier_par="' + res.MODIFIE_PAR +
                                 '" data-num_dossier="' + dossier[0].NUM_DOSSIER +
                                 '" data-id_huissier="' + huissier[0].ID_HUISSIER +
                                 '" data-date_envoie="' + res.DATE_ENVOI_NOT +
@@ -2157,6 +2182,7 @@
                                 '" data-id_etape="' + etape +
                                 '" data-id_cna="' + res.ID_CNA +
                                 '" data-updated_at="' + res.UPDATED_AT +
+                                '"data-modifier_par="' + res.MODIFIE_PAR +
                                 // '" data-id_dossier="' + res.ID_DOSSIER +
                                 '" data-num_dossier="' + dossier[0].NUM_DOSSIER +
                                 '" data-id_tribunal="' + res.ID_TRIBUNAL +
@@ -2217,6 +2243,7 @@
                                 '"data-id_currateur="' + res.ID_CURRATEUR +
                                 '"data-num_dossier="' + dossier[0].NUM_DOSSIER +
                                 '" data-updated_at="' + res.UPDATED_AT +
+                                '"data-modifier_par="' + res.MODIFIE_PAR +
                                 '"data-id_tribunal="' + res.ID_TRIBUNAL +
                                 '"data-ref_tribunal="' + res.REF_TRIBUNALE +
                                 '"data-date_ordonnance="' + res.DATE_ORDONANCE +
@@ -2283,6 +2310,7 @@
                                 '" data-id_execution="' + res.ID_EXECUTION +
                                 '" data-id_dossier="' + res.ID_DOSSIER +
                                 '" data-updated_at="' + res.UPDATED_AT +
+                                '"data-modifier_par="' + res.MODIFIE_PAR +
                                 '" data-num_dossier="' + dossier[0].NUM_DOSSIER +
                                 '" data-id_huissier="' + res.ID_HUISSIER +
                                 '" data-date_envoie="' + res.DATE_ENVOI +
@@ -2332,11 +2360,17 @@
                 var etat_requete = $(this).data('etat_requete');
                 // $('#title_modification').html("Requete : " + id_requete + " / " + "CIN : " + user.CIN);
                 var updated_at = $(this).data('updated_at');
+                var modifier_par = $(this).data('modifier_par');
+                var modifier_par_nom = users.filter((user) => user
+                    .CIN === modifier_par);
                 $('#title_modification').html('<div><h6>Requete : ' + '<b>' + id_requete + '</b>' + ' / ' +
                     'CIN : ' + '<b>' + user
-                    .CIN + '</b>' + '</h6>' + (updated_at ? '<p> Dernière Modification : ' + '<b>' +
+                    .CIN + '</b>' + '</h6>' + '<div style="display:flex;gap:10px;font-size:14px">' + (
+                        updated_at ? '<span> Dernière Modification : ' + '<b>' +
                         updated_at + '</b>' +
-                        '</p>' : "") + '</div>');
+                        '</span>' : "") + (modifier_par ? '<span> Par : ' + '<b>' +
+                        modifier_par_nom[0].NOM + ' ' + modifier_par_nom[0].PRENOM + '</b>' +
+                        '</span>' : "") + '</div>' + '</div>');
                 $('#contenu_modification').append(
                     '<div class="row"><input type="hidden" class="form-control text-center form-control-success" id="id_etape" name="id_etape" value="' +
                     etape +
@@ -2381,11 +2415,17 @@
                 var etat_audiance = $(this).data('etat_audiance');
                 // $('#title_modification').html("Audiance : " + id_audiance + " / " + "CIN : " + user.CIN);
                 var updated_at = $(this).data('updated_at');
+                var modifier_par = $(this).data('modifier_par');
+                var modifier_par_nom = users.filter((user) => user
+                    .CIN === modifier_par);
                 $('#title_modification').html('<div><h6>Audiance : ' + '<b>' + id_audiance + '</b>' + ' / ' +
                     'CIN : ' + '<b>' + user
-                    .CIN + '</b>' + '</h6>' + (updated_at ? '<p> Dernière Modification : ' + '<b>' +
+                    .CIN + '</b>' + '</h6>' + '<div style="display:flex;gap:10px;font-size:14px">' + (
+                        updated_at ? '<span> Dernière Modification : ' + '<b>' +
                         updated_at + '</b>' +
-                        '</p>' : "") + '</div>');
+                        '</span>' : "") + (modifier_par ? '<span> Par : ' + '<b>' +
+                        modifier_par_nom[0].NOM + ' ' + modifier_par_nom[0].PRENOM + '</b>' +
+                        '</span>' : "") + '</div>' + '</div>');
                 $('#contenu_modification').append(
                     '<div class="row"><input type="hidden" class="form-control text-center form-control-success" id="id_etape" name="id_etape" value="' +
                     etape +
@@ -2421,11 +2461,17 @@
                 var etat_jugement = $(this).data('etat_jugement');
                 // $('#title_modification').html("Jugement : " + id_jugement + " / " + "CIN : " + user.CIN);
                 var updated_at = $(this).data('updated_at');
+                var modifier_par = $(this).data('modifier_par');
+                var modifier_par_nom = users.filter((user) => user
+                    .CIN === modifier_par);
                 $('#title_modification').html('<div><h6>Jugement : ' + '<b>' + id_jugement + '</b>' + ' / ' +
                     'CIN : ' + '<b>' + user
-                    .CIN + '</b>' + '</h6>' + (updated_at ? '<p> Dernière Modification : ' + '<b>' +
+                    .CIN + '</b>' + '</h6>' + '<div style="display:flex;gap:10px;font-size:14px">' + (
+                        updated_at ? '<span> Dernière Modification : ' + '<b>' +
                         updated_at + '</b>' +
-                        '</p>' : "") + '</div>');
+                        '</span>' : "") + (modifier_par ? '<span> Par : ' + '<b>' +
+                        modifier_par_nom[0].NOM + ' ' + modifier_par_nom[0].PRENOM + '</b>' +
+                        '</span>' : "") + '</div>' + '</div>');
                 $('#contenu_modification').append(
                     '<div class="row"><input type="hidden" class="form-control text-center form-control-success" id="id_etape" name="id_etape" value="' +
                     etape +
@@ -2462,12 +2508,18 @@
                 var etat_notification = $(this).data('etat_notification');
                 // $('#title_modification').html("Notification : " + id_notification + " / " + "CIN : " + user.CIN);
                 var updated_at = $(this).data('updated_at');
+                var modifier_par = $(this).data('modifier_par');
+                var modifier_par_nom = users.filter((user) => user
+                    .CIN === modifier_par);
                 $('#title_modification').html('<div><h6>Notification : ' + '<b>' + id_notification + '</b>' +
                     ' / ' +
                     'CIN : ' + '<b>' + user
-                    .CIN + '</b>' + '</h6>' + (updated_at ? '<p> Dernière Modification : ' + '<b>' +
+                    .CIN + '</b>' + '</h6>' + '<div style="display:flex;gap:10px;font-size:14px">' + (
+                        updated_at ? '<span> Dernière Modification : ' + '<b>' +
                         updated_at + '</b>' +
-                        '</p>' : "") + '</div>');
+                        '</span>' : "") + (modifier_par ? '<span> Par : ' + '<b>' +
+                        modifier_par_nom[0].NOM + ' ' + modifier_par_nom[0].PRENOM + '</b>' +
+                        '</span>' : "") + '</div>' + '</div>');
                 $('#contenu_modification').append(
                     '<div class="row"><input type="hidden" class="form-control text-center form-control-success" id="id_etape" name="id_etape" value="' +
                     etape +
@@ -2502,12 +2554,18 @@
                 var reference_cna = $(this).data('reference_cna');
                 // $('#title_modification').html("CNA : " + id_cna + " / " + "CIN : " + user.CIN);
                 var updated_at = $(this).data('updated_at');
+                var modifier_par = $(this).data('modifier_par');
+                var modifier_par_nom = users.filter((user) => user
+                    .CIN === modifier_par);
                 $('#title_modification').html('<div><h6>CNA : ' + '<b>' + id_cna + '</b>' +
                     ' / ' +
                     'CIN : ' + '<b>' + user
-                    .CIN + '</b>' + '</h6>' + (updated_at ? '<p> Dernière Modification : ' + '<b>' +
+                    .CIN + '</b>' + '</h6>' + '<div style="display:flex;gap:10px;font-size:14px">' + (
+                        updated_at ? '<span> Dernière Modification : ' + '<b>' +
                         updated_at + '</b>' +
-                        '</p>' : "") + '</div>');
+                        '</span>' : "") + (modifier_par ? '<span> Par : ' + '<b>' +
+                        modifier_par_nom[0].NOM + ' ' + modifier_par_nom[0].PRENOM + '</b>' +
+                        '</span>' : "") + '</div>' + '</div>');
                 $('#contenu_modification').append(
                     '<div class="row"><input type="hidden" class="form-control text-center form-control-success" id="id_etape" name="id_etape" value="' +
                     etape +
@@ -2543,11 +2601,18 @@
                 var nom_journale = $(this).data('nom_journale');
                 var etat_currateur = $(this).data('etat_currateur');
                 var updated_at = $(this).data('updated_at');
+                var modifier_par = $(this).data('modifier_par');
+                var modifier_par_nom = users.filter((user) => user
+                    .CIN === modifier_par);
                 $('#title_modification').html('<div><h6>Currateur : ' + '<b>' + id_currateur + '</b>' + ' / ' +
                     'CIN : ' + '<b>' + user
-                    .CIN + '</b>' + '</h6>' + (updated_at ? '<p> Dernière Modification : ' + '<b>' +
+                    .CIN + '</b>' + '</h6>' +
+                    '<div style="display:flex;gap:10px;font-size:14px">' + (
+                        updated_at ? '<span> Dernière Modification : ' + '<b>' +
                         updated_at + '</b>' +
-                        '</p>' : "") + '</div>');
+                        '</span>' : "") + (modifier_par ? '<span> Par : ' + '<b>' +
+                        modifier_par_nom[0].NOM + ' ' + modifier_par_nom[0].PRENOM + '</b>' +
+                        '</span>' : "") + '</div>' + '</div>');
                 $('#contenu_modification').append(
                     '<div class="row"><input type="hidden" class="form-control text-center form-control-success" id="id_etape" name="id_etape" value="' +
                     etape +
@@ -2587,11 +2652,17 @@
                 var etat_execution = $(this).data('etat_execution');
                 // $('#title_modification').html("Execution : " + id_execution + " / " + "CIN : " + user.CIN);
                 var updated_at = $(this).data('updated_at');
+                var modifier_par = $(this).data('modifier_par');
+                var modifier_par_nom = users.filter((user) => user
+                    .CIN === modifier_par);
                 $('#title_modification').html('<div><h6>Execution : ' + '<b>' + id_execution + '</b>' + ' / ' +
                     'CIN : ' + '<b>' + user
-                    .CIN + '</b>' + '</h6>' + (updated_at ? '<p> Dernière Modification : ' + '<b>' +
+                    .CIN + '</b>' + '</h6>' + '<div style="display:flex;gap:10px;font-size:14px">' + (
+                        updated_at ? '<span> Dernière Modification : ' + '<b>' +
                         updated_at + '</b>' +
-                        '</p>' : "") + '</div>');
+                        '</span>' : "") + (modifier_par ? '<span> Par : ' + '<b>' +
+                        modifier_par_nom[0].NOM + ' ' + modifier_par_nom[0].PRENOM + '</b>' +
+                        '</span>' : "") + '</div>' + '</div>');
                 $('#contenu_modification').append(
                     '<div class="row"><input type="hidden" class="form-control text-center form-control-success" id="id_etape" name="id_etape" value="' +
                     etape +

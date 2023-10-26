@@ -16,6 +16,7 @@ use App\Models\Plainte;
 use App\Models\Procedure;
 use App\Models\Requete;
 use App\Models\Tribunal;
+use App\Models\User;
 use DateTime;
 use DateTimeZone;
 use Illuminate\Http\Request;
@@ -49,7 +50,7 @@ class ConsultationController extends Controller
         $executions = Execution::where('ETAT_EXEC', 0)->get();
         $currateurs = Currateur::where('ETAT_CURATEUR', 0)->get();
         $user = Auth::user();
-
+        $users = User::all();
         return view('consultation', compact(
             'dossier',
             'dossiers',
@@ -72,7 +73,8 @@ class ConsultationController extends Controller
             "notifications",
             "cnas",
             "executions",
-            "currateurs"
+            "currateurs",
+            "users"
         ));
     }
 
@@ -175,6 +177,7 @@ class ConsultationController extends Controller
             $requetes->DATE_JUGEMENT      = $request->date_jugement;
             $requetes->ETAT_REQUETE       = $request->etat_requete;
             $requetes->UPDATED_AT       = $time;
+            $requetes->MODIFIE_PAR       = Auth::user()->CIN;
             if ($url) {
                 $path = 'requete';
                 if (!File::exists(public_path($path))) {
@@ -191,14 +194,7 @@ class ConsultationController extends Controller
             $data[0]["nom_procedure"] = $request->nom_procedure;
             array_push($tableau, $data);
             if ($request->is_modify) {
-                $requete
-                    = Requete::where('ETAT_REQUETE', 0)->get();
-                //  Requete::join('tribunal', 'tribunal.ID_TRIBUNAL', '=', 'requete.ID_TRIBUNAL')
-                //     ->join('dossier', 'dossier.ID_DOSSIER', '=', 'requete.ID_DOSSIER')
-                //     ->where('requete.ID_PROCEDURE', $requetes->ID_PROCEDURE)
-                //     ->where('requete.CIN', auth()->user()->CIN)
-                //     ->where('ETAT_REQUETE', 0)
-                //     ->get();
+                $requete = Requete::where('ETAT_REQUETE', 0)->get();
             } else {
                 $requete = Requete::join('tribunal', 'tribunal.ID_TRIBUNAL', '=', 'requete.ID_TRIBUNAL')
                     ->join('dossier', 'dossier.ID_DOSSIER', '=', 'requete.ID_DOSSIER')
@@ -225,6 +221,7 @@ class ConsultationController extends Controller
             $requetes->SALLE              = $request->salle;
             $requetes->ETAT_AUD           = $request->etat_audiance;
             $requetes->UPDATED_AT       = $time;
+            $requetes->MODIFIE_PAR       = Auth::user()->CIN;
             if ($url) {
                 $path = 'audiance';
                 if (!File::exists(public_path($path))) {
@@ -267,6 +264,7 @@ class ConsultationController extends Controller
             $requetes->SORT               = $request->sort_jugement;
             $requetes->ETAT_JUGEMENT      = $request->etat_jugement;
             $requetes->UPDATED_AT       = $time;
+            $requetes->MODIFIE_PAR       = Auth::user()->CIN;
             if ($url) {
                 $path = 'jugement';
                 if (!File::exists(public_path($path))) {
@@ -313,6 +311,7 @@ class ConsultationController extends Controller
             $requetes->SORT               = $request->sort_notification;
             $requetes->ETAT_NOTIF      = $request->etat_notification;
             $requetes->UPDATED_AT       = $time;
+            $requetes->MODIFIE_PAR       = Auth::user()->CIN;
             if ($url) {
                 $path = 'notification';
                 if (!File::exists(public_path($path))) {
@@ -357,6 +356,7 @@ class ConsultationController extends Controller
             $requetes->REF_CNA            = $request->reference_cna;
             $requetes->cna_etat            = $request->etat_cna;
             $requetes->UPDATED_AT       = $time;
+            $requetes->MODIFIE_PAR       = Auth::user()->CIN;
             if ($url) {
                 $path = 'cna';
                 if (!File::exists(public_path($path))) {
@@ -402,6 +402,7 @@ class ConsultationController extends Controller
             $requetes->NOM_JOURNALE = $request->nom_journale;
             $requetes->ETAT_CURATEUR = $request->etat_currateur;
             $requetes->UPDATED_AT       = $time;
+            $requetes->MODIFIE_PAR       = Auth::user()->CIN;
             if ($request->file('fichier_currateur')) {
                 $path = 'currateurs';
                 $filename = $request->file('fichier_currateur')->getClientOriginalName();
@@ -445,6 +446,7 @@ class ConsultationController extends Controller
             $requetes->SORT               = $request->sort_execution;
             $requetes->ETAT_EXEC          = $request->etat_execution;
             $requetes->UPDATED_AT       = $time;
+            $requetes->MODIFIE_PAR       = Auth::user()->CIN;
             if ($url) {
                 $path = 'execution';
                 if (!File::exists(public_path($path))) {
@@ -485,9 +487,6 @@ class ConsultationController extends Controller
             $requetes->TYPE_PLAINTE       = $request->type_plainte;
             $requetes->ETAT_PLAINTE       = $request->etat_plainte;
             $requetes->REF_PLAINTE       = $request->reference_plainte;
-            // if ($url) {
-            //     $requetes->URL_PLAINTE          = $url->store('public/plainte');
-            // }
             if ($url) {
                 $path = 'plainte';
                 if (!File::exists(public_path($path))) {

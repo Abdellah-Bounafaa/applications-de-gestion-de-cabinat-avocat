@@ -47,20 +47,27 @@
                                 </div>
                             </div>
                             <!--
-                                        <div class="col text-right">
-                                            <a href="forgot-password.html">Forgot Password ?</a>
-                                        </div>
-    -->
+                                                        <div class="col text-right">
+                                                            <a href="forgot-password.html">Forgot Password ?</a>
+                                                        </div>
+                    -->
                         </div>
                         <div class="sign-btn text-center">
                             <button class="btn btn-theme">Connexion</button>
                         </div>
                     </form>
+                    @if ($errors->any())
+                        <div class="alert alert-danger text-center">
+                            @foreach ($errors->all() as $error)
+                                <span>{{ $error }}</span>
+                            @endforeach
+                        </div>
+                    @endif
                     <!--
-                                <div class="register">
-                                    <p>Don't have an account? <a href="register.html">Create an account</a></p>
-                                </div>
-    -->
+                                                <div class="register">
+                                                    <p>Don't have an account? <a href="register.html">Create an account</a></p>
+                                                </div>
+                    -->
                 </div>
             </div>
         </div>

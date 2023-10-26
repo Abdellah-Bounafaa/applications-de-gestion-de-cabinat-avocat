@@ -1537,6 +1537,20 @@ ALTER table execution
 ADD COLUMN UPDATED_AT datetime;
 ALTER table currateur
 ADD COLUMN UPDATED_AT datetime;
+Alter table requete
+add COLUMN MODIFIE_PAR varchar(15) DEFAULT NULL;
+Alter table audiance
+add COLUMN MODIFIE_PAR varchar(15) DEFAULT NULL;
+Alter table jugement
+add COLUMN MODIFIE_PAR varchar(15) DEFAULT NULL;
+Alter table notification
+add COLUMN MODIFIE_PAR varchar(15) DEFAULT NULL;
+Alter table cna
+add COLUMN MODIFIE_PAR varchar(15) DEFAULT NULL;
+Alter table execution
+add COLUMN MODIFIE_PAR varchar(15) DEFAULT NULL;
+Alter table currateur
+add COLUMN MODIFIE_PAR varchar(15) DEFAULT NULL;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

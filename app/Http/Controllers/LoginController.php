@@ -22,7 +22,7 @@ class LoginController extends Controller
     {
         $user = User::where("LOGIN", $request->login)->first();
         if (!$user || !Hash::check($request->password, $user->MDP)) {
-            return ['error' => 'The provided credentials are not correct'];
+            return back()->withErrors(['error' => "Les informations d'identification fournies ne sont pas correctes."]);
         }
         Auth::login($user);
         return redirect('dashboard');

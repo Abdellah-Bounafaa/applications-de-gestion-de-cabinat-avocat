@@ -48,7 +48,10 @@ class AdversaireController extends Controller
 
         $clients->DATE_CLT    = $time;
         $clients->NOM = $request->nom_adversaire;
-        $clients->PRENOM      = $request->prenom_adversaire;
+        if ($clients->ID_TYPET == 2)
+            $clients->PRENOM      = null;
+        else
+            $clients->PRENOM      = $request->prenom_adversaire;
         $clients->ADRESSE     = $request->adresse_adversaire;
         $clients->ADRESSE1    = $request->adresse1_adversaire;
         $clients->ADRESSE2    = $request->adresse2_adversaire;
@@ -101,25 +104,36 @@ class AdversaireController extends Controller
     {
         $tableau  = $request->fruits;
         $clients = Adversaire::where('ID_ADVERSAIRE', $tableau[8])->first();
+        $clients->IDENTIFIANT    = $tableau[0];
         $clients->ID_VILLE    = $tableau[5];
         $clients->ID_TYPET    = $tableau[7];
         $clients->NOM         = $tableau[1];
-        $clients->PRENOM      = $tableau[2];
+        if ($tableau[7] == 2)
+            $clients->PRENOM      = null;
+        else
+            $clients->PRENOM      = $tableau[2];
         $clients->ADRESSE     = $tableau[4];
         $clients->TEL         = $tableau[3];
         $clients->CAUTION     = $tableau[6];
         $clients->ADRESSE1     = $tableau[9];
         $clients->ADRESSE2     = $tableau[10];
         $clients->ADRESSE3    = $tableau[11];
+        $clients->TEl2    = $tableau[12];
+        $clients->EMAIL    = $tableau[13];
         $clients->save();
         if ($tableau[6] == 1) {
             $caution = Cautionnaire::where('ID_ADVERSAIRE', $tableau[8])->first();
-            $caution->NOM         = $tableau[12];
-            $caution->PRENOM      = $tableau[13];
-            $caution->IDENTIFIANT = $tableau[14];
-            $caution->TEL         = $tableau[15];
-            $caution->ID_TYPET    = $tableau[16];
-            $caution->ADRESSE     = $tableau[17];
+            $caution->NOM         = $tableau[14];
+            if ($tableau[16] == 2)
+                $caution->PRENOM      = null;
+            else
+                $caution->PRENOM      = $tableau[15];
+            $caution->IDENTIFIANT = $tableau[16];
+            $caution->TEL         = $tableau[17];
+            $caution->ID_TYPET    = $tableau[18];
+            $caution->ADRESSE     = $tableau[19];
+            $caution->EMAIL_CAUTIONNAIRE    = $tableau[20];
+            $caution->TEL2    = $tableau[21];
             $caution->save();
         }
     }

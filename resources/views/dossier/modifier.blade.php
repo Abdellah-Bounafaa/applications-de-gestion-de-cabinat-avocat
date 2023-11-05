@@ -17,8 +17,8 @@
 
             <div class="modal-header">
                 <h5 class="modal-title" id="fullwindowModalLabel">Dossier N° : <string id="numero_dossier"></string> /
-                    Radical_Client : <string id="radical_client"></string><input type="hidden" name="id_dossier"
-                        id="id_dossier"> / ID_DOSSIER : <string id="dossier_id"></string>
+                    Radical De Client : <string id="radical_client"></string><input type="hidden" name="id_dossier"
+                        id="id_dossier"> / ID De DOSSIER : <string id="dossier_id"></string>
                 </h5>
                 <button type="button" data-role="closer" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
@@ -69,7 +69,7 @@
 
 
                                             <tr>
-                                                <th>Radical_Cabinet </th>
+                                                <th>Radical De Cabinet </th>
                                                 <td>
                                                     <string id="radical_cabinet"></string>
                                                 </td>
@@ -79,8 +79,8 @@
                                             <tr>
                                                 <th>Créance</th>
                                                 <td class="text-center">
-                                                    <input type="number" name="montant" id="montant_creance"
-                                                        class="form-control" required />
+                                                    <input type="number" step="0.01" name="montant"
+                                                        id="montant_creance" class="form-control" required />
 
                                                 </td>
 
@@ -90,7 +90,7 @@
 
 
                                             <tr>
-                                                <th>Date_Ouverture </th>
+                                                <th>Date D'ouverture </th>
                                                 <td>
                                                     <string id="date_ouverture"></string>
                                                 </td>
@@ -116,28 +116,22 @@
                                         <tbody>
                                             <tr>
                                                 <th>Type</th>
-                                                <td><select name="type_dossier" class="chosen-select">
+                                                <td><select name="type_dossier" id="type_dossier" class="chosen-select">
                                                         @foreach ($typ as $typ)
                                                             <option value="{{ $typ->ID_TYPEDOSSIER }}">
                                                                 {{ $typ->NOM }}</option>
                                                         @endforeach
-
                                                     </select></td>
-
                                             </tr>
-
-
                                             <tr>
-                                                <th>Gestion_Utilisateur </th>
+                                                <th>Gestion D'utilisateur </th>
                                                 <td><select id="gestion" name="gestion" class="chosen-select">
                                                         @foreach ($users as $users)
                                                             <option value="{{ $users->CIN }}">{{ $users->LOGIN }}
                                                             </option>
                                                         @endforeach
-
                                                     </select></td>
                                             </tr>
-
                                             <tr>
                                                 <th>Agence</th>
                                                 <td>
@@ -259,7 +253,7 @@
                                             <div class="custom-control custom-checkbox">
                                                 <input type="checkbox" class="custom-control-input" id="manque"
                                                     name="manque" />
-                                                <label class="custom-control-label" for="manque">Manque
+                                                <label class="custom-control-label" for="manque">Manque De
                                                     Pièce</label>
                                             </div>
                                         </div>

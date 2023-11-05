@@ -403,10 +403,6 @@
         //sauvegarder
 
         $(document).on('click', 'button[data-role=sauvegarder]', function() {
-
-
-
-
             var cin = $('#CIN_MOD').html();
             var niveau = $('#NIVEAU_MOD').val();
             var nom = $('#NOM_MOD').val();
@@ -424,11 +420,7 @@
 
             fruits = [cin, niveau, nom, prenom, email, adresse, tel, login, password, poste];
 
-
-
             $.ajax({
-
-
                 url: "{{ url('users/modifier') }}",
                 method: "POST",
                 data: {
@@ -450,15 +442,7 @@
 
                         window.location.reload();
                     }, 100);
-
-
-
                 }
-
-
-
-
-
             });
 
 

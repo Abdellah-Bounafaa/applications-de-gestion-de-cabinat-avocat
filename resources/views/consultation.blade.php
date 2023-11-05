@@ -1397,9 +1397,9 @@
                             }
                             var document = '/requete/' + res.URL_SCAN + '';
                             var tribunal = tribunaux.filter((tribunal) => tribunal
-                                .ID_TRIBUNAL === res.ID_TRIBUNAL);
+                                .ID_TRIBUNAL == res.ID_TRIBUNAL);
                             var dossier = dossiers.filter((dossier) => dossier
-                                .ID_DOSSIER === res.ID_DOSSIER);
+                                .ID_DOSSIER == res.ID_DOSSIER);
                             $('#tbody').append(
                                 '<tr><td><button data-toggle="modal" data-target="#modification" data-role="' +
                                 (res.UPDATED_AT ? 'modify' : 'update') +
@@ -1458,9 +1458,9 @@
                             }
                             var document = '/audiance/' + res.URL_AUD + '';
                             var tribunal = tribunaux.filter((tribunal) => tribunal
-                                .ID_TRIBUNAL === res.ID_TRIBUNAL)
+                                .ID_TRIBUNAL == res.ID_TRIBUNAL)
                             var dossier = dossiers.filter((dossier) => dossier
-                                .ID_DOSSIER === res.ID_DOSSIER)
+                                .ID_DOSSIER == res.ID_DOSSIER)
                             $('#tbody').append(
                                 '<tr><td><button data-toggle="modal" data-target="#modification" data-role="' +
                                 (res.UPDATED_AT ? 'modify' : 'update') +
@@ -1513,9 +1513,9 @@
                             }
                             var document = '/jugement/' + res.URL_JUGEMENT;
                             var tribunal = tribunaux.filter((tribunal) => tribunal
-                                .ID_TRIBUNAL === res.ID_TRIBUNAL)
+                                .ID_TRIBUNAL == res.ID_TRIBUNAL)
                             var dossier = dossiers.filter((dossier) => dossier
-                                .ID_DOSSIER === res.ID_DOSSIER)
+                                .ID_DOSSIER == res.ID_DOSSIER)
                             $('#tbody').append(
                                 '<tr><td><button data-toggle="modal" data-target="#modification" data-role="' +
                                 (res.UPDATED_AT ? 'modify' : 'update') +
@@ -1564,9 +1564,9 @@
                         );
                         $.each(data[1], function(i, res) {
                             var dossier = dossiers.filter((dossier) => dossier
-                                .ID_DOSSIER === res.ID_DOSSIER)
+                                .ID_DOSSIER == res.ID_DOSSIER)
                             var huissier = huissiers.filter((huissier) => huissier
-                                .ID_HUISSIER === res.ID_HUISSIER)
+                                .ID_HUISSIER == res.ID_HUISSIER)
 
                             if (res.DATE_SORT == null) {
                                 res.DATE_SORT = '';
@@ -1633,9 +1633,9 @@
                         $.each(data[1], function(i, res) {
                             var document = '/cna/' + res.URL_CNA + '';
                             var tribunal = tribunaux.filter((tribunal) => tribunal
-                                .ID_TRIBUNAL === res.ID_TRIBUNAL)
+                                .ID_TRIBUNAL == res.ID_TRIBUNAL)
                             var dossier = dossiers.filter((dossier) => dossier
-                                .ID_DOSSIER === res.ID_DOSSIER)
+                                .ID_DOSSIER == res.ID_DOSSIER)
                             if (res.DATE_DEM_CNA == null) {
                                 res.DATE_DEM_CNA = '';
                             }
@@ -1691,9 +1691,9 @@
                         $.each(data[1], function(i, res) {
                             var document = '/currateurs/' + res.URL_CURRATEUR + '';
                             var dossier = dossiers.filter((dossier) => dossier
-                                .ID_DOSSIER === res.ID_DOSSIER)
+                                .ID_DOSSIER == res.ID_DOSSIER)
                             var tribunal = tribunaux.filter((tribunal) => tribunal
-                                .ID_TRIBUNAL === res.ID_TRIBUNAL)
+                                .ID_TRIBUNAL == res.ID_TRIBUNAL)
                             if (res.DATE_DEM_NOTIFICATION == null) {
                                 res.DATE_DEM_NOTIFICATION = '';
                             }
@@ -1774,9 +1774,9 @@
 
                         $.each(data[1], function(i, res) {
                             var dossier = dossiers.filter((dossier) => dossier
-                                .ID_DOSSIER === res.ID_DOSSIER)
+                                .ID_DOSSIER == res.ID_DOSSIER)
                             var huissier = huissiers.filter((huissier) => huissier
-                                .ID_HUISSIER === res.ID_HUISSIER)
+                                .ID_HUISSIER == res.ID_HUISSIER)
                             if (res.DATE_EXECUTION == null) {
                                 res.DATE_EXECUTION = '';
                             }
@@ -1924,9 +1924,9 @@
                         $.each(data, function(i, res) {
                             var document = '/requete/' + res.URL_SCAN + '';
                             var tribunal = tribunaux.filter((tribunal) => tribunal
-                                .ID_TRIBUNAL === res.ID_TRIBUNAL)
+                                .ID_TRIBUNAL == res.ID_TRIBUNAL);
                             var dossier = dossiers.filter((dossier) => dossier
-                                .ID_DOSSIER === res.ID_DOSSIER)
+                                .ID_DOSSIER == res.ID_DOSSIER)
                             if (res.DATE_RETRAIT == null) {
                                 res.DATE_RETRAIT = '';
                             }
@@ -1991,9 +1991,9 @@
                         $.each(data, function(i, res) {
                             var document = '/audiance/' + res.URL_AUD + '';
                             var tribunal = tribunaux.filter((tribunal) => tribunal
-                                .ID_TRIBUNAL === res.ID_TRIBUNAL);
+                                .ID_TRIBUNAL == res.ID_TRIBUNAL);
                             var dossier = dossiers.filter((dossier) => dossier
-                                .ID_DOSSIER === res.ID_DOSSIER);
+                                .ID_DOSSIER == res.ID_DOSSIER);
                             if (res.DATE_CREATION == null) {
                                 res.DATE_CREATION = '';
                             }
@@ -2049,9 +2049,9 @@
                         $.each(data, function(i, res) {
                             var document = '/jugement/' + res.URL_JUGEMENT + '';
                             var tribunal = tribunaux.filter((tribunal) => tribunal
-                                .ID_TRIBUNAL === res.ID_TRIBUNAL)
+                                .ID_TRIBUNAL == res.ID_TRIBUNAL)
                             var dossier = dossiers.filter((dossier) => dossier
-                                .ID_DOSSIER === res.ID_DOSSIER)
+                                .ID_DOSSIER == res.ID_DOSSIER)
                             if (res.DATE_JUGEMENT == null) {
                                 res.DATE_JUGEMENT = '';
                             }
@@ -2108,9 +2108,9 @@
                         $.each(data, function(i, res) {
                             var document = '/notification/' + res.PV_SORT + '';
                             var huissier = huissiers.filter((huissier) => huissier
-                                .ID_HUISSIER === res.ID_HUISSIER)
+                                .ID_HUISSIER == res.ID_HUISSIER)
                             var dossier = dossiers.filter((dossier) => dossier
-                                .ID_DOSSIER === res.ID_DOSSIER)
+                                .ID_DOSSIER == res.ID_DOSSIER)
                             if (res.DATE_SORT == null) {
                                 res.DATE_SORT = '';
                             }
@@ -2168,9 +2168,9 @@
                             var document = '/cna/' + res.URL_CNA + '';
 
                             var tribunal = tribunaux.filter((tribunal) => tribunal
-                                .ID_TRIBUNAL === res.ID_TRIBUNAL)
+                                .ID_TRIBUNAL == res.ID_TRIBUNAL)
                             var dossier = dossiers.filter((dossier) => dossier
-                                .ID_DOSSIER === res.ID_DOSSIER)
+                                .ID_DOSSIER == res.ID_DOSSIER)
                             if (res.DATE_DEM_CNA == null) {
                                 res.DATE_DEM_CNA = '';
                             }
@@ -2221,9 +2221,9 @@
                         $.each(data, function(i, res) {
                             var document = '/currateurs/' + res.URL_CURRATEUR + '';
                             var dossier = dossiers.filter((dossier) => dossier
-                                .ID_DOSSIER === res.ID_DOSSIER)
+                                .ID_DOSSIER == res.ID_DOSSIER)
                             var tribunal = tribunaux.filter((tribunal) => tribunal
-                                .ID_TRIBUNAL === res.ID_TRIBUNAL)
+                                .ID_TRIBUNAL == res.ID_TRIBUNAL)
                             if (res.DATE_DEM_NOTIFICATION == null) {
                                 res.DATE_DEM_NOTIFICATION = '';
                             }
@@ -2291,9 +2291,9 @@
                             var document = '/execution/' + res.PV + '';
 
                             var dossier = dossiers.filter((dossier) => dossier
-                                .ID_DOSSIER === res.ID_DOSSIER)
+                                .ID_DOSSIER == res.ID_DOSSIER)
                             var huissier = huissiers.filter((huissier) => huissier
-                                .ID_HUISSIER === res.ID_HUISSIER)
+                                .ID_HUISSIER == res.ID_HUISSIER)
                             if (res.DATE_EXECUTION == null) {
                                 res.DATE_EXECUTION = '';
                             }
@@ -2362,7 +2362,7 @@
                 var updated_at = $(this).data('updated_at');
                 var modifier_par = $(this).data('modifier_par');
                 var modifier_par_nom = users.filter((user) => user
-                    .CIN === modifier_par);
+                    .CIN == modifier_par);
                 $('#title_modification').html('<div><h6>Requete : ' + '<b>' + id_requete + '</b>' + ' / ' +
                     'CIN : ' + '<b>' + user
                     .CIN + '</b>' + '</h6>' + '<div style="display:flex;gap:10px;font-size:14px">' + (

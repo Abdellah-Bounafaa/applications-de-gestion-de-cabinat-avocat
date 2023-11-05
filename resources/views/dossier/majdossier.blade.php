@@ -422,19 +422,12 @@
 
 
         $(document).on('click', 'button[data-role=modifier]', function() {
-
-
             $('#affichage_procedure').html('');
             $('#documentation').html('');
             $('#recherche_dossier').fadeOut(200);
             $('#resultat_dossier').fadeIn(200);
-
             var id = $(this).data('id');
-
-
-
             $.ajax({
-
                 url: "{{ url('dossier/search/modifier') }}",
                 method: "POST",
                 data: {
@@ -478,14 +471,18 @@
                     $('#direction').html(data[0].DIRECTION);
 
 
+
                     $('#radical_cabinet').html(data[0].R_CABINET);
                     $('#num_dossier').html(data[0].numero);
                     $('#numero_dossier').html(data[0].numero);
                     $('#date_ouverture').html(data[0].DATE_OUVERTURE);
-                    $('#gestion').val(data[0].cin).trigger('chosen:updated');
+                    $('select[id=gestion]').val(data[0].cin).change().trigger('chosen:updated');
+                    $('select[id=type_dossier]').val(data[0].type).change().trigger('chosen:updated');
+                    $('select[id=nom_nature]').val(data[0].nature).change().trigger('chosen:updated');
+                    // $('#gestion').val(data[0].cin).trigger('chosen:updated');
                     $('#montant_creance').val(data[0].MNT_CREANCE);
-                    $('#type_dossier').val(data[0].type).trigger('chosen:updated');
-                    $('#nom_nature').val(data[0].nature).trigger('chosen:updated');
+                    // $('#type_dossier').val(data[0].type).trigger('chosen:updated');
+                    // $('#nom_nature').val(data[0].nature).trigger('chosen:updated');
 
                     $('#numero_archivage').val(data[0].NUM_ARCHIVAGE);
                     $('#observation').val(data[0].observation);

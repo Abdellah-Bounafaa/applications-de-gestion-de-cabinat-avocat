@@ -42,7 +42,10 @@ class ClientsController extends Controller
         }
 
         $nom_client                  = $request->nom_client;
-        $prenom_client               = $request->prenom_client;
+        if ($request->type_client == 1 || $request->type_client == 2) {
+            $prenom_client               = null;
+        } else
+            $prenom_client               = $request->prenom_client;
         $identifiant_client          = $request->identifiant_client;
         $adresse_client              = $request->adresse_client;
         $ville_client                = $request->ville_client;
@@ -67,7 +70,10 @@ class ClientsController extends Controller
         $clients->ID_TYPET    = $type_client;
         $clients->DATE_CLT    = $time;
         $clients->NOM         = $nom_client;
-        $clients->PRENOM      = $prenom_client;
+        if ($clients->ID_TYPET    == 2)
+            $clients->PRENOM      = null;
+        else
+            $clients->PRENOM      = $prenom_client;
         $clients->ADRESSE     = $adresse_client;
         $clients->TEL         = $tel_client;
         $clients->TEL2        = $tel2_client;
@@ -92,13 +98,21 @@ class ClientsController extends Controller
         $tableau  = $request->fruits;
         $clients = Clients::where('ID_CLIENT', $tableau[8])->first();
         $clients->ID_VILLE    = $tableau[5];
-        $clients->ID_TYPET    = $tableau[7];
+        if ($tableau[7] == 2) {
+            $clients->PRENOM    = null;
+        } else
+            $clients->PRENOM      = $tableau[2];
+        $clients->IDENTIFIANT         = $tableau[0];
         $clients->NOM         = $tableau[1];
-        $clients->PRENOM      = $tableau[2];
         $clients->ADRESSE     = $tableau[4];
+        $clients->ID_TYPET    = $tableau[7];
         $clients->TEL         = $tableau[3];
-        //   $clients->INTERLOCUTEUR =$tableau[8];
-        $clients->CAPITALE    = $tableau[6];
+        $clients->EMAIL         = $tableau[9];
+        $clients->TEL2         = $tableau[10];
+        $clients->Fax         = $tableau[11];
+        $clients->INTERLOCUTEUR = $tableau[12];
+        $clients->EMAIL_IN         = $tableau[13];
+        $clients->MOBILE_IN    = $tableau[14];
         $clients->save();
     }
 }

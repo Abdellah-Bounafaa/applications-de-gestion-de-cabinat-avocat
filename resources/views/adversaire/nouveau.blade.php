@@ -20,12 +20,25 @@
                   <div class="card-body todo-task">
 
                       <div class="dd" data-plugin="nestable" id="dd">
-
+                          <div class="row">
+                              <div class="col-md-12">
+                                  <div class="form-group">
+                                      <label class="col-form-label col-form-label-sm" for="clientType">Type : </label>
+                                      <select class="chosen-select" id="type_adversaire" name="type_adversaire"
+                                          onchange='togglePrenomField("type_adversaire","nom_adversaire","prenom_adversaire","nom_label")'>
+                                          @foreach ($type as $type)
+                                              <option value="{{ $type->ID_TYPET }}">{{ $type->LIBELLE_TYPET }}</option>
+                                          @endforeach
+                                      </select>
+                                  </div>
+                              </div>
+                          </div>
 
                           <div class="row">
                               <div class="col-md-6">
                                   <div class="form-group">
-                                      <label class="col-form-label col-form-label-sm" for="clientName">Nom : </label>
+                                      <label class="col-form-label col-form-label-sm" id="nom_label"
+                                          for="clientName">Nom : </label>
                                       <input type="text" class="form-control form-control-sm"
                                           placeholder="Nom de adversaire" id="nom_adversaire" name="nom_adversaire"
                                           required>
@@ -47,10 +60,12 @@
 
                               <div class="col-md-6">
                                   <div class="form-group">
-                                      <label class="col-form-label col-form-label-sm" for="clientadress">Prenom :
+                                      <label class="col-form-label col-form-label-sm" id="prenom_label"
+                                          for="clientadress">Prénom :
                                       </label>
                                       <input type="text" class="form-control form-control-sm"
-                                          placeholder="Prenom de adversaire" name="prenom_adversaire" required>
+                                          placeholder="Prénom de adversaire" id="prenom_adversaire"
+                                          name="prenom_adversaire" required>
                                   </div>
                               </div>
                               <div class="col-md-6">
@@ -155,16 +170,7 @@
                                   </div>
                               </div>
 
-                              <div class="col-md-6">
-                                  <div class="form-group">
-                                      <label class="col-form-label col-form-label-sm" for="clientType">Type : </label>
-                                      <select class="chosen-select" id="type_adversaire" name="type_adversaire">
-                                          <option value="1">Particulier</option>
-                                          <option value="2" selected>Entreprise</option>
-                                          <option value="3">Professionnel</option>
-                                      </select>
-                                  </div>
-                              </div>
+
                           </div>
 
 

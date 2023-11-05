@@ -226,7 +226,7 @@ class MajdossierController extends Controller
                     if (!File::exists(public_path($path))) {
                         File::makeDirectory(public_path($path), 0777, true);
                     }
-                    $new_image_name = $request->file('fichier')->getClientOriginalName();
+                    $new_image_name = $row->getClientOriginalName();
 
                     $row->move(public_path($path), $new_image_name);
 

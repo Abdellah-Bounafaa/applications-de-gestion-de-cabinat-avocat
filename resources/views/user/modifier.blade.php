@@ -1,6 +1,7 @@
 <div class="modal fade" id="edition" tabindex="-1" role="dialog" aria-labelledby="fullwindowModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
+
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="fullwindowModalLabel">CIN : <strong id="CIN_MOD"></strong></h5>

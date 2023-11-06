@@ -17,7 +17,7 @@
                         <div class="form-group">
                             <label class="col-form-label col-form-label-sm" for="clientCity">Type : </label><br>
                             <select id="type" class="chosen-select1 form-control"
-                                onchange='togglePrenomField("type","prenom","nom","Label")'>
+                                onchange='togglePrenomField("type","prenom","nom","Label")' required>
                                 @foreach ($type as $type)
                                     <option value="{{ $type->ID_TYPET }}">{{ $type->LIBELLE_TYPET }}</option>
                                 @endforeach
@@ -27,7 +27,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <input type="hidden" id="id" class="form-control">
-                            <label class="col-form-label col-form-label-sm" for="clientCity">Identifiant : </label><br>
+                            <label class="col-form-label col-form-label-sm" for="clientCity">RC/CIN : </label><br>
                             <input type="text" id="identifiant" placeholder="Identifiant de client"
                                 class="form-control" required>
                         </div>
@@ -51,7 +51,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label class="col-form-label col-form-label-sm " for="clientCity">Ville : </label><br>
-                            <select id="ville" class="chosen-select1  form-control">
+                            <select id="ville" class="chosen-select1  form-control" required>
                                 @foreach ($region as $region)
                                     <option value="{{ $region->ID_VILLE }}">{{ $region->NOM_VILLE }}</option>
                                 @endforeach

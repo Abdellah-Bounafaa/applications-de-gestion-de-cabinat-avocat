@@ -55,8 +55,6 @@
                                     <div class="form-group">
 
                                         <label class="col-form-label col-form-label-sm" for="client">Client : </label><br>
-
-
                                         <select name="client" data-placeholder="Choisir  Client..." class="chosen-select"
                                             tabindex="-1" style="display: none;" required>
                                             <option value=""></option>
@@ -64,9 +62,7 @@
                                                 <option value="{{ $clients->ID_CLIENT }}">{{ $clients->NOM }}
                                                     {{ $clients->PRENOM }}</option>
                                             @endforeach
-
                                         </select>
-
                                         <button type="button" class="btn btn-outline-primary btn-icon"
                                             title="ajouter Un nouveau Client" data-toggle="modal"
                                             data-target="#clientModal"><i class="ik ik-plus"></i></button>
@@ -123,11 +119,7 @@
 
                                     <div class="form-group">
                                         <label class="col-form-label col-form-label-sm">Agence : </label>
-
-                                        <input type="text" class="form-control" placeholder="Agence" name="agence"
-                                            required="required">
-
-
+                                        <input type="text" class="form-control" placeholder="Agence" name="agence">
                                     </div>
                                 </div>
 
@@ -265,44 +257,19 @@
 
                                     </div>
                                 </div>
-
-
-
                                 <div class="col-md-12">
                                     <div class="form-group">
 
-                                        <label class="col-form-label col-form-label-sm">Date D'ouverture : </label>
-
-                                        <input type="date" class="form-control" name="date" required="required"
-                                            value="{{ date('Y-m-d') }}" disabled>
-
-
-                                    </div>
-                                </div>
-
-
-
-                                <div class="col-md-12">
-                                    <div class="form-group">
-
-                                        <label class="col-form-label col-form-label-sm">Gestion D'utilisateur : </label>
+                                        <label class="col-form-label col-form-label-sm">Gestionnaire D'utilisateur :
+                                        </label>
 
                                         <select class="form-control text-center" name="user">
                                             @foreach ($user as $user)
                                                 <option value="{{ $user->CIN }}">{{ $user->LOGIN }}</option>
                                             @endforeach
-
-
                                         </select>
-
-
                                     </div>
                                 </div>
-
-
-
-
-
                             </div>
 
 
@@ -342,17 +309,13 @@
                     </div>
                     <div class="card-body todo-task">
                         <div class="dd" data-plugin="nestable">
-
-
                             <div id="attache">
-
-
-
                                 <div id="attachement0" class="row">
                                     <div class="col-md-10">
                                         <div class="form-group"><label>Attacher Un fichier : </label><input type="file"
                                                 class="form-control form-control-primary" id="fichier[0]"
-                                                name="fichier[0]"></div>
+                                                accept=".jpg, .png, .svg, .pdf, .docx, .xlsx" name="fichier[0]" required>
+                                        </div>
                                     </div>
                                     <div class="col-md-2" style="padding:auto;margin:auto"><button data-role="add"
                                             class="btn-icon btn-outline-success" type="button"><i
@@ -360,24 +323,7 @@
                                 </div>
 
                             </div>
-
-
-
-
-
-
-
                         </div>
-
-
-
-
-
-
-
-
-
-
                     </div>
                 </div>
             </div>
@@ -453,16 +399,8 @@
                             aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body" style="background-color:#ccc">
-
-
-
                     @include('client/nouveau')
-
-
-
-
                 </div>
-
             </div>
         </div>
     </div>
@@ -527,18 +465,14 @@
         });
 
 
-
         //Caution
 
 
         function caution(select) {
-
             var select = select.value;
-
             if (select == 1) {
-
                 $('#cautionnaire').html(
-                    '<div class="card-header"><h3><i class="far fa-user"></i> &nbsp; Nouveau Cautionnaire </h3><div class="card-header-right"><ul class="list-unstyled card-option"><li><i class="ik ik-chevron-left action-toggle"></i></li><li><i class="ik ik-minus minimize-card"></i></li><li><i class="ik ik-x close-card"></i></li></ul></div></div><div class="card-body todo-task"><div class="dd" data-plugin="nestable" id="dd"><div class="row"><div class="col-md-6"><div class="form-group"><label class="col-form-label col-form-label-sm" for="clientName">Nom : </label><input type="text" class="form-control form-control-sm" placeholder="Nom cautionnaire" id="nom_adversaire" name="nom_cautionnaire" required></div></div><div class="col-md-6"><div class="form-group"><label class="col-form-label col-form-label-sm" for="clientId">Identifiant : </label><input type="text" class="form-control form-control-sm" placeholder="Identifiant cautionnaire" id="identifiant_adversaire" name="identifiant_cautionnaire"></div></div></div><div class="row"> <div class="col-md-6"><div class="form-group"><label class="col-form-label col-form-label-sm" for="clientadress">Prenom : </label><input type="text" class="form-control form-control-sm" placeholder="Prenom cautionnaire" id="adresse_adversaire" name="prenom_cautionnaire"></div></div><div class="col-md-6"><div class="form-group"><label class="col-form-label col-form-label-sm" for="clientadress">Adresse : </label><input type="text" class="form-control form-control-sm" placeholder="Adresse cautionnaire" id="adresse_adversaire" name="adresse_cautionnaire"></div></div></div><div class="row"><div class="col-md-6"><div class="form-group"><label class="col-form-label col-form-label-sm" for="clientType">Type : </label><select class="form-control form-control-sm" id="type_cautionnaire" name="type_cautionnaire"><option value="1">Particulier</option><option value="2" selected>Entreprise</option><option value="3">Professionnel</option></select><label class="col-form-label col-form-label-sm" for="clientTel2">Téléphone 2 : </label><input type="text" class="form-control form-control-sm" placeholder="Téléphone cautionnaire" id="clientTel2" name="tel2_cautionnaire"></div></div><div class="col-md-6"><div class="form-group"><label class="col-form-label col-form-label-sm" for="clientTel1">Téléphone : </label><input type="text" class="form-control form-control-sm" placeholder="Téléphone cautionnaire" id="clientTel1" name="tel_cautionnaire" required="required"><label class="col-form-label col-form-label-sm" for="clientMail">Email : </label><input type="email" class="form-control form-control-sm" placeholder="Email cautionnaire" id="clientMail" name="email_cautionnaire"></div></div><div class="col-md-6"><div class="form-group"><label class="col-form-label col-form-label-sm" for="clientTel1">Mobile : </label><input type="text" class="form-control form-control-sm" placeholder="Téléphone cautionnaire" id="clientTel1" name="mobile_cautionnaire"></div></div></div></div></div>'
+                    '<div class="card-header"><h3><i class="far fa-user"></i> &nbsp; Nouveau Cautionnaire </h3><div class="card-header-right"><ul class="list-unstyled card-option"><li><i class="ik ik-chevron-left action-toggle"></i></li><li><i class="ik ik-minus minimize-card"></i></li><li><i class="ik ik-x close-card"></i></li></ul></div></div><div class="card-body todo-task"><div class="dd" data-plugin="nestable" id="dd"><div class="row"><div class="col-md-6"><div class="form-group"><label class="col-form-label col-form-label-sm" id="labelCautionnaire" for="clientName">Nom : </label><input type="text" class="form-control form-control-sm" placeholder="Nom cautionnaire" id="nomCautionnaire" name="nom_cautionnaire" required></div></div><div class="col-md-6"><div class="form-group"><label class="col-form-label col-form-label-sm" for="clientId">Identifiant : </label><input type="text" class="form-control form-control-sm" placeholder="Identifiant cautionnaire" id="identifiant_adversaire" name="identifiant_cautionnaire"></div></div></div><div class="row"> <div class="col-md-6"><div class="form-group"><label class="col-form-label col-form-label-sm" for="clientadress">Prenom : </label><input type="text" class="form-control form-control-sm" placeholder="Prenom cautionnaire" id="prenomCautionnaire" name="prenom_cautionnaire"></div></div><div class="col-md-6"><div class="form-group"><label class="col-form-label col-form-label-sm" for="clientadress">Adresse : </label><input type="text" class="form-control form-control-sm" placeholder="Adresse cautionnaire" id="adresse_adversaire" name="adresse_cautionnaire"></div></div></div><div class="row"><div class="col-md-6"><div class="form-group"><label class="col-form-label col-form-label-sm" for="clientType">Type : </label><select class="form-control form-control-sm" id="typeCautionnaire" name="type_cautionnaire" onchange="togglePrenomField(\'typeCautionnaire\',\'prenomCautionnaire\',\'nomCautionnaire\',\'labelCautionnaire\')"><option value="1" selected>Particulier</option><option value="2" >Entreprise</option><option value="3">Professionnel</option></select><label class="col-form-label col-form-label-sm" for="clientTel2">Téléphone 2 : </label><input type="text" class="form-control form-control-sm" placeholder="Téléphone cautionnaire" id="clientTel2" name="tel2_cautionnaire"></div></div><div class="col-md-6"><div class="form-group"><label class="col-form-label col-form-label-sm" for="clientTel1">Téléphone : </label><input type="text" class="form-control form-control-sm" placeholder="Téléphone cautionnaire" id="clientTel1" name="tel_cautionnaire" required="required"><label class="col-form-label col-form-label-sm" for="clientMail">Email : </label><input type="email" class="form-control form-control-sm" placeholder="Email cautionnaire" id="clientMail" name="email_cautionnaire"></div></div></div></div></div>'
                 );
 
             } else {
@@ -564,7 +498,7 @@
             var i = $('input[type=file]').length;
 
             $('#attache').append('<div id="attachement' + i +
-                '" class="row"><div class="col-md-10"><div class="form-group"><label>Attacher Un fichier : </label><input type="file" class="form-control form-control-primary" name="fichier[' +
+                '" class="row"><div class="col-md-10"><div class="form-group"><label>Attacher Un fichier : </label><input type="file"  accept=".jpg, .png, .svg, .pdf, .docx, .xlsx" class="form-control form-control-primary" name="fichier[' +
                 i + ']" id="fichier[' + i +
                 ']" required></div></div><div class="col-md-2" style="padding:auto;margin:auto"><button data-id="' +
                 i +

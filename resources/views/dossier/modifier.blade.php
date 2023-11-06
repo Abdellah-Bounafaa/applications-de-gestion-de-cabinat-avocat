@@ -14,7 +14,6 @@
     <form method="post" action="{{ url('dossier/search/enregistrer') }}" enctype="multipart/form-data">
         @csrf
         <div class="modal-content">
-
             <div class="modal-header">
                 <h5 class="modal-title" id="fullwindowModalLabel">Dossier N° : <string id="numero_dossier"></string> /
                     Radical De Client : <string id="radical_client"></string><input type="hidden" name="id_dossier"
@@ -321,8 +320,6 @@
                             <div class="row">
                                 @foreach ($procedure as $pro)
                                     <div class="col-sm-6" id="{{ $pro->ID_PROCEDURE }}">
-
-
                                         <div class="form-group">
                                             <div class="checkbox-zoom zoom-primary">
                                                 <label>
@@ -366,9 +363,7 @@
             </div>
 
             <div class="modal-footer">
-
                 <button data-role="ajoute" type="button" class="btn btn-primary">Ajouter</button>
-
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>

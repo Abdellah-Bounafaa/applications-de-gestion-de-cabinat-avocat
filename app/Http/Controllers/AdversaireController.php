@@ -87,8 +87,8 @@ class AdversaireController extends Controller
                     $request->tel2_cautionnaire;
                 $caution->EMAIL_CAUTIONNAIRE
                     = $request->email_cautionnaire;
-                $caution->MOBILE          =
-                    $request->mobile_cautionnaire;
+                // $caution->MOBILE          =
+                //     $request->mobile_cautionnaire;
                 $caution->IDENTIFIANT     =
                     $request->identifiant_cautionnaire;
                 $caution->save();

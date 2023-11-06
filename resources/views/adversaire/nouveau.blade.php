@@ -25,7 +25,8 @@
                                   <div class="form-group">
                                       <label class="col-form-label col-form-label-sm" for="clientType">Type : </label>
                                       <select class="chosen-select" id="type_adversaire" name="type_adversaire"
-                                          onchange='togglePrenomField("type_adversaire","nom_adversaire","prenom_adversaire","nom_label")'>
+                                          onchange='togglePrenomField("type_adversaire","prenom_adversaire","nom_adversaire","nom_label")'
+                                          required>
                                           @foreach ($type as $type)
                                               <option value="{{ $type->ID_TYPET }}">{{ $type->LIBELLE_TYPET }}</option>
                                           @endforeach
@@ -47,7 +48,7 @@
 
                               <div class="col-md-6">
                                   <div class="form-group">
-                                      <label class="col-form-label col-form-label-sm" for="clientId">Identifiant :
+                                      <label class="col-form-label col-form-label-sm" for="clientId">RC/CIN :
                                       </label>
                                       <input type="text" class="form-control form-control-sm"
                                           placeholder="Identifiant de adversaire" id="identifiant_adversaire"
@@ -119,7 +120,7 @@
 
 
                                       <select id="region_adversaire" name="ville_adversaire"
-                                          data-placeholder="Choisir Une Ville..." class="chosen-select">
+                                          data-placeholder="Choisir Une Ville..." class="chosen-select" required>
                                           <option value=""></option>
                                           @foreach ($ville as $ville)
                                               <option value="{{ $ville->ID_VILLE }}">{{ $ville->NOM_VILLE }}</option>

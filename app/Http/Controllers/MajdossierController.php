@@ -64,7 +64,7 @@ class MajdossierController extends Controller
         $numero_dossier               = $donnees[0];
         $radical_cabinet              = $donnees[1];
         $reference_client             = $donnees[2];
-        $radical_client               = $donnees[3];
+        // $radical_client               = $donnees[3];
         $client                       = $donnees[4];
         $adverisare                   = $donnees[5];
         $nature                       = $donnees[6];
@@ -281,49 +281,22 @@ class MajdossierController extends Controller
 
     public function procedures(Request $request)
     {
-
         $id = $request->id_procedure;
         $id_dossier = $request->id_dossier;
-
-
-
-
-
-
-
-
         $traitement               = new Traitement();
         $traitement->ID_DOSSIER   = $id_dossier;
         $traitement->ID_PROCEDURE = $id;
         $traitement->DATE_MISE    = date('Y-m-d');
         $traitement->save();
-
-
-
-
-
-
         $procedure   = Suivi::where('ID_PROCEDURE', $id)->get();
-
-
         $i = 0;
         foreach ($procedure as $row) {
-
-
             $etape = Etape::where('ID_ETAPE', $row->ID_ETAPE)
                 ->orderby('ID_ETAPE', 'asc')
                 ->get();
-
-
             $data[$i]["etape"] = $etape[0]->NOM_ETAPE;
-
-
-
-
             $i++;
         }
-
-
         echo json_encode($data);
     }
 

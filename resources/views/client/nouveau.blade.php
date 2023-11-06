@@ -24,11 +24,10 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="col-form-label col-form-label-sm" for="clientType">Type : </label>
-                                    <select class="chosen-select form-control" id="type_client" name="type_client"
-                                        onchange='togglePrenomField("type_client","prenom_client","nom_client","nom_label")'>
-                                        {{-- <option value="1">Particulier</option>
-                                        <option value="2">Entreprise</option>
-                                        <option value="3"selected>Professionnel</option> --}}
+                                    <select class="chosen-select form-control type_client" id="type_client"
+                                        name="type_client"
+                                        onchange='togglePrenomField("type_client","prenom_client","nom_client","nom_label")'
+                                        required>
                                         @foreach ($type as $type)
                                             <option value="{{ $type->ID_TYPET }}">{{ $type->LIBELLE_TYPET }}</option>
                                         @endforeach
@@ -36,21 +35,20 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="row">
-
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="col-form-label col-form-label-sm" id="nom_label" for="clientName">Nom
+                                    <label class="col-form-label col-form-label-sm nom_label" id="nom_label"
+                                        for="clientName">Nom
                                         : </label>
-                                    <input type="text" class="form-control form-control-sm"
+                                    <input type="text" class="form-control form-control-sm nom_client"
                                         placeholder="Nom de client" id="nom_client" name="nom_client" required>
                                 </div>
                             </div>
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="col-form-label col-form-label-sm" for="clientId">Identifiant :
+                                    <label class="col-form-label col-form-label-sm" for="clientId">RC/CIN :
                                     </label>
                                     <input type="text" class="form-control form-control-sm"
                                         placeholder="Identifiant de client" id="identifiant_client"
@@ -60,12 +58,11 @@
                         </div>
 
                         <div class="row">
-
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="col-form-label col-form-label-sm" id="prenom_label"
                                         for="clientadress">Prénom : </label>
-                                    <input type="text" class="form-control form-control-sm"
+                                    <input type="text" class="form-control form-control-sm prenom_client"
                                         placeholder="Prénom de client" id="prenom_client" name="prenom_client" required>
                                 </div>
                             </div>

@@ -56,7 +56,7 @@
                             <thead class="text-center">
                                 <tr>
                                     <th class="nosort"><i class="ik ik-settings"></i></th>
-                                    <th>Identifiant</th>
+                                    <th>RC/CIN</th>
                                     <th>Date_Création</th>
                                     <th>Nom</th>
                                     <th>Prenom</th>
@@ -80,7 +80,7 @@
                                                 data-adresse1="{{ $row->ADRESSE1 }}" data-adresse2="{{ $row->ADRESSE2 }}"
                                                 data-adresse3="{{ $row->ADRESSE3 }}" data-tel="{{ $row->TEL }}"
                                                 data-tel2="{{ $row->TEl2 }}" data-caution="{{ $row->CAUTION }}"
-                                                data-mobile="{{ $row->MOBILE }}" data-email="{{ $row->EMAIL }}"><i
+                                                {{-- data-mobile="{{ $row->MOBILE }}" --}} data-email="{{ $row->EMAIL }}"><i
                                                     class="ik ik-edit"></i></button></td>
                                         <td>{{ $row->IDENTIFIANT }}</td>
                                         <td>{{ $row->DATE_CLT }}</td>
@@ -234,43 +234,18 @@
 
 
         function caution(select) {
-
             var select = select.value;
-
             if (select == 1) {
-
                 $('#cautionnaire').html(
-                    '<div class="card-header"><h3><i class="far fa-user"></i> &nbsp; Nouveau Cautionnaire </h3><div class="card-header-right"><ul class="list-unstyled card-option"><li><i class="ik ik-chevron-left action-toggle"></i></li><li><i class="ik ik-minus minimize-card"></i></li><li><i class="ik ik-x close-card"></i></li></ul></div></div><div class="card-body todo-task"><div class="dd" data-plugin="nestable" id="dd"><div class="row"><div class="col-md-6"><div class="form-group"><label class="col-form-label col-form-label-sm" id="nom_label_cut" for="clientName">Nom : </label><input type="text" class="form-control form-control-sm" placeholder="Nom cautionnaire" id="nom_cautionnaire" name="nom_cautionnaire" required></div></div><div class="col-md-6"><div class="form-group"><label class="col-form-label col-form-label-sm" for="clientId">Identifiant : </label><input type="text" class="form-control form-control-sm" placeholder="Identifiant cautionnaire" id="identifiant_adversaire" name="identifiant_cautionnaire"></div></div></div><div class="row"> <div class="col-md-6"><div class="form-group"><label class="col-form-label col-form-label-sm" for="clientadress">Prénom : </label><input type="text" class="form-control form-control-sm" placeholder="Prenom cautionnaire" id="prenom_cutionnaire" name="prenom_cautionnaire"></div></div><div class="col-md-6"><div class="form-group"><label class="col-form-label col-form-label-sm" for="clientadress">Adresse : </label><input type="text" class="form-control form-control-sm" placeholder="Adresse cautionnaire" id="adresse_adversaire" name="adresse_cautionnaire"></div></div></div><div class="row"><div class="col-md-6"><div class="form-group"><label class="col-form-label col-form-label-sm" for="clientType">Type : </label><select class="form-control form-control-sm" id="type_cautionnaire" name="type_cautionnaire" onchange=' +
-                    'togglePrenomField("type_cautionnaire","nom_cautionnaire","prenom_cutionnaire","nom_label_cut")' +
-                    '><option value="1">Particulier</option><option value="2" selected>Entreprise</option><option value="3">Professionnel</option></select><label class="col-form-label col-form-label-sm" for="clientTel2">Téléphone 2 : </label><input type="text" class="form-control form-control-sm" placeholder="Téléphone cautionnaire" id="clientTel2" name="tel2_cautionnaire"></div></div><div class="col-md-6"><div class="form-group"><label class="col-form-label col-form-label-sm" for="clientTel1">Téléphone : </label><input type="text" class="form-control form-control-sm" placeholder="Téléphone cautionnaire" id="clientTel1" name="tel_cautionnaire" required="required"><label class="col-form-label col-form-label-sm" for="clientMail">Email : </label><input type="email" class="form-control form-control-sm" placeholder="Email cautionnaire" id="clientMail" name="email_cautionnaire"></div></div><div class="col-md-6"></div></div></div></div>'
+                    '<div class="card-header"><h3><i class="far fa-user"></i> &nbsp; Nouveau Cautionnaire </h3><div class="card-header-right"><ul class="list-unstyled card-option"><li><i class="ik ik-chevron-left action-toggle"></i></li><li><i class="ik ik-minus minimize-card"></i></li><li><i class="ik ik-x close-card"></i></li></ul></div></div><div class="card-body todo-task"><div class="dd" data-plugin="nestable" id="dd"><div class="row"><div class="col-md-6"><div class="form-group"><label class="col-form-label col-form-label-sm" id="nom_label_cut" for="clientName">Nom : </label><input type="text" class="form-control form-control-sm" placeholder="Nom cautionnaire" id="nom_cautionnaire" name="nom_cautionnaire" required></div></div><div class="col-md-6"><div class="form-group"><label class="col-form-label col-form-label-sm" for="clientId">RC/CIN : </label><input type="text" class="form-control form-control-sm" placeholder="Identifiant cautionnaire" id="identifiant_adversaire" name="identifiant_cautionnaire"></div></div></div><div class="row"> <div class="col-md-6"><div class="form-group"><label class="col-form-label col-form-label-sm" for="clientadress">Prénom : </label><input type="text" class="form-control form-control-sm" placeholder="Prenom cautionnaire" id="prenom_cutionnaire" name="prenom_cautionnaire"></div></div><div class="col-md-6"><div class="form-group"><label class="col-form-label col-form-label-sm" for="clientadress">Adresse : </label><input type="text" class="form-control form-control-sm" placeholder="Adresse cautionnaire" id="adresse_adversaire" name="adresse_cautionnaire"></div></div></div><div class="row"><div class="col-md-6"><div class="form-group"><label class="col-form-label col-form-label-sm" for="clientType">Type : </label><select class="form-control form-control-sm" id="type_cautionnaire" name="type_cautionnaire" onchange=' +
+                    'togglePrenomField("type_cautionnaire","prenom_cutionnaire","nom_cautionnaire","nom_label_cut")' +
+                    '><option value="1" selected>Particulier</option><option value="2">Entreprise</option><option value="3">Professionnel</option></select><label class="col-form-label col-form-label-sm" for="clientTel2">Téléphone 2 : </label><input type="text" class="form-control form-control-sm" placeholder="Téléphone cautionnaire" id="clientTel2" name="tel2_cautionnaire"></div></div><div class="col-md-6"><div class="form-group"><label class="col-form-label col-form-label-sm" for="clientTel1">Téléphone : </label><input type="text" class="form-control form-control-sm" placeholder="Téléphone cautionnaire" id="clientTel1" name="tel_cautionnaire" required="required"><label class="col-form-label col-form-label-sm" for="clientMail">Email : </label><input type="email" class="form-control form-control-sm" placeholder="Email cautionnaire" id="clientMail" name="email_cautionnaire"></div></div><div class="col-md-6"></div></div></div></div>'
                 );
             } else {
-
                 $('#cautionnaire').html('');
             }
         }
 
-
-        function togglePrenomField(type, nom, prenom, label) {
-            var typeSelect = document.getElementById(type);
-            var prenomField = document.getElementById(prenom);
-            var nomField = document.getElementById(nom);
-            var nomLabel = document.getElementById(label);
-            var currentPlaceholder = nomField.getAttribute("placeholder");
-
-            if (typeSelect.value == "2") {
-                nomLabel.innerHTML = "Nom D'entreprise : "
-                prenomField.disabled = true;
-                prenomField.required = false;
-                nomField.setAttribute("placeholder", "Nom D'entreprise");
-                prenomField.value = "";
-            } else {
-                nomLabel.innerHTML = "Nom : "
-                nomField.setAttribute("placeholder", "Nom De Client :");
-                prenomField.disabled = false;
-                prenomField.required = true;
-            }
-        }
 
         //modification
 
@@ -324,12 +299,10 @@
                     dataType: "JSON",
                     success: function(data) {
                         $('#caution_modifier').html(
-                            '<div class="col-md-12"><h5 class="pt-2 pb-2">Cautionnaire :</h5></div><div class="col-md-4"><div class="form-group"><label class="col-form-label col-form-label-sm">Type De Cautionnaire : </label><select class="form-control form-control-sm" id="type_caution" required onchange="' +
-                            'togglePrenomField("type_caution","nom_caution","prenom_caution","label_nom_cautionnaire")' +
-                            '">@foreach ($type as $typet)<option value="{{ $typet->ID_TYPET }}">{{ $typet->LIBELLE_TYPET }}</option>@endforeach</select></div></div><div class="col-md-4"><div class="form-group"><label class="col-form-label col-form-label-sm" id="label_nom_cautionnaire">Nom De Cautionnaire : </label><input type="text" class="form-control form-control-sm" placeholder="Nom De Cautionnaire" id="nom_caution" value="' +
+                            '<div class="col-md-12"><h5 class="pt-2 pb-2">Cautionnaire :</h5></div><div class="col-md-4"><div class="form-group"><label class="col-form-label col-form-label-sm">Type De Cautionnaire : </label><select class="form-control form-control-sm" id="type_caution" required onchange="togglePrenomField(\'type_caution\',\'prenom_caution\',\'nom_caution\',\'label_nom_cautionnaire\')" required>@foreach ($type as $typet)<option value="{{ $typet->ID_TYPET }}">{{ $typet->LIBELLE_TYPET }}</option>@endforeach</select></div></div><div class="col-md-4"><div class="form-group"><label class="col-form-label col-form-label-sm" id="label_nom_cautionnaire">Nom De Cautionnaire : </label><input type="text" class="form-control form-control-sm" placeholder="Nom De Cautionnaire" id="nom_caution" value="' +
                             data.NOM +
                             '" required></div></div><div class="col-md-4"><div class="form-group"><label class="col-form-label col-form-label-sm">Prénom De Cautionnaire : </label><input type="text" class="form-control form-control-sm" placeholder="Prénom De cautionnaire" id="prenom_caution" value="' +
-                            data.PRENOM +
+                            (data.PRENOM === "null" ? '' : data.PRENOM) +
                             '" required></div></div><div class="col-md-4"><div class="form-group"><label class="col-form-label col-form-label-sm">Téléphone : </label><input type="text" class="form-control form-control-sm" placeholder="Téléphone De Cautionnaire" id="tel_caution" value="' +
                             data.TEL +
                             '" required></div></div><div class="col-md-4"><div class="form-group"><label class="col-form-label col-form-label-sm">Téléphone 2: </label><input type="text" class="form-control form-control-sm" placeholder="Téléphone De Cautionnaire" id="tel2_caution" value="' +

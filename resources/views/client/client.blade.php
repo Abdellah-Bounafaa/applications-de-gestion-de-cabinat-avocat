@@ -55,13 +55,12 @@
                             <thead class="text-center">
                                 <tr>
                                     <th class="nosort"><i class="ik ik-settings"></i></th>
-                                    <th>Identifiant</th>
-                                    <th>Date_Création</th>
+                                    <th>RC/CIN</th>
+                                    <th>Date De Création</th>
                                     <th>Nom</th>
                                     <th>Prenom</th>
                                     <th>Ville</th>
                                     <th>Type</th>
-
                                     <th>Tel</th>
                                     <th>Capitale</th>
                                 </tr>
@@ -231,26 +230,7 @@
 
         });
 
-        function togglePrenomField(type, prenom, nom, label) {
-            var typeSelect = document.getElementById(type);
-            var prenomField = document.getElementById(prenom);
-            var nomField = document.getElementById(nom);
-            var nomLabel = document.getElementById(label);
-            var currentPlaceholder = nomField.getAttribute("placeholder");
 
-            if (typeSelect.value == "2") {
-                nomLabel.innerHTML = "Nom D'entreprise : "
-                prenomField.disabled = true;
-                prenomField.required = false;
-                nomField.setAttribute("placeholder", "Nom D'entreprise");
-                prenomField.value = "";
-            } else {
-                nomLabel.innerHTML = "Nom : "
-                nomField.setAttribute("placeholder", "Nom De Client :");
-                prenomField.disabled = false;
-                prenomField.required = true;
-            }
-        }
         //sauvegarder
 
         $(document).on('click', 'button[data-role=sauvegarder]', function() {

@@ -9,41 +9,6 @@
 
 
 @section('contenu')
-    {{-- <style>
-        .filename {
-            border-radius: 5px;
-            border: none
-        }
-
-        .inputfile {
-            width: 0.1px;
-            height: 0.1px;
-            opacity: 0;
-            overflow: hidden;
-            position: absolute;
-            z-index: -1;
-        }
-
-        .inputfile+label {
-            font-size: 1.25em;
-            font-weight: 700;
-            color: white;
-            background-color: #CCD9FF;
-            display: inline-block;
-            border-radius: 10px;
-            padding: 8px 20px
-        }
-
-        .inputfile+label {
-            cursor: pointer;
-        }
-
-        /*
-            .inputfile:focus+label {
-                outline: 1px dotted white;
-                outline: -webkit-focus-ring-color auto 5px;
-            } */
-    </style> --}}
     <div class="row" id="recherche_dossier">
         <div class="col-md-12">
             <div class="card task-board">
@@ -100,7 +65,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-3">
+                            {{-- <div class="col-md-3">
                                 <div class="form-group">
 
                                     <label class="col-form-label col-form-label-sm">Radical Client : </label>
@@ -110,7 +75,7 @@
 
 
                                 </div>
-                            </div>
+                            </div> --}}
 
                             <div class="col-md-3">
 
@@ -604,46 +569,23 @@
         // ajouter document +1
 
         $(document).on('click', 'button[data-role=ajouter]', function() {
-
-
-
             $('#attache').html(
-                '<div id="attachement0" class="row"><div class="col-md-10"><p>Ajouter Un Fichier</p><div class="form-group"><input type="file" class="form-control form-control-primary " id="fichier[0]" name="fichier[0]"></div></div><div class="col-md-2" style="padding:auto;margin:auto"><button data-role="add" class="btn-icon btn-outline-success" type="button"><i class="ik ik-plus"></i></button></div></div>'
+                '<div id="attachement0" class="row"><div class="col-md-10"><p>Ajouter Un Fichier</p><div class="form-group"><input type="file"  accept=".jpg, .png, .svg, .pdf, .docx, .xlsx" class="form-control form-control-primary " id="fichier[0]" name="fichier[0]"></div></div><div class="col-md-2" style="padding:auto;margin:auto"><button data-role="add" class="btn-icon btn-outline-success" type="button"><i class="ik ik-plus"></i></button></div></div>'
             );
-            // $('#attache').html(
-            //     '<div id="attachement0" class="row"><div class="col-md-10"><p>Ajouter Un Fichier</p><div class="form-group d-flex"><input type="file" class="form-control form-control-primary inputfile col-md-5" id="fichier[0]" name="fichier[0]"><input type="text" class="ml-10 filename" placeholder="Nom De Fichier" name="filename[0]" /></div></div><div class="col-md-2" style="padding:auto;margin:auto"><button data-role="add" class="btn-icon btn-outline-success" type="button"><i class="ik ik-plus"></i></button></div></div>'
-            // );
-
-
-
         });
 
 
         // ajouter document i++
 
         $(document).on('click', 'button[data-role=add]', function() {
-
-
-
             var i = $('input[type=file]').length;
-
             $('#attache').append('<div id="attachement' + i +
-                '" class="row"><div class="col-md-10"><p>Ajouter Un Fichier</p><div class="form-group"><input type="file" class="form-control form-control-primary inputfile" name="fichier[' +
+                '" class="row"><div class="col-md-10"><p>Ajouter Un Fichier</p><div class="form-group"><input type="file"  accept=".jpg, .png, .svg, .pdf, .docx, .xlsx" class="form-control form-control-primary inputfile" name="fichier[' +
                 i + ']" id="fichier[' + i +
                 ']" required></div></div><div class="col-md-2" style="padding:auto;margin:auto"><button data-id="' +
                 i +
                 '" data-role="delete" class="btn-icon btn-outline-danger" type="button"><i class="ik ik-minus"></i></button></div></div>'
             );
-            // $('#attache').append('<div id="attachement' + i +
-            //     '" class="row"><div class="col-md-10"><p>Ajouter Un Fichier</p><div class="form-group d-flex"><input type="file" class="form-control form-control-primary inputfile" name="fichier[' +
-            //     i + ']" id="fichier[' + i +
-            //     ']" required><input type="text" class="ml-10 filename" placeholder="Nom De Fichier" name="filename[' +
-            //     i +
-            //     ']"  /></div></div><div class="col-md-2" style="padding:auto;margin:auto"><button data-id="' +
-            //     i +
-            //     '" data-role="delete" class="btn-icon btn-outline-danger" type="button"><i class="ik ik-minus"></i></button></div></div>'
-            // );
-
             if (i > 1) {
 
                 var k = i - 1;

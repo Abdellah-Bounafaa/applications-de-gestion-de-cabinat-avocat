@@ -12,12 +12,11 @@
                      </div>
 
                      <button type="button" data-dismiss="modal" class="btn btn-secondary">X</button>
-
                  </div>
                  <div class="modal-body">
 
                      <div class="row">
-                         <input type="hidden" class="form-control" name="id_dossierRequete">
+                         <input type="hidden" class="form-control" id="id_procedureRequete" name="id_dossierRequete">
                          <input type="hidden" class="form-control" name="id_procedureRequete">
                          <div class="col-md-4">
                              <div class="form-group">
@@ -31,8 +30,11 @@
                              </div>
                          </div>
                          <div class="col-md-4">
-                             <div class="form-group"><label class="col-form-label col-form-label-sm"> Référence Tribunal
-                                     : </label><input type="text" class="form-control" name="referenceRequete" />
+
+                             <div class="form-group"><label class="col-form-label col-form-label-sm"> Référence De
+                                     Tribunal
+                                     : </label><input type="text" class="form-control"
+                                     placeholder=" Référence De Tribunal" name="referenceRequete" />
                              </div>
                          </div>
                          <div class="col-md-4">
@@ -50,13 +52,19 @@
                          </div>
                          <div class="col-md-4">
                              <div class="form-group"><label class="col-form-label col-form-label-sm">Juge :
-                                 </label><input type="text" class="form-control" id="jugeRequete" /></div>
+                                 </label><input type="text" placeholder="Juge" class="form-control" id="jugeRequete"
+                                     name="jugeRequete" /></div>
+                         </div>
+                         <div class="col-md-4">
+                             <div class="form-group"><label class="col-form-label col-form-label-sm">Salle :
+                                 </label><input type="text" class="form-control" name="salle"
+                                     placeholder="Salle D'audiance" id="salle" /></div>
                          </div>
                          <div class="col-md-4">
                              <div class="form-group"><label class="col-form-label col-form-label-sm">Date De Retrait :
                                  </label><input type="date" class="form-control" name="retraitRequete" /></div>
                          </div>
-                         <div class="col-md-4">
+                         <div class="col-md-4" id="showSortRequete">
                              <div class="form-group"><label class="col-form-label col-form-label-sm">Sort :
                                  </label>
                                  <select name="sortRequete" class="form-control" id="">
@@ -67,15 +75,24 @@
                              </div>
                          </div>
                          <div class="col-md-4">
-                             <div class="form-group"><label class="col-form-label col-form-label-sm">URL Scan :
+                             <div class="form-group"><label class="col-form-label col-form-label-sm">Fichier :
                                  </label><input type="file" class="form-control form-control-primary"
                                      name="urlRequete" /></div>
                          </div>
                          <div class="col-md-4">
-                             <div class="form-group"><label class="col-form-label col-form-label-sm">Date De Jugement :
-                                 </label><input type="date" class="form-control" name="jugementRequete" /></div>
+                             <div class="form-group"><label class="col-form-label col-form-label-sm">Date D'audiance :
+                                 </label><input type="date" class="form-control" name="date_audiance" /></div>
                          </div>
                          <div class="col-md-4">
+                             <div class="form-group"><label class="col-form-label col-form-label-sm">Heure D'audiance :
+                                 </label><input type="time" class="form-control" name="heure_audiance" /></div>
+                         </div>
+                         <div class="col-md-4" id="showDateJugement">
+                             <div class="form-group"><label class="col-form-label col-form-label-sm">Date De Jugement
+                                     :
+                                 </label><input type="date" class="form-control" name="jugementRequete" /></div>
+                         </div>
+                         <div class="col-md-4" id="showEtatRequete">
                              <div class="form-group"><label class="col-form-label col-form-label-sm">Etat De Requete :
                                  </label><select class="form-control form-control-success" name="etatRequete">
                                      <option selected disabled>Choisir..</option>
@@ -89,15 +106,17 @@
                                  <textarea class="form-control form-control-sm" rows="2" placeholder="Observation" name="observationRequete"></textarea>
                              </div>
                          </div>
-
-
-
                      </div>
-                     <div class="row" id="Requete_dossier"></div>
+                     <div class="d-flex justify-content-center align-items-center p-2 mb-4">
+                         <button type="submit" class="btn btn-primary mr-2">Save changes</button>
+                         <a class="btn btn-secondary text-white"
+                             onclick="toggleHistorique('Requete_dossier')">Afficher
+                             L'historique</a>
+                     </div>
+                     <div class="row" style="display: none" id="Requete_dossier"></div>
                  </div>
                  <div class="modal-footer">
                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                     <button type="submit" class="btn btn-primary">Save changes</button>
                  </div>
 
              </form>
@@ -117,105 +136,233 @@
  <div class="modal fade" id="Audiance" role="dialog">
      <div class="modal-dialog modal-lg" role="document">
          <div class="modal-content">
-             <form id="audiance_form" method="post" action="#" enctype="multipart/form-data">
-                 @csrf
 
-                 <div class="modal-header d-flex justify-content-between">
-                     <div>
-                         <h4>Dossier N°<strong id="number_dossierAudiance"></strong>
-                         </h4>
-                         <h6>Créance : <strong id="prix_Audiance"></strong> DH</h6>
-                     </div>
-
-                     <button type="button" data-dismiss="modal" class="btn btn-secondary">X</button>
-
+             <div class="modal-header d-flex justify-content-between">
+                 <div>
+                     <h4>Dossier N°<strong id="number_dossierAudiance"></strong>
+                     </h4>
+                     <h6>Créance : <strong id="prix_Audiance"></strong> DH</h6>
                  </div>
-                 <div class="modal-body">
-
+                 <button type="button" data-dismiss="modal" class="btn btn-secondary">X</button>
+             </div>
+             <div class="modal-body">
+                 {{-- <div class="row"> --}}
+                 <form id="audiance_form" method="post" action="#" enctype="multipart/form-data">
+                     @csrf
                      <div class="row">
-                         <input type="hidden" class="form-control" name="id_dossierAudiance"><input type="hidden"
-                             class="form-control" name="id_procedureAudiance">
+                         <input type="hidden" class="form-control" id="id_audiance" name="id_audiance">
+                         <input type="hidden" class="form-control" id="id_dossierAudiance"
+                             name="id_dossierAudiance">
+                         <input type="hidden" class="form-control" id="id_procedureAudiance"
+                             name="id_procedureAudiance">
                          <div class="col-md-4">
-                             <div class="form-group"><label class="col-form-label col-form-label-sm"> Gestionnaire :
-                                 </label><select class="form-control" name="gestionAudiance">
+                             <div class="form-group"><label class="col-form-label col-form-label-sm"> Gestionnaire
+                                     :
+                                 </label><select class="form-control" id="gestionAudiance" name="gestionAudiance">
                                      @foreach ($userr as $usee)
-                                         <option value="{{ $usee->CIN }}">{{ $usee->PRENOM }} {{ $usee->NOM }}
+                                         <option value="{{ $usee->CIN }}">{{ $usee->PRENOM }}
+                                             {{ $usee->NOM }}
                                          </option>
                                      @endforeach
                                  </select>
                              </div>
                          </div>
                          <div class="col-md-4">
-                             <div class="form-group"><label class="col-form-label col-form-label-sm"> Juge D'audiance
+                             <div class="form-group"><label class="col-form-label col-form-label-sm"> Juge
+                                     D'audiance
                                      :
-                                 </label><input type="text" class="form-control" name="jugeAudiance" /></div>
+                                 </label><input type="text" class="form-control" id="juge_audiance"
+                                     name="jugeAudiance" /></div>
                          </div>
                          <div class="col-md-4">
-                             <div class="form-group"><label class="col-form-label col-form-label-sm">Ref Tribunal :
+                             <div class="form-group"><label class="col-form-label col-form-label-sm">Ref Tribunal
+                                     :
                                  </label>
-                                 <input type="text" name="ref_tribunal" class="form-control" id="">
+                                 <input type="text" name="ref_tribunal" id="ref_tribunal_aud"
+                                     class="form-control" id="">
                              </div>
                          </div>
                          <div class="col-md-4">
                              <div class="form-group"><label class="col-form-label col-form-label-sm">Tribunal :
-                                 </label><select class="form-control" name="tribunalAudiance">
+                                 </label><select class="form-control" id="tribunalAudiance" name="tribunalAudiance">
                                      @foreach ($tribunal as $nomm)
-                                         <option value="{{ $nomm->ID_TRIBUNAL }}">{{ $nomm->NOM_TRIBUNAL }}</option>
+                                         <option value="{{ $nomm->ID_TRIBUNAL }}">{{ $nomm->NOM_TRIBUNAL }}
+                                         </option>
                                      @endforeach
                                  </select>
                              </div>
                          </div>
                          <div class="col-md-4">
-                             <div class="form-group"><label class="col-form-label col-form-label-sm">Date D'audience :
-                                 </label><input type="date" class="form-control" name="dateAudiance" /></div>
+                             <div class="form-group"><label class="col-form-label col-form-label-sm">Date
+                                     D'audience :
+                                 </label><input type="date" class="form-control" id="dateAudiance"
+                                     name="dateAudiance" /></div>
                          </div>
-                         <div class="col-md-4">
+                         {{-- <div class="col-md-4">
                              <div class="form-group"><label class="col-form-label col-form-label-sm">Date De Création
                                      :
                                  </label><input type="date" class="form-control" name="creationAudiance" /></div>
-                         </div>
+                         </div> --}}
                          <div class="col-md-4">
-                             <div class="form-group"><label class="col-form-label col-form-label-sm">Date De Retrait :
-                                 </label><input type="date" class="form-control" name="audianceRetrait" /></div>
+                             <div class="form-group"><label class="col-form-label col-form-label-sm">Date De
+                                     Retrait :
+                                 </label><input type="date" class="form-control" id="audianceRetrait"
+                                     name="audianceRetrait" /></div>
                          </div>
                          <div class="col-md-4">
                              <div class="form-group"><label class="col-form-label col-form-label-sm">Salle :
                                  </label><input type="text" placeholder="numero salle" class="form-control"
-                                     name="salleAudiance" /></div>
+                                     name="salleAudiance" id="salleAudiance" /></div>
                          </div>
-
                          <div class="col-md-4">
-                             <div class="form-group"><label class="col-form-label col-form-label-sm">URL Scan :
+                             <div class="form-group"><label class="col-form-label col-form-label-sm">Fichier :
                                  </label><input type="file" class="form-control form-control-primary"
                                      name="urlAudiance" /></div>
                          </div>
                          <div class="col-md-4">
-                             <div class="form-group"><label class="col-form-label col-form-label-sm">Etat D'audiance :
-                                 </label><select class="form-control form-control-success" name="etatAudiance">
+                             <div class="form-group"><label class="col-form-label col-form-label-sm">Etat
+                                     D'audiance :
+                                 </label><select class="form-control form-control-success"
+                                     id="etatAudiance"name="etatAudiance" onchange="toggleNewAudiance()">
                                      <option selected disabled>Choisir..</option>
                                      <option value="0">Jugement</option>
                                      <option value="1">Audiance</option>
-                                     <option value="2">Fermé</option>
+                                     <option value="2">En Cours</option>
+                                     <option value="3">Délibiration</option>
                                  </select></div>
                          </div>
                          <div class="col-lg-12">
                              <div class="form-group">
-                                 <label class="col-form-label col-form-label-sm" for="observ">Observation : </label>
+                                 <label class="col-form-label col-form-label-sm" for="observ">Observation :
+                                 </label>
                                  <textarea class="form-control form-control-sm" rows="2" placeholder="Observation" name="observationAudiance"></textarea>
                              </div>
                          </div>
 
                      </div>
-                     <div class="row" id="Audiance_dossier"></div>
+
+
+                     <input type="submit" value="Valider" class="btn btn-success">
+
+                 </form>
 
 
 
+
+
+
+
+
+
+
+
+                 <div id="new_audiance" class="p-2" style="display:none">
+                     <h6>Nouvelle Audiance</h6>
+                     <form id="new_audiance_form" method="post" action="#" enctype="multipart/form-data">
+                         @csrf
+                         <div class="row p-1">
+                             <input type="hidden" class="form-control" name="id_dossierAudiance"><input
+                                 type="hidden" class="form-control" name="id_procedureAudiance">
+                             <div class="col-md-4">
+                                 <div class="form-group"><label class="col-form-label col-form-label-sm">
+                                         Gestionnaire
+                                         :
+                                     </label><select class="form-control" name="gestionAudiance">
+                                         @foreach ($userr as $usee)
+                                             <option value="{{ $usee->CIN }}">{{ $usee->PRENOM }}
+                                                 {{ $usee->NOM }}
+                                             </option>
+                                         @endforeach
+                                     </select>
+                                 </div>
+                             </div>
+                             <div class="col-md-4">
+                                 <div class="form-group"><label class="col-form-label col-form-label-sm"> Juge
+                                         D'audiance
+                                         :
+                                     </label><input type="text" class="form-control" name="jugeAudiance" />
+                                 </div>
+                             </div>
+                             <div class="col-md-4">
+                                 <div class="form-group"><label class="col-form-label col-form-label-sm">Ref
+                                         Tribunal
+                                         :
+                                     </label>
+                                     <input type="text" name="ref_tribunal" class="form-control" id="">
+                                 </div>
+                             </div>
+                             <div class="col-md-4">
+                                 <div class="form-group"><label class="col-form-label col-form-label-sm">Tribunal
+                                         :
+                                     </label><select class="form-control" name="tribunalAudiance">
+                                         @foreach ($tribunal as $nomm)
+                                             <option value="{{ $nomm->ID_TRIBUNAL }}">{{ $nomm->NOM_TRIBUNAL }}
+                                             </option>
+                                         @endforeach
+                                     </select>
+                                 </div>
+                             </div>
+                             <div class="col-md-4">
+                                 <div class="form-group"><label class="col-form-label col-form-label-sm">Date
+                                         D'audience :
+                                     </label><input type="date" class="form-control" name="dateAudiance" />
+                                 </div>
+                             </div>
+                             {{-- <div class="col-md-4">
+                             <div class="form-group"><label class="col-form-label col-form-label-sm">Date De Création
+                                     :
+                                 </label><input type="date" class="form-control" name="creationAudiance" /></div>
+                         </div> --}}
+                             <div class="col-md-4">
+                                 <div class="form-group"><label class="col-form-label col-form-label-sm">Date De
+                                         Retrait :
+                                     </label><input type="date" class="form-control" name="audianceRetrait" />
+                                 </div>
+                             </div>
+                             <div class="col-md-4">
+                                 <div class="form-group"><label class="col-form-label col-form-label-sm">Salle :
+                                     </label><input type="text" placeholder="Numéro de salle" class="form-control"
+                                         name="salleAudiance" /></div>
+                             </div>
+                             <div class="col-md-4">
+                                 <div class="form-group"><label class="col-form-label col-form-label-sm">Fichier :
+                                     </label><input type="file" class="form-control form-control-primary"
+                                         name="urlAudiance" /></div>
+                             </div>
+                             <div class="col-md-4">
+                                 <div class="form-group"><label class="col-form-label col-form-label-sm">Etat
+                                         D'audiance :
+                                     </label><select class="form-control form-control-success" name="etatAudiance">
+                                         <option selected disabled>Choisir..</option>
+                                         <option value="0">Jugement</option>
+                                         {{-- <option value="1">Audiance</option> --}}
+                                         <option value="2">En Cours</option>
+                                         <option value="3">Délibiration</option>
+                                     </select></div>
+                             </div>
+                             <div class="col-lg-12">
+                                 <div class="form-group">
+                                     <label class="col-form-label col-form-label-sm" for="observ">Observation :
+                                     </label>
+                                     <textarea class="form-control form-control-sm" rows="2" placeholder="Observation" name="observationAudiance"></textarea>
+                                 </div>
+                             </div>
+                         </div>
+                         <input type="submit" class="btn btn-success" value="Ajouter">
+                     </form>
                  </div>
-                 <div class="modal-footer">
-                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                     <button type="submit" class="btn btn-primary">Save changes</button>
+                 {{-- </div> --}}
+                 <div class="d-flex justify-content-center align-items-center p-2 mb-4">
+                     <button class="btn btn-secondary text-white"
+                         onclick="toggleHistorique('Audiance_dossier')">Afficher
+                         L'historique</button>
                  </div>
-             </form>
+                 <div class="row" style="display: none" id="Audiance_dossier"></div>
+             </div>
+             <div class="modal-footer">
+                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+             </div>
+             {{-- </form> --}}
          </div>
      </div>
  </div>
@@ -273,8 +420,8 @@
                                  </label>
                                  <select name="sortJugement" class="form-control" id="">
                                      <option value="" selected> Choisir...</option>
-                                     <option value="1"> Oui</option>
-                                     <option value="2"> Non</option>
+                                     <option value="1"> Favorable</option>
+                                     <option value="2"> Défavorable</option>
                                  </select>
                              </div>
                          </div>
@@ -288,11 +435,11 @@
                                  </label><input type="date" class="form-control" name="dateJugement" /></div>
                          </div>
                          <div class="col-md-6">
-                             <div class="form-group"><label class="col-form-label col-form-label-sm">URL Scan :
+                             <div class="form-group"><label class="col-form-label col-form-label-sm">Fichier :
                                  </label><input type="file" class="form-control form-control-primary"
                                      name="urlJugement" /></div>
                          </div>
-                         <div class="col-md-6">
+                         {{-- <div class="col-md-6">
                              <div class="form-group"><label class="col-form-label col-form-label-sm">Etat De Jugement
                                      :
                                  </label><select class="form-control form-control-success" name="etatJugement">
@@ -300,7 +447,7 @@
                                      <option value="0">En cours</option>
                                      <option value="1">Fermé</option>
                                  </select></div>
-                         </div>
+                         </div> --}}
                          <div class="col-lg-12">
                              <div class="form-group">
                                  <label class="col-form-label col-form-label-sm" for="observ">Observation : </label>
@@ -308,14 +455,17 @@
                              </div>
                          </div>
                      </div>
-                     <div class="row" id="Jugement_dossier"></div>
-
-
+                     <div class="d-flex justify-content-center align-items-center p-2 mb-4">
+                         <button type="submit" class="btn btn-primary mr-2">Save changes</button>
+                         <a class="btn btn-secondary text-white"
+                             onclick="toggleHistorique('Jugement_dossier')">Afficher
+                             L'historique</a>
+                     </div>
+                     <div class="row" style="display: none" id="Jugement_dossier"></div>
 
                  </div>
                  <div class="modal-footer">
                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                     <button type="submit" class="btn btn-primary">Save changes</button>
                  </div>
              </form>
          </div>
@@ -422,14 +572,16 @@
                              </div>
                          </div>
                      </div>
-                     <div class="row" id="Notification_dossier"></div>
-
-
-
+                     <div class="d-flex justify-content-center align-items-center p-2 mb-4">
+                         <button type="submit" class="btn btn-primary mr-2">Save changes</button>
+                         <a class="btn btn-secondary text-white"
+                             onclick="toggleHistorique('Notification_dossier')">Afficher
+                             L'historique</a>
+                     </div>
+                     <div class="row" style="display: none" id="Notification_dossier"></div>
                  </div>
                  <div class="modal-footer">
                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                     <button type="submit" class="btn btn-primary">Save changes</button>
                  </div>
              </form>
          </div>
@@ -529,14 +681,18 @@
                              </div>
                          </div>
                      </div>
-                     <div class="row" id="CNA_dossier"></div>
+                     <div class="d-flex justify-content-center align-items-center p-2 mb-4">
+                         <button type="submit" class="btn btn-primary mr-2">Save changes</button>
+                         <a class="btn btn-secondary text-white" onclick="toggleHistorique('CNA_dossier')">Afficher
+                             L'historique</a>
+                     </div>
+                     <div class="row" style="display: none" id="CNA_dossier"></div>
 
 
 
                  </div>
                  <div class="modal-footer">
                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                     <button type="submit" class="btn btn-primary">Save changes</button>
                  </div>
              </form>
          </div>
@@ -634,14 +790,16 @@
                              </div>
                          </div>
                      </div>
-                     <div class="row" id="Execution_dossier"></div>
-
-
-
+                     <div class="d-flex justify-content-center align-items-center p-2 mb-4">
+                         <button type="submit" class="btn btn-primary mr-2">Save changes</button>
+                         <a class="btn btn-secondary text-white"
+                             onclick="toggleHistorique('Execution_dossier')">Afficher
+                             L'historique</a>
+                     </div>
+                     <div class="row" style="display: none" id="Execution_dossier"></div>
                  </div>
                  <div class="modal-footer">
                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                     <button type="submit" class="btn btn-primary">Save changes</button>
                  </div>
              </form>
          </div>
@@ -745,14 +903,19 @@
                          </div>
 
                      </div>
-                     <div class="row" id="PLAINTE_dossier"></div>
+                     <div class="d-flex justify-content-center align-items-center p-2 mb-4">
+                         <button type="submit" class="btn btn-primary mr-2">Save changes</button>
+                         <a class="btn btn-secondary text-white"
+                             onclick="toggleHistorique('PLAINTE_dossier')">Afficher
+                             L'historique</a>
+                     </div>
+                     <div class="row" style="display: none" id="PLAINTE_dossier"></div>
 
 
 
                  </div>
                  <div class="modal-footer">
                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                     <button type="submit" class="btn btn-primary">Save changes</button>
                  </div>
              </form>
          </div>
@@ -865,14 +1028,19 @@
 
 
                      </div>
-                     <div class="row" id="Curateur_dossier"></div>
+                     <div class="d-flex justify-content-center align-items-center p-2 mb-4">
+                         <button type="submit" class="btn btn-primary mr-2">Save changes</button>
+                         <a class="btn btn-secondary text-white"
+                             onclick="toggleHistorique('Curateur_dossier')">Afficher
+                             L'historique</a>
+                     </div>
+                     <div class="row" style="display: none" id="Curateur_dossier"></div>
 
 
 
                  </div>
                  <div class="modal-footer">
                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                     <button type="submit" class="btn btn-primary">Save changes</button>
                  </div>
              </form>
          </div>

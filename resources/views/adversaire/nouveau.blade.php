@@ -72,7 +72,8 @@
                               <div class="col-md-6">
                                   <div class="form-group">
                                       <label class="col-form-label col-form-label-sm" for="clientadress">Adresse :
-                                      </label> <button data-role="adresse" type="button"
+                                      </label>
+                                      <button data-role="adresse" type="button"
                                           class="btn btn-outline-primary btn-icon"><i
                                               class="ik ik-plus"></i></button><button data-role="adressehide"
                                           type="button" class="btn btn-outline-danger btn-icon" style="display:none"><i

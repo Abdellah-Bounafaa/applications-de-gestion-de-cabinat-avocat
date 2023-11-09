@@ -444,13 +444,10 @@
 @section('script')
     <script>
         $(document).ready(function() {
-
             $('.chosen-select').select2({
                 width: "75%"
             });
-
             @if (Session::has('message'))
-
                 'use strict';
                 $.toast({
                     heading: 'Success',
@@ -461,9 +458,23 @@
                     position: 'top-center'
                 });
             @endif
-
         });
 
+        //adresse
+        $(document).on('click', 'button[data-role=adresse]', function() {
+            $(this).hide();
+            $('#adresse_add').show();
+            $('button[data-role=adressehide]').show();
+        });
+
+        $(document).on('click', 'button[data-role=adressehide]', function() {
+            $('#adresse_add').hide();
+            $(this).hide();
+            $('button[data-role=adresse]').show();
+            $(this).html(
+                '<button data-role="adresse" type="button" class="btn btn-outline-primary btn-icon"><i class="ik ik-plus"></i></button>'
+            );
+        });
 
         //Caution
 
@@ -474,17 +485,9 @@
                 $('#cautionnaire').html(
                     '<div class="card-header"><h3><i class="far fa-user"></i> &nbsp; Nouveau Cautionnaire </h3><div class="card-header-right"><ul class="list-unstyled card-option"><li><i class="ik ik-chevron-left action-toggle"></i></li><li><i class="ik ik-minus minimize-card"></i></li><li><i class="ik ik-x close-card"></i></li></ul></div></div><div class="card-body todo-task"><div class="dd" data-plugin="nestable" id="dd"><div class="row"><div class="col-md-6"><div class="form-group"><label class="col-form-label col-form-label-sm" id="labelCautionnaire" for="clientName">Nom : </label><input type="text" class="form-control form-control-sm" placeholder="Nom cautionnaire" id="nomCautionnaire" name="nom_cautionnaire" required></div></div><div class="col-md-6"><div class="form-group"><label class="col-form-label col-form-label-sm" for="clientId">Identifiant : </label><input type="text" class="form-control form-control-sm" placeholder="Identifiant cautionnaire" id="identifiant_adversaire" name="identifiant_cautionnaire"></div></div></div><div class="row"> <div class="col-md-6"><div class="form-group"><label class="col-form-label col-form-label-sm" for="clientadress">Prenom : </label><input type="text" class="form-control form-control-sm" placeholder="Prenom cautionnaire" id="prenomCautionnaire" name="prenom_cautionnaire"></div></div><div class="col-md-6"><div class="form-group"><label class="col-form-label col-form-label-sm" for="clientadress">Adresse : </label><input type="text" class="form-control form-control-sm" placeholder="Adresse cautionnaire" id="adresse_adversaire" name="adresse_cautionnaire"></div></div></div><div class="row"><div class="col-md-6"><div class="form-group"><label class="col-form-label col-form-label-sm" for="clientType">Type : </label><select class="form-control form-control-sm" id="typeCautionnaire" name="type_cautionnaire" onchange="togglePrenomField(\'typeCautionnaire\',\'prenomCautionnaire\',\'nomCautionnaire\',\'labelCautionnaire\')"><option value="1" selected>Particulier</option><option value="2" >Entreprise</option><option value="3">Professionnel</option></select><label class="col-form-label col-form-label-sm" for="clientTel2">Téléphone 2 : </label><input type="text" class="form-control form-control-sm" placeholder="Téléphone cautionnaire" id="clientTel2" name="tel2_cautionnaire"></div></div><div class="col-md-6"><div class="form-group"><label class="col-form-label col-form-label-sm" for="clientTel1">Téléphone : </label><input type="text" class="form-control form-control-sm" placeholder="Téléphone cautionnaire" id="clientTel1" name="tel_cautionnaire" required="required"><label class="col-form-label col-form-label-sm" for="clientMail">Email : </label><input type="email" class="form-control form-control-sm" placeholder="Email cautionnaire" id="clientMail" name="email_cautionnaire"></div></div></div></div></div>'
                 );
-
             } else {
-
                 $('#cautionnaire').html('');
-
             }
-
-
-
-
-
         }
 
 

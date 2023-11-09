@@ -275,13 +275,9 @@
         $(document).ready(function() {
 
             $.ajaxSetup({
-
                 headers: {
-
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-
                 }
-
             });
 
             $('.chosen-select').select2({
@@ -318,8 +314,6 @@
             var type = $('select[name=type]').val();
             var gestionnaire = $('select[name=user]').val();
 
-
-
             var donnees = [numero_dossier, radical_cabinet, reference_client, radical_client, client, adversaire,
                 nature, type, gestionnaire
             ];
@@ -351,38 +345,37 @@
             });
         });
 
-        $(document).on('click', 'button[data-role=filtrer]', function() {
-            $('#ajax_resultat').html('');
-            var type = $('input[name=date_type]').val();
-            console.log(type);
-            $.ajax({
+        // $(document).on('click', 'button[data-role=filtrer]', function() {
+        //     $('#ajax_resultat').html('');
+        //     var type = $('input[name=date_type]').val();
+        //     console.log(type);
+        //     $.ajax({
 
-                url: "{{ url('/dossier/search/date') }}",
-                method: "POST",
-                data: {
-                    type: type
-                },
-                dataType: "JSON",
-                success: function(data) {
-                    console.log(data);
-                    $('#resultat')[0].style.display = 'block';
-                    $('#ajax_resultat').html(
-                        '  <table id="simpletable" class="table table-bordered nowrap"><thead class="text-center"><tr><th class="nosort">Actions</th><th>N° Dossier</th><th>R.Cabinet</th><th>R.Client</th><th>Client</th><th>Adversaire</th><th>Gestionnaire</th><th>Date Ouverture</th><th>Montant Créance</th></thead><tbody id="tbody" class="text-center"></tbody></table>'
-                    );
-                    $.each(data, function(i, res) {
-                        $('#tbody').append('<tr><td><button data-role="modifier" data-id="' +
-                            res.ID_DOSSIER +
-                            '" class="btn-icon btn-outline-success"><i class="ik ik-edit"></i></button></td><td>' +
-                            res.NUM_DOSSIER + '</td><td>' + res.R_CABINET + '</td><td>' +
-                            res.R_CLIENT + '</td><td>' + res.nom_client + '&nbsp;' + res
-                            .prenom_client + '</td><td>' + res.nom_adversaire + '&nbsp;' +
-                            res.prenom_adversaire + '</td><td>' + res.LOGIN + '</td><td>' +
-                            res.DATE_OUVERTURE + '</td><td>' + res.MNT_CREANCE +
-                            ' DH</td></tr>');
-                    });
-                }
-            });
-        });
+        //         url: "{{ url('/dossier/search/date') }}",
+        //         method: "POST",
+        //         data: {
+        //             type: type
+        //         },
+        //         dataType: "JSON",
+        //         success: function(data) {
+        //             $('#resultat')[0].style.display = 'block';
+        //             $('#ajax_resultat').html(
+        //                 '  <table id="simpletable" class="table table-bordered nowrap"><thead class="text-center"><tr><th class="nosort">Actions</th><th>N° Dossier</th><th>R.Cabinet</th><th>R.Client</th><th>Client</th><th>Adversaire</th><th>Gestionnaire</th><th>Date Ouverture</th><th>Montant Créance</th></thead><tbody id="tbody" class="text-center"></tbody></table>'
+        //             );
+        //             $.each(data, function(i, res) {
+        //                 $('#tbody').append('<tr><td><button data-role="modifier" data-id="' +
+        //                     res.ID_DOSSIER +
+        //                     '" class="btn-icon btn-outline-success"><i class="ik ik-edit"></i></button></td><td>' +
+        //                     res.NUM_DOSSIER + '</td><td>' + res.R_CABINET + '</td><td>' +
+        //                     res.R_CLIENT + '</td><td>' + res.nom_client + '&nbsp;' + res
+        //                     .prenom_client + '</td><td>' + res.nom_adversaire + '&nbsp;' +
+        //                     res.prenom_adversaire + '</td><td>' + res.LOGIN + '</td><td>' +
+        //                     res.DATE_OUVERTURE + '</td><td>' + res.MNT_CREANCE +
+        //                     ' DH</td></tr>');
+        //             });
+        //         }
+        //     });
+        // });
 
 
 
@@ -400,25 +393,15 @@
                 },
                 dataType: "JSON",
                 success: function(data) {
-
-
                     if (data[0].SUSPENTION == 1) {
                         $('#suspention')[0].checked = true;
-
                     }
-
-
                     if (data[0].MANQUE_PIECE == 1) {
                         $('#manque')[0].checked = true;
-
                     }
-
                     if (data[0].SUSPENTION_ARRANGEMENT == 1) {
                         $('#arrangement')[0].checked = true;
-
                     }
-
-
                     $('#id_dossier').val(id);
                     $('#dossier_id').html(id);
 
@@ -626,33 +609,14 @@
         $(document).on('click', 'button[data-role=ajoute]', function() {
 
             //actions en paiement
-
-
-
             for (var i = 1; i <= 16; i++) {
-
-
-
                 var id = document.getElementById('procedure[' + i + ']');
                 if (id.checked == true) {
-
                     var id_dossier = $('#dossier_id').html();
                     var id_procedure = id.value;
-
-
-
                     var nom_procedure = $('span[id=' + id_procedure + ']').html();
-
-
                     if (!$('#' + id_dossier + 'index' + id_procedure + '').html()) {
-
-
                         id.checked = false;
-
-
-
-
-
                         $('#affichage_procedure').append('<div class="col-md-6" id="' + id_dossier + 'index' +
                             id_procedure +
                             '"><div class="input-group input-group-dropdown"><input type="text" value="' +
@@ -661,13 +625,7 @@
                             id_dossier + 'resultat_json' + id_procedure +
                             '" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(224px, 36px, 0px);"></div></div></div></div>'
                         );
-
-
-
-
-
                         $.ajax({
-
                             url: "{{ url('dossier/search/procedures') }}",
                             method: "POST",
                             data: {
@@ -676,32 +634,19 @@
                             },
                             dataType: "JSON",
                             success: function(data) {
-
-
-
                                 $.each(data, function(i, res) {
-
-
                                     $('#' + id_dossier + 'resultat_json' + id_procedure + '')
                                         .append(
                                             '<a class="dropdown-item" data-role="ouverture" data-id="' +
                                             res.etape + '" data-procedure="' + id_procedure +
                                             '" href="javascript:void(0)">' + res.etape + '</a>'
                                         );
-
-
-
                                 });
-
-
+                                $('#proced').modal('hide');
                             }
-
                         });
-
                     } else {
-
                         id.checked = false;
-
                         'use strict';
                         $.toast({
                             heading: 'Warning',
@@ -711,50 +656,49 @@
                             loaderBg: '#f96868',
                             position: 'top-center'
                         });
-
-
-
                     }
-
-
-
-
-
                 }
-
             }
-
-
-
-
-
         });
 
 
+        $(document).on('click', 'a[data-role=modifier-audiance]', function() {
+            var id = $(this).data('id_audiance');
+            var id_tribunal = $(this).data('id_tribunal');
+            var ref_tribunal = $(this).data('ref_tribunal');
+            var id_dossier = $(this).data('id_dossier');
+            var id_procedure = $(this).data('id_procedure');
+            var juge = $(this).data('juge');
+            var date_audiance = $(this).data('date_audiance');
+            var heure_audiance = $(this).data('heure_audiance');
+            var salle = $(this).data('salle');
+            var cin = $(this).data('cin');
+            $("#id_audiance").val(id)
+            $("#id_dossierAudiance").val(id_dossier)
+            $("#id_procedureAudiance").val(id_procedure)
+            $("#juge_audiance").val(juge)
+            $("#ref_tribunal_aud").val(ref_tribunal)
+            $("#tribunalAudiance").val(id_tribunal).change()
+            $("#gestionAudiance").val(cin).change()
+            $("#dateAudiance").val(date_audiance)
+            $("#salleAudiance").val(salle)
+            // $("#etatAudiance").val(salle)
 
-
+        });
 
         $(document).on('click', 'a[data-role=ouverture]', function() {
             var id_modal = $(this).data('id');
             var id_procedure = $(this).data('procedure');
             var id_dossier = $('#dossier_id').html();
             var montant = $('#montant_creance').val();
-
             $('#prix_' + id_modal + '').html(montant);
-
             $('#tbody' + id_dossier + '').html('');
-
             $('input[name=id_dossier' + id_modal + ']').val($('#dossier_id').html());
             $('input[name=id_procedure' + id_modal + ']').val(id_procedure);
-
             $('#number_dossier' + id_modal + '').html($('#numero_dossier').html());
-
-
             $('#' + id_modal + '').modal('toggle');
-
             var url = '{{ url('dossier/search/procedureid') }}';
             url = url.replace('id', id_modal);
-
             $('#' + id_modal + '_dossier').html('');
             $('#' + id_dossier + 'tbody' + id_dossier + '').html('');
 
@@ -769,19 +713,30 @@
                 success: function(data) {
 
                     if (id_modal == 'Requete') {
-
+                        if (id_procedure == "3" ||
+                            id_procedure == "4" ||
+                            id_procedure == "5" ||
+                            id_procedure == "6" ||
+                            id_procedure == "7" ||
+                            id_procedure == "8" ||
+                            id_procedure == "9" ||
+                            id_procedure == "10"
+                        ) {
+                            $("#showSortRequete").show();
+                            $("#showDateJugement").show();
+                            $("#showEtatRequete").show();
+                        } else {
+                            $("#showSortRequete").hide();
+                            $("#showDateJugement").hide();
+                            $("#showEtatRequete").hide();
+                        }
                         if (data.length > 0) {
                             $('#' + id_modal + '_dossier').html(
                                 '<div class="table-responsive"><table class="table table-bordered"><thead><tr><th>Responsable</th><th>Reference_Tribunal</th><th>Date_Dépot</th><th>Date_Retrait</th><th>URL_Scan</th><th>L\'état</th></tr></thead><tbody id="' +
                                 id_dossier + 'tbody' + id_modal + '"></tbody></table></div>');
-
-
-
-
                             $.each(data, function(i, res) {
                                 var document = '/requete/' + res.URL_SCAN + '';
                                 var responsable = usersData.filter(item => item.CIN === res.CIN)
-
                                 $('#' + id_dossier + 'tbody' + id_modal + '').append(
                                     '<tr><td><string>' + responsable[0].NOM + " " +
                                     responsable[0].PRENOM +
@@ -814,12 +769,8 @@
 
                         if (data.length > 0) {
                             $('#' + id_modal + '_dossier').html(
-                                '<div class="table-responsive"><table class="table table-bordered"><thead><tr><th>Responsable</th><th>ID_Tribunal</th><th>Date_Audiance</th><th>Salle</th><th>URL_Scan</th></tr></thead><tbody id="' +
+                                '<div class="table-responsive"><table class="table table-bordered"><thead><tr><th>Responsable</th><th>ID Tribunal</th><th>Date D\'audiance</th><th>Salle</th><th>Fichier</th><th>Actions</th></tr></thead><tbody id="' +
                                 id_dossier + 'tbody' + id_modal + '"></tbody></table></div>');
-
-
-
-
                             $.each(data, function(i, res) {
 
                                 var document = '/audiance/' + res.URL_AUD;
@@ -829,17 +780,30 @@
                                     '<tr><td><string>' + responsable[0].NOM + " " +
                                     responsable[0].PRENOM +
                                     '</string></td><td><string>' + res.ID_TRIBUNAL +
-                                    '</string></td><td><string>' + moment(res.DATE_AUDIANCE)
-                                    .format('DD-MMM-YYYY') + '</string></td><td><string>' +
+                                    '</string></td><td><string>' +
+                                    (res.DATE_AUDIANCE == null ? "" : moment(res
+                                            .DATE_AUDIANCE)
+                                        .format('DD-MMM-YYYY')) +
+                                    '</string></td><td><string>' +
                                     res.SALLE + '</string></td><td>' + (res.URL_AUD ===
                                         null ?
                                         "Pas De Fichier" :
                                         '<a href="' + document +
                                         '" target="_blank" style="color:blue;text-decoration: underline">' +
-                                        res.URL_AUD + '</a>') + '</td>' + '</tr>'
+                                        res.URL_AUD + '</a>') +
+                                    '</td><td><a data-id_tribunal="' + res.ID_TRIBUNAL +
+                                    '" data-ref_tribunal="' + res.ref_tribunal +
+                                    '" data-id_audiance="' + res.ID_AUDIANCE +
+                                    '" data-id_dossier="' + res.ID_DOSSIER +
+                                    '" data-id_procedure="' + res.ID_PROCEDURE +
+                                    '" data-juge="' + res.JUGE_AUD +
+                                    '" data-date_audiance="' + res.DATE_AUDIANCE +
+                                    '" data-salle="' + res.SALLE +
+                                    '" data-heure_audiance="' + res.HEURE_AUDIANCE +
+                                    '" data-cin="' + res.CIN +
+                                    '" data-role="modifier-audiance" class="btn btn-success">Modifier</a></td>' +
+                                    '</tr>'
                                 );
-
-
                             });
 
 
@@ -856,16 +820,10 @@
 
                         if (data.length > 0) {
                             $('#' + id_modal + '_dossier').html(
-                                '<div class="table-responsive"><table class="table table-bordered"><thead><tr><th>Responsable</th><th>ID_Tribunal</th><th>Date_Jugement</th><th>Juge</th><th>URL_Scan</th></tr></thead><tbody id="' +
+                                '<div class="table-responsive"><table class="table table-bordered"><thead><tr><th>Responsable</th><th>ID Tribunal</th><th>Date De Jugement</th><th>Juge</th><th>Fichier</th></tr></thead><tbody id="' +
                                 id_dossier + 'tbody' + id_modal + '"></tbody></table></div>');
-
-
-
-
                             $.each(data, function(i, res) {
-
                                 var document = '/jugement/' + res.URL_JUGEMENT;
-
                                 var responsable = usersData.filter(item => item.CIN === res.CIN)
                                 $('#' + id_dossier + 'tbody' + id_modal + '').append(
                                     '<tr><td><string>' + responsable[0].NOM + " " +
@@ -881,13 +839,8 @@
                                         '" target="_blank" style="color:blue;text-decoration: underline">' +
                                         res.URL_JUGEMENT + '</a>') + '</td>' + '</tr>'
                                 );
-
-
                             });
-
-
                         }
-
                     }
 
 
@@ -1101,23 +1054,19 @@
         //requete
 
         $("#requete_form").submit(function(e) {
-
-
-
             e.preventDefault();
-
-
             var form = $('#requete_form').get(0);
             var formData = new FormData(form);
             var retraitDate = new Date(formData.get('retraitRequete'));
             var depotDate = new Date(formData.get('depotRequete'));
-            var jugementDate = new Date(formData.get('jugementRequete'));
-
+            // var jugementDate = new Date(formData.get('jugementRequete'));
             if (retraitDate <= depotDate) {
                 alert("Date de retrait doit être supérieure strictement à la date de dépôt.");
-            } else if (jugementDate <= depotDate || jugementDate <= retraitDate) {
-                alert("Date de jugement doit être supérieure strictement aux deux autres dates.");
-            } else {
+            }
+            // else if (jugementDate <= depotDate || jugementDate <= retraitDate) {
+            //     alert("Date de jugement doit être supérieure strictement aux deux autres dates.");
+            // }
+            else {
                 $.ajax({
 
                     url: "{{ url('dossier/search/requete') }}",
@@ -1155,31 +1104,23 @@
         // audiance
 
         $("#audiance_form").submit(function(e) {
-
-
-
             e.preventDefault();
-
-
             var form = $('#audiance_form').get(0);
             var formData = new FormData(form);
             var dateAudiance = new Date(formData.get('dateAudiance'));
             var audianceRetrait = new Date(formData.get('audianceRetrait'));
-
-
+            var etatAudiance = formData.get('etatAudiance');
             if (dateAudiance <= audianceRetrait) {
                 alert("Date d'audiance doit être supérieure strictement à la date de retrait.");
             } else {
                 $.ajax({
-
-                    url: "{{ url('dossier/search/audiance') }}",
+                    url: formData.get('id_audiance') ? "{{ url('dossier/search/audiance/modifier') }}" :
+                        "{{ url('dossier/search/audiance') }}",
                     method: "POST",
                     data: formData,
                     processData: false,
                     contentType: false,
                     success: function(data) {
-
-
                         'use strict';
                         $.toast({
                             heading: 'Success',
@@ -1190,14 +1131,10 @@
                             position: 'top-center',
                             hideAfter: 1000,
                         });
-
-
-                        $('#Audiance').modal('toggle');
-
-
+                        if (etatAudiance != "1") {
+                            $('#Audiance').modal('toggle');
+                        }
                     }
-
-
                 });
             }
 
@@ -1210,22 +1147,45 @@
 
         });
 
-
+        $("#new_audiance_form").submit(function(e) {
+            e.preventDefault();
+            var form = $('#new_audiance_form').get(0);
+            var formData = new FormData(form);
+            var dateAudiance = new Date(formData.get('dateAudiance'));
+            var audianceRetrait = new Date(formData.get('audianceRetrait'));
+            if (dateAudiance <= audianceRetrait) {
+                alert("Date d'audiance doit être supérieure strictement à la date de retrait.");
+            } else {
+                $.ajax({
+                    url: "{{ url('dossier/search/audiance') }}",
+                    method: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(data) {
+                        'use strict';
+                        $.toast({
+                            heading: 'Success',
+                            text: "Enregistrement Effectué !",
+                            showHideTransition: 'slide',
+                            icon: 'success',
+                            loaderBg: '#f96868',
+                            position: 'top-center',
+                            hideAfter: 1000,
+                        });
+                        $('#Audiance').modal('toggle');
+                    }
+                });
+            }
+        });
 
 
         // jugement
 
         $("#jugement_form").submit(function(e) {
-
-
-
             e.preventDefault();
-
-
             var form = $('#jugement_form').get(0);
             var formData = new FormData(form); // get the form data
-
-
             $.ajax({
 
                 url: "{{ url('dossier/search/jugement') }}",

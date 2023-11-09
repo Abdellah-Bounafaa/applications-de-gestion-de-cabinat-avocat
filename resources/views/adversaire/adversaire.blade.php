@@ -145,8 +145,6 @@
 @section('script')
     <script>
         $(document).ready(function() {
-
-
             $.ajaxSetup({
 
                 headers: {
@@ -164,9 +162,6 @@
                 width: "100%",
                 dropdownParent: $('#edition')
             });
-
-
-
             @if (Session::has('message'))
 
                 'use strict';
@@ -184,6 +179,7 @@
 
 
         });
+
 
 
         $(document).on('click', 'button[data-role=adresse]', function() {
@@ -289,8 +285,6 @@
 
 
                 $.ajax({
-
-
                     url: "{{ url('adversaire/caution') }}",
                     method: "POST",
                     data: {
@@ -299,10 +293,10 @@
                     dataType: "JSON",
                     success: function(data) {
                         $('#caution_modifier').html(
-                            '<div class="col-md-12"><h5 class="pt-2 pb-2">Cautionnaire :</h5></div><div class="col-md-4"><div class="form-group"><label class="col-form-label col-form-label-sm">Type De Cautionnaire : </label><select class="form-control form-control-sm" id="type_caution" required onchange="togglePrenomField(\'type_caution\',\'prenom_caution\',\'nom_caution\',\'label_nom_cautionnaire\')" required>@foreach ($type as $typet)<option value="{{ $typet->ID_TYPET }}">{{ $typet->LIBELLE_TYPET }}</option>@endforeach</select></div></div><div class="col-md-4"><div class="form-group"><label class="col-form-label col-form-label-sm" id="label_nom_cautionnaire">Nom De Cautionnaire : </label><input type="text" class="form-control form-control-sm" placeholder="Nom De Cautionnaire" id="nom_caution" value="' +
+                            '<div class="col-md-12"><h5 class="pt-2 pb-2">Cautionnaire :</h5></div><div class="col-md-4"><div class="form-group"><label class="col-form-label col-form-label-sm">Type De Cautionnaire : </label><select class="form-control form-control-sm" id="type_caution"  onchange="togglePrenomField(\'type_caution\',\'prenom_caution\',\'nom_caution\',\'label_nom_cautionnaire\')" required>@foreach ($type as $typet)<option value="{{ $typet->ID_TYPET }}">{{ $typet->LIBELLE_TYPET }}</option>@endforeach</select></div></div><div class="col-md-4"><div class="form-group"><label class="col-form-label col-form-label-sm" id="label_nom_cautionnaire">Nom De Cautionnaire : </label><input type="text" class="form-control form-control-sm" placeholder="Nom De Cautionnaire" id="nom_caution" value="' +
                             data.NOM +
                             '" required></div></div><div class="col-md-4"><div class="form-group"><label class="col-form-label col-form-label-sm">Prénom De Cautionnaire : </label><input type="text" class="form-control form-control-sm" placeholder="Prénom De cautionnaire" id="prenom_caution" value="' +
-                            (data.PRENOM === "null" ? '' : data.PRENOM) +
+                            data.PRENOM +
                             '" required></div></div><div class="col-md-4"><div class="form-group"><label class="col-form-label col-form-label-sm">Téléphone : </label><input type="text" class="form-control form-control-sm" placeholder="Téléphone De Cautionnaire" id="tel_caution" value="' +
                             data.TEL +
                             '" required></div></div><div class="col-md-4"><div class="form-group"><label class="col-form-label col-form-label-sm">Téléphone 2: </label><input type="text" class="form-control form-control-sm" placeholder="Téléphone De Cautionnaire" id="tel2_caution" value="' +
@@ -315,10 +309,12 @@
                             data.ADRESSE +
                             '" class="form-control form-control-sm" id="adresse_caution" required></div></div>'
                         );
-
-
                         $('#type_caution').val(data.ID_TYPET);
-
+                        if (data.ID_TYPET == "2") {
+                            $('#prenom_caution').val('').prop('disabled', true);
+                            $('#label_nom_cautionnaire').html(
+                                "Nom D'etreprise :");
+                        }
 
                     }
 

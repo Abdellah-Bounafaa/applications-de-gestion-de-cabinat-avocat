@@ -65,11 +65,12 @@ Route::middleware(['auth'])->group(
         Route::post('/dossier/search/procedures', [MajdossierController::class, 'procedures']);
         Route::post('/dossier/search/dossierprocedure', [MajdossierController::class, 'dossierprocedure']);
         //filter by date
-        Route::post('/dossier/search/date', [MajdossierController::class, "date_filter"]);
+        // Route::post('/dossier/search/date', [MajdossierController::class, "date_filter"]);
 
 
         Route::post('/dossier/search/requete', [MajdossierController::class, 'requete']);
         Route::post('/dossier/search/audiance', [MajdossierController::class, "audiance"]);
+        Route::post('/dossier/search/audiance/modifier', [MajdossierController::class, "modifierAudiance"]);
         Route::post('/dossier/search/jugement', [MajdossierController::class, 'jugement']);
         Route::post('/dossier/search/notification', [MajdossierController::class, 'notification']);
         Route::post('/dossier/search/cna', [MajdossierController::class, 'cna']);

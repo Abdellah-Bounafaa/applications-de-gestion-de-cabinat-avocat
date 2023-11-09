@@ -28,6 +28,7 @@ use App\Models\Ville;
 use DateTime;
 use DateTimeZone;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
@@ -93,30 +94,30 @@ class MajdossierController extends Controller
             echo json_encode($dossier);
         }
     }
-    public function date_filter(Request $request)
-    {
-        $type = $request->date_type;
-        if ($type == 'up') {
-            $dossier = DB::table('dossier')
-                ->join('clients', 'clients.ID_CLIENT', '=', 'dossier.ID_CLIENT')
-                ->join('utilisateurs', 'utilisateurs.CIN', '=', 'dossier.CIN')
-                ->join('adversaires', 'adversaires.ID_ADVERSAIRE', '=', 'dossier.ID_ADVERSAIRE')
-                ->join('nature', 'nature.ID_NATURE', '=', 'dossier.ID_NATURE')
-                ->join('type_dossier', 'type_dossier.ID_TYPEDOSSIER', '=', 'dossier.ID_TYPEDOSSIER')
-                ->select('clients.NOM as nom_client', 'clients.PRENOM as prenom_client', 'adversaires.NOM as nom_adversaire', 'adversaires.PRENOM as prenom_adversaire', 'R_CABINET', 'R_CLIENT', 'DIRECTION', 'dossier.ID_DOSSIER', 'nature.NOM as nature', 'type_dossier.NOM as type', 'LOGIN', 'DATE_OUVERTURE', 'MNT_CREANCE', 'NUM_DOSSIER')
-                ->get();
-        } else {
-            $dossier = DB::table('dossier')
-                ->join('clients', 'clients.ID_CLIENT', '=', 'dossier.ID_CLIENT')
-                ->join('utilisateurs', 'utilisateurs.CIN', '=', 'dossier.CIN')
-                ->join('adversaires', 'adversaires.ID_ADVERSAIRE', '=', 'dossier.ID_ADVERSAIRE')
-                ->join('nature', 'nature.ID_NATURE', '=', 'dossier.ID_NATURE')
-                ->join('type_dossier', 'type_dossier.ID_TYPEDOSSIER', '=', 'dossier.ID_TYPEDOSSIER')
-                ->select('clients.NOM as nom_client', 'clients.PRENOM as prenom_client', 'adversaires.NOM as nom_adversaire', 'adversaires.PRENOM as prenom_adversaire', 'R_CABINET', 'R_CLIENT', 'DIRECTION', 'dossier.ID_DOSSIER', 'nature.NOM as nature', 'type_dossier.NOM as type', 'LOGIN', 'DATE_OUVERTURE', 'MNT_CREANCE', 'NUM_DOSSIER')
-                ->orderBy('DATE_OUVERTURE', 'desc')->get();
-        }
-        echo json_encode($dossier);
-    }
+    // public function date_filter(Request $request)
+    // {
+    //     $type = $request->date_type;
+    //     if ($type == 'up') {
+    //         $dossier = DB::table('dossier')
+    //             ->join('clients', 'clients.ID_CLIENT', '=', 'dossier.ID_CLIENT')
+    //             ->join('utilisateurs', 'utilisateurs.CIN', '=', 'dossier.CIN')
+    //             ->join('adversaires', 'adversaires.ID_ADVERSAIRE', '=', 'dossier.ID_ADVERSAIRE')
+    //             ->join('nature', 'nature.ID_NATURE', '=', 'dossier.ID_NATURE')
+    //             ->join('type_dossier', 'type_dossier.ID_TYPEDOSSIER', '=', 'dossier.ID_TYPEDOSSIER')
+    //             ->select('clients.NOM as nom_client', 'clients.PRENOM as prenom_client', 'adversaires.NOM as nom_adversaire', 'adversaires.PRENOM as prenom_adversaire', 'R_CABINET', 'R_CLIENT', 'DIRECTION', 'dossier.ID_DOSSIER', 'nature.NOM as nature', 'type_dossier.NOM as type', 'LOGIN', 'DATE_OUVERTURE', 'MNT_CREANCE', 'NUM_DOSSIER')
+    //             ->get();
+    //     } else {
+    //         $dossier = DB::table('dossier')
+    //             ->join('clients', 'clients.ID_CLIENT', '=', 'dossier.ID_CLIENT')
+    //             ->join('utilisateurs', 'utilisateurs.CIN', '=', 'dossier.CIN')
+    //             ->join('adversaires', 'adversaires.ID_ADVERSAIRE', '=', 'dossier.ID_ADVERSAIRE')
+    //             ->join('nature', 'nature.ID_NATURE', '=', 'dossier.ID_NATURE')
+    //             ->join('type_dossier', 'type_dossier.ID_TYPEDOSSIER', '=', 'dossier.ID_TYPEDOSSIER')
+    //             ->select('clients.NOM as nom_client', 'clients.PRENOM as prenom_client', 'adversaires.NOM as nom_adversaire', 'adversaires.PRENOM as prenom_adversaire', 'R_CABINET', 'R_CLIENT', 'DIRECTION', 'dossier.ID_DOSSIER', 'nature.NOM as nature', 'type_dossier.NOM as type', 'LOGIN', 'DATE_OUVERTURE', 'MNT_CREANCE', 'NUM_DOSSIER')
+    //             ->orderBy('DATE_OUVERTURE', 'desc')->get();
+    //     }
+    //     echo json_encode($dossier);
+    // }
 
 
 
@@ -304,7 +305,11 @@ class MajdossierController extends Controller
 
     public function requete(Request $request)
     {
-        $gestion    = $request->gestionRequete;
+        $moroccoTimezone = new DateTimeZone('Africa/Casablanca'); // Set the time zone to Morocco
+        $moroccoTime = new DateTime('now', $moroccoTimezone); // Get the current time in Morocco
+        $time = $moroccoTime->format('Y-m-d H:i:s');
+
+        $gestion    = Auth::user()->CIN;
         $reference  = $request->referenceRequete;
         $tribunal   = $request->tribunalRequete;
         $depot      = $request->depotRequete;
@@ -315,6 +320,7 @@ class MajdossierController extends Controller
         $observation = $request->observationRequete;
         $id_procedure = $request->id_procedureRequete;
         $id_dossier = $request->id_dossierRequete;
+        $salle = $request->salle;
         $etat       = $request->etatRequete;
         $sortRequete       = $request->sortRequete;
         $id    = Requete::orderBy('ID_REQUETE', 'desc')->first();
@@ -347,6 +353,37 @@ class MajdossierController extends Controller
         $requete->ETAT_REQUETE     = $etat;
         $requete->sortRequete     = $sortRequete;
         $requete->save();
+        //créer une nouvelle audiance
+        if (
+            $id_procedure == "3" ||
+            $id_procedure == "4" ||
+            $id_procedure == "5" ||
+            $id_procedure == "6" ||
+            $id_procedure == "7" ||
+            $id_procedure == "8" ||
+            $id_procedure == "9" ||
+            $id_procedure == "10"
+        ) {
+            $audiance = new Audiance();
+            $audiance_id    = Audiance::orderBy('ID_AUDIANCE', 'desc')->first();
+            if ($audiance_id == null) {
+                $id  = 1;
+            } else {
+                $id    = $audiance_id->ID_AUDIANCE + 1;
+            }
+            $audiance->ID_AUDIANCE = $id;
+            $audiance->ref_tribunal = $reference;
+            $audiance->ID_TRIBUNAL = $tribunal;
+            $audiance->CIN = $gestion;
+            $audiance->ID_PROCEDURE      = $id_procedure;
+            $audiance->ID_DOSSIER        = $id_dossier;
+            $audiance->JUGE_AUD              = $juge;
+            $audiance->DATE_CREATION     = $time;
+            $audiance->DATE_AUDIANCE     = $request->date_audiance;
+            $audiance->SALLE     = $salle;
+            $audiance->HEURE_AUDIANCE     = $request->heure_audiance;
+            $audiance->save();
+        }
     }
 
 
@@ -367,14 +404,15 @@ class MajdossierController extends Controller
 
     public function audiance(Request $request)
     {
-
-
+        $moroccoTimezone = new DateTimeZone('Africa/Casablanca'); // Set the time zone to Morocco
+        $moroccoTime = new DateTime('now', $moroccoTimezone); // Get the current time in Morocco
+        $time = $moroccoTime->format('Y-m-d H:i:s');
 
         $gestion    = $request->gestionAudiance;
         $tribunal   = $request->tribunalAudiance;
         $etat       = $request->etatAudiance;
         $juge       = $request->jugeAudiance;
-        $creation   = $request->creationAudiance;
+        // $creation   = $request->creationAudiance;
         $date_audiance = $request->dateAudiance;
         $url        = $request->file('urlAudiance');
         $salle      = $request->salleAudiance;
@@ -383,11 +421,17 @@ class MajdossierController extends Controller
         $id_dossier = $request->id_dossierAudiance;
         $ref_tribunal = $request->ref_tribunal;
         $audianceRetrait = $request->audianceRetrait;
-
-
-
-
-
+        // if($id){
+        //     $audiance=Audiance::find($id);
+        //     $audiance->ID_PROCEDURE      = $id_procedure;
+        //     $audiance->ID_DOSSIER        = $id_dossier;
+        //     $audiance->CIN               = $gestion;
+        //     $audiance->ID_TRIBUNAL       = $tribunal;
+        //     $audiance->OBSERVATION_AUD   = $observation;
+        //     $audiance->DATE_CREATION     = $time;
+        //     $audiance->DATE_AUDIANCE     = $date_audiance;
+        //     $audiance->SALLE             = $salle;
+        // }
 
 
 
@@ -397,10 +441,6 @@ class MajdossierController extends Controller
         } else {
             $ids    = $id->ID_AUDIANCE + 1;
         }
-
-
-
-
         $requete                    = new Audiance();
         $requete->ID_Audiance       = $ids;
         $requete->ID_PROCEDURE      = $id_procedure;
@@ -408,7 +448,7 @@ class MajdossierController extends Controller
         $requete->CIN               = $gestion;
         $requete->ID_TRIBUNAL       = $tribunal;
         $requete->OBSERVATION_AUD   = $observation;
-        $requete->DATE_CREATION     = $creation;
+        $requete->DATE_CREATION     = $time;
         $requete->DATE_AUDIANCE     = $date_audiance;
         $requete->SALLE             = $salle;
         if ($url) {
@@ -429,7 +469,50 @@ class MajdossierController extends Controller
         $requete->save();
     }
 
+    public function modifierAudiance(Request $request)
+    {
+        $moroccoTimezone = new DateTimeZone('Africa/Casablanca'); // Set the time zone to Morocco
+        $moroccoTime = new DateTime('now', $moroccoTimezone); // Get the current time in Morocco
+        $time = $moroccoTime->format('Y-m-d H:i:s');
 
+        $gestion    = $request->gestionAudiance;
+        $tribunal   = $request->tribunalAudiance;
+        $etat       = $request->etatAudiance;
+        $juge       = $request->jugeAudiance;
+        $date_audiance = $request->dateAudiance;
+        $url        = $request->file('urlAudiance');
+        $salle      = $request->salleAudiance;
+        $observation = $request->observationAudiance;
+        $id_procedure = $request->id_procedureAudiance;
+        $id_dossier = $request->id_dossierAudiance;
+        $ref_tribunal = $request->ref_tribunal;
+        $audianceRetrait = $request->audianceRetrait;
+        $audiance = Audiance::where("ID_AUDIANCE", $request->id_audiance)->first();
+
+        $audiance->ID_PROCEDURE      = $id_procedure;
+        $audiance->ID_DOSSIER        = $id_dossier;
+        $audiance->CIN               = $gestion;
+        $audiance->ID_TRIBUNAL       = $tribunal;
+        $audiance->OBSERVATION_AUD   = $observation;
+        $audiance->DATE_CREATION     = $time;
+        $audiance->DATE_AUDIANCE     = $date_audiance;
+        $audiance->SALLE             = $salle;
+        if ($url) {
+            $path = 'audiance';
+            if (!File::exists(public_path($path))) {
+                File::makeDirectory(public_path($path), 0777, true);
+            }
+            $new_image_name = $url->getClientOriginalName();
+            $url->move(public_path($path), $new_image_name);
+            $audiance->URL_AUD           = $new_image_name;
+        }
+
+        $audiance->JUGE_AUD          = $juge;
+        $audiance->ETAT_AUD          = $etat;
+        $audiance->ref_tribunal          = $ref_tribunal;
+        $audiance->audianceRetrait          = $audianceRetrait;
+        $audiance->save();
+    }
 
 
     public function procedureAudiance(Request $request)
@@ -437,14 +520,9 @@ class MajdossierController extends Controller
 
         $id_dossier = $request->id_dossier;
         $id_procedure = $request->id_procedure;
-
-
-
         $audiance   = Audiance::where('ID_DOSSIER', $id_dossier)
             ->where('ID_PROCEDURE', $id_procedure)
             ->get();
-
-
         echo json_encode($audiance);
     }
 
@@ -459,7 +537,7 @@ class MajdossierController extends Controller
 
         $gestion    = $request->gestionJugement;
         $tribunal   = $request->tribunalJugement;
-        $etat       = $request->etatJugement;
+        // $etat       = $request->etatJugement;
         $juge       = $request->jugeJugement;
         $sort       = $request->sortJugement;
         $date_jugement = $request->dateJugement;
@@ -508,7 +586,7 @@ class MajdossierController extends Controller
         }
 
         $requete->JUGE              = $juge;
-        $requete->ETAT_JUGEMENT     = $etat;
+        // $requete->ETAT_JUGEMENT     = $etat;
 
         $requete->save();
     }

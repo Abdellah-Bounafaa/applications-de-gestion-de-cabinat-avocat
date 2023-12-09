@@ -327,7 +327,7 @@
             $('#ADRESS_MOD').val(adress);
             $('#TEL_MOD').val(tel);
             $('#EMAIL_MOD').val(email);
-            $('#VILLE_MOD').val(email);
+            $('#VILLE_MOD').val(id_ville);
 
         });
 

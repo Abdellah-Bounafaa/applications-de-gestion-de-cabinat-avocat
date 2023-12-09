@@ -304,19 +304,37 @@
 
             $('#ajax_resultat').html('');
 
-            var numero_dossier = $('input[name=numero_dossier]').val();
-            var radical_cabinet = $('input[name=radical_cabinet]').val();
-            var reference_client = $('input[name=reference_client]').val();
-            var radical_client = $('input[name=radical_client]').val();
-            var client = $('select[name=client]').val();
-            var adversaire = $('select[name=adversaire]').val();
-            var nature = $('select[name=nature]').val();
-            var type = $('select[name=type]').val();
-            var gestionnaire = $('select[name=user]').val();
+            // var numero_dossier = $('input[name=numero_dossier]').val();
+            // var radical_cabinet = $('input[name=radical_cabinet]').val();
+            // var reference_client = $('input[name=reference_client]').val();
+            // // var radical_client = $('input[name=radical_client]').val();
+            // var client = $('select[name=client]').val();
+            // var adversaire = $('select[name=adversaire]').val();
+            // var nature = $('select[name=nature]').val();
+            // var type = $('select[name=type]').val();
+            // var gestionnaire = $('select[name=user]').val();
 
-            var donnees = [numero_dossier, radical_cabinet, reference_client, radical_client, client, adversaire,
-                nature, type, gestionnaire
-            ];
+            // var donnees = [
+            //     numero_dossier,
+            //     radical_cabinet,
+            //     reference_client,
+            //     // radical_client,
+            //     client,
+            //     adversaire,
+            //     nature,
+            //     type,
+            //     gestionnaire
+            // ];
+            var donnees = {
+                numero_dossier: $('input[name=numero_dossier]').val(),
+                radical_cabinet: $('input[name=radical_cabinet]').val(),
+                reference_client: $('input[name=reference_client]').val(),
+                client: $('select[name=client]').val(),
+                adversaire: $('select[name=adversaire]').val(),
+                nature: $('select[name=nature]').val(),
+                type: $('select[name=type]').val(),
+                gestionnaire: $('select[name=user]').val(),
+            };
             $.ajax({
                 url: "{{ url('dossier/search/rechercher') }}",
                 method: "POST",
@@ -722,12 +740,12 @@
                             id_procedure == "9" ||
                             id_procedure == "10"
                         ) {
-                            $("#showSortRequete").show();
-                            $("#showDateJugement").show();
                             $("#showEtatRequete").show();
-                        } else {
                             $("#showSortRequete").hide();
                             $("#showDateJugement").hide();
+                        } else {
+                            $("#showSortRequete").show();
+                            $("#showDateJugement").show();
                             $("#showEtatRequete").hide();
                         }
                         if (data.length > 0) {

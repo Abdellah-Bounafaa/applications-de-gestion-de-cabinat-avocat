@@ -62,64 +62,53 @@ class MajdossierController extends Controller
     public function rechercher(Request $request)
     {
         $donnees                      = $request->donnees;
-        $numero_dossier               = $donnees[0];
-        $radical_cabinet              = $donnees[1];
-        $reference_client             = $donnees[2];
-        // $radical_client               = $donnees[3];
-        $client                       = $donnees[4];
-        $adverisare                   = $donnees[5];
-        $nature                       = $donnees[6];
-        $type                         = $donnees[7];
-        $gestionnaire                 = $donnees[8];
-        if (
-            empty($numero_dossier)
-            && empty($radical_cabinet)
-            && empty($reference_client)
-            && empty($radical_cabinet)
-            && empty($client)
-            && empty($adverisare)
-            && empty($nature)
-            && empty($type)
-            && empty($gestionnaire)
-        ) {
-            $dossier = DB::table('dossier')
-                ->join('clients', 'clients.ID_CLIENT', '=', 'dossier.ID_CLIENT')
-                ->join('utilisateurs', 'utilisateurs.CIN', '=', 'dossier.CIN')
-                ->join('adversaires', 'adversaires.ID_ADVERSAIRE', '=', 'dossier.ID_ADVERSAIRE')
-                ->join('nature', 'nature.ID_NATURE', '=', 'dossier.ID_NATURE')
-                ->join('type_dossier', 'type_dossier.ID_TYPEDOSSIER', '=', 'dossier.ID_TYPEDOSSIER')
-                ->select('clients.NOM as nom_client', 'clients.PRENOM as prenom_client', 'adversaires.NOM as nom_adversaire', 'adversaires.PRENOM as prenom_adversaire', 'R_CABINET', 'R_CLIENT', 'DIRECTION', 'dossier.ID_DOSSIER', 'nature.NOM as nature', 'type_dossier.NOM as type', 'LOGIN', 'DATE_OUVERTURE', 'MNT_CREANCE', 'NUM_DOSSIER')
-                ->latest('DATE_OUVERTURE')
-                ->get();
-            echo json_encode($dossier);
+        $query = DB::table('dossier')
+            ->join('clients', 'clients.ID_CLIENT', '=', 'dossier.ID_CLIENT')
+            ->join('utilisateurs', 'utilisateurs.CIN', '=', 'dossier.CIN')
+            ->join('adversaires', 'adversaires.ID_ADVERSAIRE', '=', 'dossier.ID_ADVERSAIRE')
+            ->join('nature', 'nature.ID_NATURE', '=', 'dossier.ID_NATURE')
+            ->join('type_dossier', 'type_dossier.ID_TYPEDOSSIER', '=', 'dossier.ID_TYPEDOSSIER')
+            ->select('clients.NOM as nom_client', 'clients.PRENOM as prenom_client', 'adversaires.NOM as nom_adversaire', 'adversaires.PRENOM as prenom_adversaire', 'R_CABINET', 'R_CLIENT', 'DIRECTION', 'dossier.ID_DOSSIER', 'nature.NOM as nature', 'type_dossier.NOM as type', 'LOGIN', 'DATE_OUVERTURE', 'MNT_CREANCE', 'NUM_DOSSIER')
+            ->latest('DATE_OUVERTURE');
+
+        if (!empty($donnees['numero_dossier'])) {
+            $query->where('NUM_DOSSIER', $donnees['numero_dossier']);
         }
+
+        if (!empty($donnees['radical_cabinet'])) {
+            $query->where('R_CABINET', $donnees['radical_cabinet']);
+        }
+
+        if (!empty($donnees['reference_client'])) {
+            $query->where('R_CLIENT', $donnees['reference_client']);
+        }
+
+        if (!empty($donnees['client'])) {
+            $query->where('clients.ID_CLIENT', $donnees['client']);
+        }
+
+        if (!empty($donnees['adversaire'])) {
+            $query->where('adversaires.ID_ADVERSAIRE', $donnees['adversaire']);
+        }
+
+        if (!empty($donnees['nature'])) {
+            $query->where('nature.ID_NATURE', $donnees['nature']);
+        }
+
+        if (!empty($donnees['type'])) {
+            $query->where('type_dossier.ID_TYPEDOSSIER', $donnees['type']);
+        }
+
+        if (!empty($donnees['gestionnaire'])) {
+            $query->where('utilisateurs.CIN', $donnees['gestionnaire']);
+        }
+
+
+        // Execute the query
+        $dossier = $query->get();
+
+        return response()->json($dossier);
     }
-    // public function date_filter(Request $request)
-    // {
-    //     $type = $request->date_type;
-    //     if ($type == 'up') {
-    //         $dossier = DB::table('dossier')
-    //             ->join('clients', 'clients.ID_CLIENT', '=', 'dossier.ID_CLIENT')
-    //             ->join('utilisateurs', 'utilisateurs.CIN', '=', 'dossier.CIN')
-    //             ->join('adversaires', 'adversaires.ID_ADVERSAIRE', '=', 'dossier.ID_ADVERSAIRE')
-    //             ->join('nature', 'nature.ID_NATURE', '=', 'dossier.ID_NATURE')
-    //             ->join('type_dossier', 'type_dossier.ID_TYPEDOSSIER', '=', 'dossier.ID_TYPEDOSSIER')
-    //             ->select('clients.NOM as nom_client', 'clients.PRENOM as prenom_client', 'adversaires.NOM as nom_adversaire', 'adversaires.PRENOM as prenom_adversaire', 'R_CABINET', 'R_CLIENT', 'DIRECTION', 'dossier.ID_DOSSIER', 'nature.NOM as nature', 'type_dossier.NOM as type', 'LOGIN', 'DATE_OUVERTURE', 'MNT_CREANCE', 'NUM_DOSSIER')
-    //             ->get();
-    //     } else {
-    //         $dossier = DB::table('dossier')
-    //             ->join('clients', 'clients.ID_CLIENT', '=', 'dossier.ID_CLIENT')
-    //             ->join('utilisateurs', 'utilisateurs.CIN', '=', 'dossier.CIN')
-    //             ->join('adversaires', 'adversaires.ID_ADVERSAIRE', '=', 'dossier.ID_ADVERSAIRE')
-    //             ->join('nature', 'nature.ID_NATURE', '=', 'dossier.ID_NATURE')
-    //             ->join('type_dossier', 'type_dossier.ID_TYPEDOSSIER', '=', 'dossier.ID_TYPEDOSSIER')
-    //             ->select('clients.NOM as nom_client', 'clients.PRENOM as prenom_client', 'adversaires.NOM as nom_adversaire', 'adversaires.PRENOM as prenom_adversaire', 'R_CABINET', 'R_CLIENT', 'DIRECTION', 'dossier.ID_DOSSIER', 'nature.NOM as nature', 'type_dossier.NOM as type', 'LOGIN', 'DATE_OUVERTURE', 'MNT_CREANCE', 'NUM_DOSSIER')
-    //             ->orderBy('DATE_OUVERTURE', 'desc')->get();
-    //     }
-    //     echo json_encode($dossier);
-    // }
-
-
 
     public function modifier(Request $request)
     {

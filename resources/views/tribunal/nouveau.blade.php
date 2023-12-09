@@ -66,7 +66,7 @@
                                 <div class="form-group">
                                     <label class="col-form-label col-form-label-sm">Nom De Tribunal : </label>
                                     <input type="text" class="form-control form-control-sm"
-                                        placeholder="NOM_TRIBUNAL" id="NOM_TRIBUNAL" name="NOM_TRIBUNAL" required>
+                                        placeholder="Nom de tribunal" id="NOM_TRIBUNAL" name="NOM_TRIBUNAL" required>
                                 </div>
                             </div>
                         </div>
@@ -84,9 +84,9 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="col-form-label col-form-label-sm">Num De Tribunal : </label>
+                                    <label class="col-form-label col-form-label-sm">Numéro De Tribunal : </label>
                                     <input type="text" class="form-control form-control-sm"
-                                        placeholder="Num De Tribunal" id="NUM_TRIBUNAL" name="NUM_TRIBUNAL" required>
+                                        placeholder="Numéro De Tribunal" id="NUM_TRIBUNAL" name="NUM_TRIBUNAL" required>
                                 </div>
                             </div>
                         </div>

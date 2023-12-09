@@ -155,8 +155,8 @@
 
             <div class="card task-board">
                 <div class="card-body todo-task">
-                    <button data-role="inserer" type="submit" class="btn btn-info" style="width:100%"
-                        disabled>Ajouter</button>
+                    <button data-role="inserer" type="submit" class="btn btn-info"
+                        style="width:100%">Ajouter</button>
                 </div>
             </div>
         </div>

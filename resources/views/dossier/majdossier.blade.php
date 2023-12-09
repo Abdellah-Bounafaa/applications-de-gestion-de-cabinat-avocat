@@ -477,20 +477,10 @@
                         },
                         dataType: "JSON",
                         success: function(data) {
-
-
-
-
-
                             $.each(data, function(i, res) {
-
                                 var id_procedure = res.ID_PROCEDURE;
-
                                 document.getElementById('procedure[' +
                                     id_procedure + ']').checked = false;
-
-
-
                                 $('#affichage_procedure').append(
                                     '<div class="col-md-6" id="' + id +
                                     'index' + id_procedure +
@@ -511,12 +501,7 @@
                                     },
                                     dataType: "JSON",
                                     success: function(data) {
-
-
-
                                         $.each(data, function(i, res) {
-
-
                                             $('#' + id +
                                                 'resultat_json' +
                                                 id_procedure +
@@ -528,9 +513,6 @@
                                                 '" href="javascript:void(0)">' +
                                                 res.etape +
                                                 '</a>');
-
-
-
                                         });
                                     }
 
@@ -1103,6 +1085,7 @@
                             position: 'top-center',
                             hideAfter: 1000,
                         });
+                        form.reset();
                         $('#Requete').modal('toggle');
                     }
                 });
@@ -1149,6 +1132,7 @@
                             position: 'top-center',
                             hideAfter: 1000,
                         });
+                        form.reset();
                         if (etatAudiance != "1") {
                             $('#Audiance').modal('toggle');
                         }
@@ -1191,6 +1175,7 @@
                             position: 'top-center',
                             hideAfter: 1000,
                         });
+                        form.reset();
                         $('#Audiance').modal('toggle');
                     }
                 });
@@ -1224,8 +1209,7 @@
                         position: 'top-center',
                         hideAfter: 1000,
                     });
-
-
+                    form.reset();
                     $('#Jugement').modal('toggle');
 
 
@@ -1276,21 +1260,10 @@
                         position: 'top-center',
                         hideAfter: 1000,
                     });
-
-
+                    form.reset();
                     $('#Notification').modal('toggle');
-
-
                 }
-
-
             });
-
-
-
-
-
-
         });
 
 
@@ -1328,21 +1301,10 @@
                         position: 'top-center',
                         hideAfter: 1000,
                     });
-
-
+                    form.reset();
                     $('#CNA').modal('toggle');
-
-
                 }
-
-
             });
-
-
-
-
-
-
         });
 
 
@@ -1380,21 +1342,10 @@
                         position: 'top-center',
                         hideAfter: 1000,
                     });
-
-
+                    form.reset();
                     $('#Execution').modal('toggle');
-
-
                 }
-
-
             });
-
-
-
-
-
-
         });
 
 
@@ -1434,21 +1385,10 @@
                         hideAfter: 1000,
 
                     });
-
-
+                    form.reset();
                     $('#PLAINTE').modal('toggle');
-
-
                 }
-
-
-            });
-
-
-
-
-
-
+            })
         });
 
         // CURRATEUTR
@@ -1485,14 +1425,9 @@
                         hideAfter: 1000,
 
                     });
-
-
+                    form.reset();
                     $('#Curateur').modal('toggle');
-
-
                 }
-
-
             });
         });
 

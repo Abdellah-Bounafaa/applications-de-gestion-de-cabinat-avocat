@@ -691,6 +691,7 @@
         // modifier audiance
         $(document).on('click', 'a[data-role=modifier-audiance]', function() {
             var id = $(this).data('id_audiance');
+            var cin = $(this).data('cin');
             var id_tribunal = $(this).data('id_tribunal');
             var ref_tribunal = $(this).data('ref_tribunal');
             var id_dossier = $(this).data('id_dossier');
@@ -698,17 +699,28 @@
             var juge = $(this).data('juge');
             var date_audiance = $(this).data('date_audiance');
             var heure_audiance = $(this).data('heure_audiance');
+            var retrait_audiance = $(this).data('retrait_audiance');
             var salle = $(this).data('salle');
-            var cin = $(this).data('cin');
+            var observation = $(this).data('observation');
+            var etat_audiance = $(this).data('etat_audiance');
             $("#id_audiance").val(id)
             $("#id_dossierAudiance").val(id_dossier)
             $("#id_procedureAudiance").val(id_procedure)
-            $("#juge_audiance").val(juge)
-            $("#ref_tribunal_aud").val(ref_tribunal)
-            $("#tribunalAudiance").val(id_tribunal).change()
-            $("#gestionAudiance").val(cin).change()
+            $('[name="jugeAudiance"]').val(juge)
+            // $("#ref_tribunal_aud").val(ref_tribunal)
+            $('[name="ref_tribunal"]').val(ref_tribunal);
+            // $("#tribunalAudiance").val(id_tribunal).change()
+            $('[name="tribunalAudiance"]').val(id_tribunal).change()
+            $('[name="gestionAudiance"]').val(cin).change()
+            // $("#gestionAudiance").val(cin).change()
             $("#dateAudiance").val(date_audiance)
-            $("#salleAudiance").val(salle)
+            // $('[name="dateAudiance"]').val(date_audiance)
+            $('#audianceRetrait').val(retrait_audiance)
+            // $('[name="audianceRetrait"]').val(retrait_audiance)
+            // $("#salleAudiance").val(salle)
+            $('[name="salleAudiance"]').val(salle)
+            $('#OBSERVATION_AUD').val(observation)
+            $('#etatAudiance').val(etat_audiance).change()
             // $("#etatAudiance").val(salle)
 
         });
@@ -845,7 +857,10 @@
                                     '" data-date_audiance="' + res.DATE_AUDIANCE +
                                     '" data-salle="' + res.SALLE +
                                     '" data-heure_audiance="' + res.HEURE_AUDIANCE +
+                                    '" data-retrait_audiance="' + res.audianceRetrait +
+                                    '" data-observation="' + res.OBSERVATION_AUD +
                                     '" data-cin="' + res.CIN +
+                                    '" data-etat_audiance="' + res.ETAT_AUD +
                                     '" data-role="modifier-audiance" class="btn btn-success">Modifier</a></td>' +
                                     '</tr>'
                                 );
@@ -1184,15 +1199,8 @@
                     }
                 });
             }
-
-
-
-
-
-
-
-
         });
+
 
         $("#new_audiance_form").submit(function(e) {
             e.preventDefault();
@@ -1258,12 +1266,74 @@
             });
         });
 
+        // $("#nouveau_jugement_form").submit(function(e) {
+        //     e.preventDefault();
+        //     var form = $('#nouveau_jugement_form').get(0);
+        //     var formData = new FormData(form); // get the form data
+        //     $.ajax({
+        //         url: "{{ url('/dossier/search/jugement') }}",
+        //         method: "POST",
+        //         data: formData,
+        //         processData: false,
+        //         contentType: false,
+        //         success: function(data) {
+        //             'use strict';
+        //             $.toast({
+        //                 heading: 'Success',
+        //                 text: "Enregistrement Effectué !",
+        //                 showHideTransition: 'slide',
+        //                 icon: 'success',
+        //                 loaderBg: '#f96868',
+        //                 position: 'top-center',
+        //                 hideAfter: 1000,
+        //             });
+        //             form.reset();
+        //             $('#Audiance').modal('toggle');
+        //         }
+        //     });
+        // });
+
         $("#nouveau_jugement_form").submit(function(e) {
             e.preventDefault();
+
             var form = $('#nouveau_jugement_form').get(0);
-            var formData = new FormData(form); // get the form data
+
+            // Mapping of field names to descriptive messages
+            var fieldMessages = {
+                'gestionJugement': 'Gestionnaire De Jugement',
+                'referenceJugement': 'Référence De Jugement',
+                'tribunalJugement': 'Tribunal De Jugement',
+                'sortJugement': 'Sort De Jugement',
+                'jugeJugement': 'Juge De Jugement',
+                'dateJugement': 'Date De Jugement'
+            };
+
+            // List of specific field names to check
+            var requiredFields = Object.keys(fieldMessages);
+
+            // Check if any specified field has an empty value
+            var emptyFields = [];
+            requiredFields.forEach(function(fieldName) {
+                var fieldValue = $('[name="' + fieldName + '"]', form).val();
+                if (fieldValue === "") {
+                    emptyFields.push(fieldName);
+                }
+            });
+
+            // If any specified field is empty, show an alert and prevent form submission
+            if (emptyFields.length) {
+                var fieldNames = emptyFields.map(function(fieldName) {
+                    return fieldMessages[fieldName];
+                }).join(', ');
+
+                alert("Veuillez remplir les champs suivants avant de soumettre : " + fieldNames);
+                return;
+            }
+
+
+            var formData = new FormData(form);
             $.ajax({
-                url: "{{ url('/dossier/search/jugement/ajouter') }}",
+                url: "{{ url('/dossier/search/jugement') }}",
                 method: "POST",
                 data: formData,
                 processData: false,
@@ -1284,7 +1354,6 @@
                 }
             });
         });
-
 
 
 

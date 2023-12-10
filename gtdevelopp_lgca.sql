@@ -1514,7 +1514,7 @@ ADD COLUMN sortRequete int after `DATE_JUGEMENT`;
 Alter table audiance
 add COLUMN ref_tribunal varchar(100) DEFAULT NULL after `ID_AUDIANCE`;
 Alter table audiance
-add COLUMN audianceRetrait datetime DEFAULT NULL after `DATE_AUDIANCE`;
+add COLUMN audianceRetrait date DEFAULT NULL after `DATE_AUDIANCE`;
 Alter table expert
 add COLUMN ID_VILLE int DEFAULT NULL;
 alter table expert

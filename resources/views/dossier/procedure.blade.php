@@ -242,7 +242,8 @@
                              <div class="form-group">
                                  <label class="col-form-label col-form-label-sm" for="observ">Observation :
                                  </label>
-                                 <textarea class="form-control form-control-sm" rows="2" placeholder="Observation" name="observationAudiance"></textarea>
+                                 <textarea class="form-control form-control-sm" rows="2" placeholder="Observation" name="observationAudiance"
+                                     id="OBSERVATION_AUD"></textarea>
                              </div>
                          </div>
 
@@ -273,7 +274,8 @@
                                  </div>
                              </div>
                              <div class="col-md-4">
-                                 <div class="form-group"><label class="col-form-label col-form-label-sm"> Juge
+                                 <div class="form-group"><label class="col-form-label col-form-label-sm">
+                                         Juge
                                          D'audiance
                                          :
                                      </label><input type="text" class="form-control" name="jugeAudiance" />

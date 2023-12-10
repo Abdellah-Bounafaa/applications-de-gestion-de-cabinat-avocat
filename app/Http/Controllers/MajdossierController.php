@@ -533,17 +533,7 @@ class MajdossierController extends Controller
 
     public function jugement(Request $request)
     {
-        $gestion    = $request->gestionJugement;
-        $tribunal   = $request->tribunalJugement;
-        // $etat       = $request->etatJugement;
-        $juge       = $request->jugeJugement;
-        $sort       = $request->sortJugement;
-        $date_jugement = $request->dateJugement;
         $url        = $request->file('urlJugement');
-        $reference  = $request->referenceJugement;
-        $observation = $request->observationJugement;
-        $id_procedure = $request->id_procedureJugement;
-        $id_dossier = $request->id_dossierJugement;
         $id    = Jugement::orderBy('ID_JUGEMENT', 'desc')->first();
         if ($id == null) {
             $ids  = 1;
@@ -552,14 +542,14 @@ class MajdossierController extends Controller
         }
         $requete                    = new Jugement();
         $requete->ID_JUGEMENT       = $ids;
-        $requete->ID_PROCEDURE      = $id_procedure;
-        $requete->ID_DOSSIER        = $id_dossier;
-        $requete->CIN               = $gestion;
-        $requete->ID_TRIBUNAL       = $tribunal;
-        $requete->OBSERVATION       = $observation;
-        $requete->DATE_JUGEMENT     = $date_jugement;
-        $requete->SORT              = $sort;
-        $requete->REF_TRIBU         = $reference;
+        $requete->ID_PROCEDURE   = $request->id_procedureAudiance ?? $request->id_procedureJugement;
+        $requete->ID_DOSSIER     = $request->id_dossierAudiance ?? $request->id_dossierJugement;
+        $requete->CIN               = $request->gestionJugement;
+        $requete->ID_TRIBUNAL       = $request->tribunalJugement;
+        $requete->OBSERVATION       = $request->observationJugement;
+        $requete->DATE_JUGEMENT = $request->dateJugement;
+        $requete->SORT              = $request->sortJugement;
+        $requete->REF_TRIBU         = $request->referenceJugement;
         if ($url) {
             $path = 'jugement';
             if (!File::exists(public_path($path))) {
@@ -571,52 +561,10 @@ class MajdossierController extends Controller
             $requete->URL_JUGEMENT      = $new_image_name;
         }
 
-        $requete->JUGE              = $juge;
+        $requete->JUGE              =
+            $request->jugeJugement;
         // $requete->ETAT_JUGEMENT     = $etat;
 
-        $requete->save();
-    }
-    public function modifierAudianceJugement(Request $request)
-    {
-        $gestion    = $request->gestionJugement;
-        $tribunal   = $request->tribunalJugement;
-        // $etat       = $request->etatJugement;
-        $juge       = $request->jugeJugement;
-        $sort       = $request->sortJugement;
-        $date_jugement = $request->dateJugement;
-        $url        = $request->file('urlJugement');
-        $reference  = $request->referenceJugement;
-        $observation = $request->observationJugement;
-        $id_procedure = $request->id_procedureAudiance;
-        $id_dossier = $request->id_dossierAudiance;
-        $id    = Jugement::orderBy('ID_JUGEMENT', 'desc')->first();
-        if ($id == null) {
-            $ids  = 1;
-        } else {
-            $ids    = $id->ID_JUGEMENT + 1;
-        }
-        $requete                    = new Jugement();
-        $requete->ID_JUGEMENT       = $ids;
-        $requete->ID_PROCEDURE      = $id_procedure;
-        $requete->ID_DOSSIER        = $id_dossier;
-        $requete->CIN               = $gestion;
-        $requete->ID_TRIBUNAL       = $tribunal;
-        $requete->OBSERVATION       = $observation;
-        $requete->DATE_JUGEMENT     = $date_jugement;
-        $requete->SORT              = $sort;
-        $requete->REF_TRIBU         = $reference;
-        if ($url) {
-            $path = 'jugement';
-            if (!File::exists(public_path($path))) {
-                File::makeDirectory(public_path($path), 0777, true);
-            }
-            $new_image_name = $url->getClientOriginalName();
-
-            $url->move(public_path($path), $new_image_name);
-            $requete->URL_JUGEMENT      = $new_image_name;
-        }
-
-        $requete->JUGE              = $juge;
         $requete->save();
     }
 

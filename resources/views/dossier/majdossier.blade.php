@@ -661,7 +661,34 @@
             }
         });
 
+        //modifier requete
+        $(document).on('click', 'a[data-role=modifier-requete]', function() {
+            var id = $(this).data('id_requete');
+            var id_dossier = $(this).data('id_dossier');
+            var id_procedure = $(this).data('id_procedure');
+            console.log(id_dossier, id_procedure);
+            var cin = $(this).data('cin');
+            var ref_tribunal = $(this).data('ref_tribunal');
+            var id_tribunal = $(this).data('id_tribunal');
+            var juge = $(this).data('juge');
+            var date_depot = $(this).data('date_depot');
+            var date_retrait = $(this).data('date_retrait');
+            var etat_requete = $(this).data('etat_requete');
+            var observation = $(this).data('observation');
+            $("#id_Requete").val(id)
+            $("#id_dossierRequete").val(id_dossier)
+            $("#id_procedureRequete").val(id_procedure)
+            $("#gestionRequete").val(cin).change()
+            $("#referenceRequete").val(ref_tribunal)
+            $("#tribunalRequete").val(id_tribunal).change()
+            $("#depotRequete").val(date_depot)
+            $("#jugeRequete").val(juge)
+            $("#retraitRequete").val(date_retrait)
+            $("#etatRequete").val(etat_requete).change()
+            $("#observationRequete").val(observation)
+        });
 
+        // modifier audiance
         $(document).on('click', 'a[data-role=modifier-audiance]', function() {
             var id = $(this).data('id_audiance');
             var id_tribunal = $(this).data('id_tribunal');
@@ -732,7 +759,7 @@
                         }
                         if (data.length > 0) {
                             $('#' + id_modal + '_dossier').html(
-                                '<div class="table-responsive"><table class="table table-bordered"><thead><tr><th>Responsable</th><th>Reference_Tribunal</th><th>Date_Dépot</th><th>Date_Retrait</th><th>URL_Scan</th><th>L\'état</th></tr></thead><tbody id="' +
+                                '<div class="table-responsive"><table class="table table-bordered"><thead><tr><th>Responsable</th><th>Reference_Tribunal</th><th>Date_Dépot</th><th>Date_Retrait</th><th>URL_Scan</th><th>L\'état</th><th>Actions</th></tr></thead><tbody id="' +
                                 id_dossier + 'tbody' + id_modal + '"></tbody></table></div>');
                             $.each(data, function(i, res) {
                                 var document = '/requete/' + res.URL_SCAN + '';
@@ -749,7 +776,25 @@
                                         '" target="_blank" style="color:blue;text-decoration: underline">' +
                                         res.URL_SCAN + '</a>') + '</td>' +
                                     '<td>' + (res.ETAT_REQUETE === 0 ? "En cours" :
-                                        "Fermé") + '</td></tr>'
+                                        "Fermé") +
+                                    '</td>' +
+                                    '<td class="text-center">' +
+                                    '<a data-role="modifier-requete" class="btn btn-success" ' +
+                                    // Removed the extra double quote here
+                                    'data-id_dossier="' + res.ID_DOSSIER +
+                                    '"data-id_procedure="' + res.ID_PROCEDURE +
+                                    '"data-id_requete="' + res.ID_REQUETE +
+                                    '"data-cin="' + res.CIN +
+                                    '"data-id_tribunal="' + res.ID_TRIBUNAL +
+                                    '"data-ref_tribunal="' + res.REFERANCE_TRIBUNALE +
+                                    '"data-date_depot="' + res.DATE_DEPOT +
+                                    '"data-date_retrait="' + res.DATE_RETRAIT +
+                                    '"data-juge="' + res.JUGE +
+                                    '"data-etat_requete="' + res.ETAT_REQUETE +
+                                    '"data-observation="' + res.OBSERVATION +
+                                    '">modifier</a></td>' +
+                                    +
+                                    '</tr>'
                                 );
 
 
@@ -1133,7 +1178,7 @@
                             hideAfter: 1000,
                         });
                         form.reset();
-                        if (etatAudiance != "1") {
+                        if (etatAudiance != "1" && etatAudiance != "3" && etatAudiance != "0") {
                             $('#Audiance').modal('toggle');
                         }
                     }
@@ -1176,7 +1221,7 @@
                             hideAfter: 1000,
                         });
                         form.reset();
-                        $('#Audiance').modal('toggle');
+                        // $('#Audiance').modal('toggle');
                     }
                 });
             }
@@ -1197,8 +1242,6 @@
                 processData: false,
                 contentType: false,
                 success: function(data) {
-
-
                     'use strict';
                     $.toast({
                         heading: 'Success',
@@ -1211,19 +1254,37 @@
                     });
                     form.reset();
                     $('#Jugement').modal('toggle');
-
-
                 }
-
-
             });
-
-
-
-
-
-
         });
+
+        $("#nouveau_jugement_form").submit(function(e) {
+            e.preventDefault();
+            var form = $('#nouveau_jugement_form').get(0);
+            var formData = new FormData(form); // get the form data
+            $.ajax({
+                url: "{{ url('/dossier/search/jugement/ajouter') }}",
+                method: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(data) {
+                    'use strict';
+                    $.toast({
+                        heading: 'Success',
+                        text: "Enregistrement Effectué !",
+                        showHideTransition: 'slide',
+                        icon: 'success',
+                        loaderBg: '#f96868',
+                        position: 'top-center',
+                        hideAfter: 1000,
+                    });
+                    form.reset();
+                    $('#Audiance').modal('toggle');
+                }
+            });
+        });
+
 
 
 

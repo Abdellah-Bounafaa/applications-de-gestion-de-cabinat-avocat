@@ -18,11 +18,19 @@ function togglePrenomField(type, prenom, nom, label) {
 }
 function toggleNewAudiance() {
     var etat = document.getElementById("etatAudiance");
-    var div = document.getElementById("new_audiance");
-    if (etat.value == "1") {
-        div.style.display = "block";
+    var audiance = document.getElementById("id_audiance");
+    var div_audiance = document.getElementById("new_audiance");
+    var div_jugement = document.getElementById("nouveau_jugement");
+
+    if (etat.value == "0" && audiance.value !== "") {
+        div_jugement.style.display = "block";
     } else {
-        div.style.display = "none";
+        div_jugement.style.display = "none";
+    }
+    if ((etat.value == "1" || etat.value == "3") && audiance.value !== "") {
+        div_audiance.style.display = "block";
+    } else {
+        div_audiance.style.display = "none";
     }
 }
 function toggleHistorique(id) {

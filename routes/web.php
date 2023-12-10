@@ -72,6 +72,7 @@ Route::middleware(['auth'])->group(
         Route::post('/dossier/search/audiance', [MajdossierController::class, "audiance"]);
         Route::post('/dossier/search/audiance/modifier', [MajdossierController::class, "modifierAudiance"]);
         Route::post('/dossier/search/jugement', [MajdossierController::class, 'jugement']);
+        Route::post('/dossier/search/jugement/ajouter', [MajdossierController::class, 'modifierAudianceJugement']);
         Route::post('/dossier/search/notification', [MajdossierController::class, 'notification']);
         Route::post('/dossier/search/cna', [MajdossierController::class, 'cna']);
         Route::post('/dossier/search/execution', [MajdossierController::class, 'execution']);

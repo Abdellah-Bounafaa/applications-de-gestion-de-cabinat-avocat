@@ -16,12 +16,13 @@
                  <div class="modal-body">
 
                      <div class="row">
-                         <input type="hidden" class="form-control" id="id_procedureRequete" name="id_dossierRequete">
-                         <input type="hidden" class="form-control" name="id_procedureRequete">
+                         <input type="hidden" class="form-control" id="id_Requete" name="id_Requete">
+                         <input type="hidden" class="form-control" id="id_procedureRequete" name="id_procedureRequete">
+                         <input type="hidden" class="form-control" id="id_dossierRequete" name="id_dossierRequete">
                          <div class="col-md-4">
                              <div class="form-group">
                                  <label class="col-form-label col-form-label-sm"> Gestionnaire : </label>
-                                 <select class="form-control" name="gestionRequete">
+                                 <select class="form-control" name="gestionRequete" id="gestionRequete">
                                      @foreach ($userr as $use)
                                          <option value="{{ $use->CIN }}">{{ $use->PRENOM }} {{ $use->NOM }}
                                          </option>
@@ -34,12 +35,13 @@
                              <div class="form-group"><label class="col-form-label col-form-label-sm"> Référence De
                                      Tribunal
                                      : </label><input type="text" class="form-control"
-                                     placeholder=" Référence De Tribunal" name="referenceRequete" />
+                                     placeholder=" Référence De Tribunal" name="referenceRequete"
+                                     id="referenceRequete" />
                              </div>
                          </div>
                          <div class="col-md-4">
                              <div class="form-group"><label class="col-form-label col-form-label-sm">Tribunal :
-                                 </label><select class="form-control" name="tribunalRequete">
+                                 </label><select class="form-control" name="tribunalRequete" id="tribunalRequete">
                                      @foreach ($tribunal as $nom)
                                          <option value="{{ $nom->ID_TRIBUNAL }}">{{ $nom->NOM_TRIBUNAL }}</option>
                                      @endforeach
@@ -48,7 +50,8 @@
                          </div>
                          <div class="col-md-4">
                              <div class="form-group"><label class="col-form-label col-form-label-sm">Date De Dépôt :
-                                 </label><input type="date" class="form-control" name="depotRequete" /></div>
+                                 </label><input type="date" class="form-control" name="depotRequete"
+                                     id="depotRequete" /></div>
                          </div>
                          <div class="col-md-4">
                              <div class="form-group"><label class="col-form-label col-form-label-sm">Juge :
@@ -62,7 +65,8 @@
                          </div>
                          <div class="col-md-4">
                              <div class="form-group"><label class="col-form-label col-form-label-sm">Date De Retrait :
-                                 </label><input type="date" class="form-control" name="retraitRequete" /></div>
+                                 </label><input type="date" class="form-control" name="retraitRequete"
+                                     id="retraitRequete" /></div>
                          </div>
                          <div class="col-md-4" id="showSortRequete">
                              <div class="form-group"><label class="col-form-label col-form-label-sm">Sort :
@@ -84,7 +88,8 @@
                                  </label><input type="date" class="form-control" name="date_audiance" /></div>
                          </div>
                          <div class="col-md-4">
-                             <div class="form-group"><label class="col-form-label col-form-label-sm">Heure D'audiance :
+                             <div class="form-group"><label class="col-form-label col-form-label-sm">Heure D'audiance
+                                     :
                                  </label><input type="time" class="form-control" name="heure_audiance" /></div>
                          </div>
                          <div class="col-md-4" id="showDateJugement">
@@ -94,7 +99,8 @@
                          </div>
                          <div class="col-md-4" id="showEtatRequete">
                              <div class="form-group"><label class="col-form-label col-form-label-sm">Etat De Requete :
-                                 </label><select class="form-control form-control-success" name="etatRequete">
+                                 </label><select class="form-control form-control-success" name="etatRequete"
+                                     id="etatRequete">
                                      <option selected disabled>Choisir..</option>
                                      <option value="0">En cours</option>
                                      <option value="1">Fermé</option>
@@ -103,7 +109,8 @@
                          <div class="col-lg-12">
                              <div class="form-group">
                                  <label class="col-form-label col-form-label-sm" for="observ">Observation : </label>
-                                 <textarea class="form-control form-control-sm" rows="2" placeholder="Observation" name="observationRequete"></textarea>
+                                 <textarea class="form-control form-control-sm" rows="2" placeholder="Observation" name="observationRequete"
+                                     id="observationRequete"></textarea>
                              </div>
                          </div>
                      </div>
@@ -243,19 +250,8 @@
 
 
                      <input type="submit" value="Valider" class="btn btn-success">
-
                  </form>
-
-
-
-
-
-
-
-
-
-
-
+                 {{-- nouvelle audiance en cas de modification --}}
                  <div id="new_audiance" class="p-2" style="display:none">
                      <h6>Nouvelle Audiance</h6>
                      <form id="new_audiance_form" method="post" action="#" enctype="multipart/form-data">
@@ -351,7 +347,84 @@
                          <input type="submit" class="btn btn-success" value="Ajouter">
                      </form>
                  </div>
-                 {{-- </div> --}}
+
+                 {{-- nouveau jugement en cas de modification --}}
+
+                 <div id="nouveau_jugement" style="display:none" class="p-2">
+                     <h6>Nouveau Jugement</h6>
+                     <form id="nouveau_jugement_form" method="post" action="#" enctype="multipart/form-data">
+                         @csrf
+                         <div class="row p-1">
+                             <input type="hidden" class="form-control" name="id_dossierAudiance">
+                             <input type="hidden" class="form-control" name="id_procedureAudiance">
+
+                             <div class="col-md-4">
+                                 <div class="form-group"><label class="col-form-label col-form-label-sm"> Gestionnaire
+                                         :
+                                     </label><select class="form-control" name="gestionJugement">
+                                         @foreach ($userr as $useee)
+                                             <option value="{{ $useee->CIN }}">{{ $useee->PRENOM }}
+                                                 {{ $useee->NOM }}</option>
+                                         @endforeach
+                                     </select>
+                                 </div>
+                             </div>
+                             <div class="col-md-4">
+                                 <div class="form-group"><label class="col-form-label col-form-label-sm">
+                                         Réference_Tribunal : </label><input type="text" class="form-control"
+                                         name="referenceJugement" /></div>
+                             </div>
+                             <div class="col-md-4">
+                                 <div class="form-group"><label class="col-form-label col-form-label-sm">Tribunal :
+                                     </label><select class="form-control" name="tribunalJugement">
+                                         @foreach ($tribunal as $nomm)
+                                             <option value="{{ $nomm->ID_TRIBUNAL }}">{{ $nomm->NOM_TRIBUNAL }}
+                                             </option>
+                                         @endforeach
+                                     </select>
+                                 </div>
+                             </div>
+                             <div class="col-md-4">
+                                 <div class="form-group"><label class="col-form-label col-form-label-sm">Sort :
+                                     </label>
+                                     <select name="sortJugement" class="form-control" id="">
+                                         <option value="" selected> Choisir...</option>
+                                         <option value="1"> Favorable</option>
+                                         <option value="2"> Défavorable</option>
+                                     </select>
+                                 </div>
+                             </div>
+                             <div class="col-md-4">
+                                 <div class="form-group"><label class="col-form-label col-form-label-sm">Juge :
+                                     </label><input type="text" class="form-control" name="jugeJugement" /></div>
+                             </div>
+                             <div class="col-md-4">
+                                 <div class="form-group"><label class="col-form-label col-form-label-sm">Date De
+                                         Jugement
+                                         :
+                                     </label><input type="date" class="form-control" name="dateJugement" /></div>
+                             </div>
+                             <div class="col-md-6">
+                                 <div class="form-group"><label class="col-form-label col-form-label-sm">Fichier :
+                                     </label><input type="file" class="form-control form-control-primary"
+                                         name="urlJugement" /></div>
+                             </div>
+                             <div class="col-lg-12">
+                                 <div class="form-group">
+                                     <label class="col-form-label col-form-label-sm" for="observ">Observation :
+                                     </label>
+                                     <textarea class="form-control form-control-sm" rows="2" placeholder="Observation" name="observationJugement"></textarea>
+                                 </div>
+                             </div>
+                             <input type="submit" class="btn btn-success" value="Ajouter">
+                         </div>
+
+                     </form>
+                 </div>
+
+
+
+
                  <div class="d-flex justify-content-center align-items-center p-2 mb-4">
                      <button class="btn btn-secondary text-white"
                          onclick="toggleHistorique('Audiance_dossier')">Afficher
@@ -1015,7 +1088,8 @@
                          </div>
 
                          <div class="col-md-4">
-                             <div class="form-group"><label class="col-form-label col-form-label-sm">ETAT CURRATEUR :
+                             <div class="form-group"><label class="col-form-label col-form-label-sm">ETAT CURRATEUR
+                                     :
                                  </label>
                                  <select name="ETAT_CURATEUR" class="form-control" id="">
                                      <option value="" selected> Choisir...</option>

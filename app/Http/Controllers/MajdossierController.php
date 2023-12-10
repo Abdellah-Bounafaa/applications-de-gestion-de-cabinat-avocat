@@ -373,6 +373,31 @@ class MajdossierController extends Controller
             $audiance->HEURE_AUDIANCE     = $request->heure_audiance;
             $audiance->save();
         }
+        if ($request->id_requete) {
+            $req = Requete::where("ID_REQUETE", $request->id_requete)->first();
+            $req->ID_PROCEDURE      = $request->id_procedureRequete;
+            $req->ID_DOSSIER        =  $request->id_dossierRequete;
+            $req->CIN               = $request->gestionRequete;
+            $req->ID_TRIBUNAL       = $request->tribunalRequete;
+            $req->REFERANCE_TRIBUNALE = $request->referenceRequete;
+            $req->OBSERVATION       = $request->observationRequete;
+            $req->DATE_DEPOT        = $request->depotRequete;
+            $req->DATE_RETRAIT      = $request->retraitRequete;
+            $req->JUGE              = $request->jugeRequete;
+            if ($url) {
+                $path = 'requete';
+                if (!File::exists(public_path($path))) {
+                    File::makeDirectory(public_path($path), 0777, true);
+                }
+                $new_image_name = $url->getClientOriginalName();
+                $url->move(public_path($path), $new_image_name);
+                $req->URL_SCAN          = $new_image_name;
+            }
+            // $req->DATE_JUGEMENT     = $jugement;
+            $req->ETAT_REQUETE     = $request->etatRequete;
+            // $req->sortRequete     = $sortRequete;
+            $req->save();
+        }
     }
 
 
@@ -410,19 +435,6 @@ class MajdossierController extends Controller
         $id_dossier = $request->id_dossierAudiance;
         $ref_tribunal = $request->ref_tribunal;
         $audianceRetrait = $request->audianceRetrait;
-        // if($id){
-        //     $audiance=Audiance::find($id);
-        //     $audiance->ID_PROCEDURE      = $id_procedure;
-        //     $audiance->ID_DOSSIER        = $id_dossier;
-        //     $audiance->CIN               = $gestion;
-        //     $audiance->ID_TRIBUNAL       = $tribunal;
-        //     $audiance->OBSERVATION_AUD   = $observation;
-        //     $audiance->DATE_CREATION     = $time;
-        //     $audiance->DATE_AUDIANCE     = $date_audiance;
-        //     $audiance->SALLE             = $salle;
-        // }
-
-
 
         $id    = Audiance::orderBy('ID_AUDIANCE', 'desc')->first();
         if ($id == null) {
@@ -521,9 +533,6 @@ class MajdossierController extends Controller
 
     public function jugement(Request $request)
     {
-
-
-
         $gestion    = $request->gestionJugement;
         $tribunal   = $request->tribunalJugement;
         // $etat       = $request->etatJugement;
@@ -535,24 +544,12 @@ class MajdossierController extends Controller
         $observation = $request->observationJugement;
         $id_procedure = $request->id_procedureJugement;
         $id_dossier = $request->id_dossierJugement;
-
-
-
-
-
-
-
-
         $id    = Jugement::orderBy('ID_JUGEMENT', 'desc')->first();
         if ($id == null) {
             $ids  = 1;
         } else {
             $ids    = $id->ID_JUGEMENT + 1;
         }
-
-
-
-
         $requete                    = new Jugement();
         $requete->ID_JUGEMENT       = $ids;
         $requete->ID_PROCEDURE      = $id_procedure;
@@ -577,6 +574,49 @@ class MajdossierController extends Controller
         $requete->JUGE              = $juge;
         // $requete->ETAT_JUGEMENT     = $etat;
 
+        $requete->save();
+    }
+    public function modifierAudianceJugement(Request $request)
+    {
+        $gestion    = $request->gestionJugement;
+        $tribunal   = $request->tribunalJugement;
+        // $etat       = $request->etatJugement;
+        $juge       = $request->jugeJugement;
+        $sort       = $request->sortJugement;
+        $date_jugement = $request->dateJugement;
+        $url        = $request->file('urlJugement');
+        $reference  = $request->referenceJugement;
+        $observation = $request->observationJugement;
+        $id_procedure = $request->id_procedureAudiance;
+        $id_dossier = $request->id_dossierAudiance;
+        $id    = Jugement::orderBy('ID_JUGEMENT', 'desc')->first();
+        if ($id == null) {
+            $ids  = 1;
+        } else {
+            $ids    = $id->ID_JUGEMENT + 1;
+        }
+        $requete                    = new Jugement();
+        $requete->ID_JUGEMENT       = $ids;
+        $requete->ID_PROCEDURE      = $id_procedure;
+        $requete->ID_DOSSIER        = $id_dossier;
+        $requete->CIN               = $gestion;
+        $requete->ID_TRIBUNAL       = $tribunal;
+        $requete->OBSERVATION       = $observation;
+        $requete->DATE_JUGEMENT     = $date_jugement;
+        $requete->SORT              = $sort;
+        $requete->REF_TRIBU         = $reference;
+        if ($url) {
+            $path = 'jugement';
+            if (!File::exists(public_path($path))) {
+                File::makeDirectory(public_path($path), 0777, true);
+            }
+            $new_image_name = $url->getClientOriginalName();
+
+            $url->move(public_path($path), $new_image_name);
+            $requete->URL_JUGEMENT      = $new_image_name;
+        }
+
+        $requete->JUGE              = $juge;
         $requete->save();
     }
 
